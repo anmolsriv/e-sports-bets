@@ -1,11 +1,21 @@
-$("#confirm_password").change( function () {
-    console.log("testing..." );
+function passwordMatchVerification() {
     let cnf_password = $("#confirm_password").val();
     let password = $("#password").val();
 
-    console.log(cnf_password + " " + password );
     if( cnf_password !== password ) {
-        alert("passwords do not match!");
+        $("#pwd_msg").html("passwords do not match!");
+    } else {
+        $("#pwd_msg").html("");
     }
+}
 
-} );
+$(document).ready(function() {
+
+    $("#confirm_password").keyup( passwordMatchVerification );
+
+    $("#password").keyup( passwordMatchVerification );
+
+});
+
+
+
