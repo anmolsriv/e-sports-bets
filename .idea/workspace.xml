@@ -7,26 +7,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f86680d3-fdc2-4f0a-8d5e-8e44d5c9d5f7" name="Default Changelist" comment="home page">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/dao/Bettable_matches.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/public/css/w3.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/public/images/temp_MC_TODO.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/public/sample.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/public/temp_MC_TODO.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/temp_MC_TODO.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/players.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/temp_MC_TODO.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/templates/players.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/templates/results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/templates/temp_MC_TODO.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+    <list default="true" id="94242a2f-2451-4ee9-a6da-a57177e67085" name="Default Changelist" comment="home page">
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_7_12_2021_7_31_PM_[Default_Changelist]/shelved.patch" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_7_12_2021_7_31_PM__Default_Changelist_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/public/images/E-Sports.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/public/js/homepage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/public/js/jquery-3.4.1.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/public/js/view.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/esportsbets/controller/AppController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/controller/AppController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/home_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/home_page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/net/esportsbets/ESportsBetsApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/net/esportsbets/ESportsBetsApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/net/esportsbets/config/WebSecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/net/esportsbets/config/WebSecurityConfig.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/net/esportsbets/controller/AppController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/net/esportsbets/controller/AppController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/net/esportsbets/dao/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/net/esportsbets/dao/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/net/esportsbets/model/CustomUserDetails.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/net/esportsbets/model/CustomUserDetails.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/net/esportsbets/repository/UserRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/net/esportsbets/repository/UserRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/net/esportsbets/service/CustomUserDetailsService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/net/esportsbets/service/CustomUserDetailsService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/templates/home_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/home_page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/net/esportsbets/PasswordGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/net/esportsbets/PasswordGenerator.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +37,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="HTML File" />
-        <option value="Class" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -79,24 +79,34 @@
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.0" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="sql.code.style.group" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Bryan\Desktop\Rice\Summer 2021\610 Software Design\Final Project\e-sports-bets\src\main\resources\public" />
-      <recent name="C:\Users\Bryan\Desktop\Rice\Summer 2021\610 Software Design\Final Project\e-sports-bets\src\main\resources" />
       <recent name="C:\Users\Bryan\Desktop\Rice\Summer 2021\610 Software Design\Final Project\e-sports-bets\src\main\resources\templates" />
       <recent name="C:\Users\Bryan\Desktop\Rice\Summer 2021\610 Software Design\Final Project\e-sports-bets\src\main\resources\templates\images" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Bryan\Desktop\Rice\Summer 2021\610 Software Design\Final Project\e-sports-bets\src\main\resources\public" />
-      <recent name="C:\Users\Bryan\Desktop\Rice\Summer 2021\610 Software Design\Final Project\e-sports-bets\src\main\resources\css" />
-      <recent name="C:\Users\Bryan\Desktop\Rice\Summer 2021\610 Software Design\Final Project\e-sports-bets\src\main\resources" />
-      <recent name="C:\Users\Bryan\Desktop\Rice\Summer 2021\610 Software Design\Final Project\e-sports-bets\src\main\css\resources" />
+      <recent name="C:\Users\Bryan\Desktop\Rice\Summer 2021\610 Software Design\Final Project\e-sports-bets\src\main\resources\public\images" />
     </key>
   </component>
   <component name="RunManager">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="ESportsBetsApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="ESportsBets" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="net.esportsbets.ESportsBetsApplication" />
@@ -118,9 +128,6 @@
       <workItem from="1625528134732" duration="6646000" />
       <workItem from="1625763181407" duration="1101000" />
       <workItem from="1625766585530" duration="1611000" />
-      <workItem from="1625768452225" duration="355000" />
-      <workItem from="1625768852661" duration="13818000" />
-      <workItem from="1626129481433" duration="1561000" />
     </task>
     <task id="LOCAL-00001" summary="home page">
       <created>1625528342097</created>
@@ -134,6 +141,16 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
