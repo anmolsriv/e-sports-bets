@@ -47,4 +47,9 @@ public class AppController {
 		
 		return "users";
 	}
+
+	@GetMapping("/test")
+	public String testHome(){
+		return "home_page";
+	}
 }
