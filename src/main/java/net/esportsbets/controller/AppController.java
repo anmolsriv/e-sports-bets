@@ -47,4 +47,8 @@ public class AppController {
 		
 		return "users";
 	}
+
+	@GetMapping("/players")
+    public String viewPlayerStatisticsPage() { return "players"; }
+
 }
