@@ -41,34 +41,18 @@ function createPlayerListGroup(gamertags) {
 function handleClickGamertag(gamertag) {
   let searchInput = document.getElementById("searchInput");
   searchInput.value = gamertag;
-  let newData = { "gamertags": [gamertag, gamertag] }
   $.ajax({
-    type: 'post',
-    headers: { //Required to avoid 415 error
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
+    type: 'get',
     url: '/player_stats',
-    // data: { gamertags: [gamertag, gamertag] },
-    data: JSON.stringify([gamertag, gamertag]),
-    contentType: "application/json; charset=utf-8",
-    dataType: 'json'
-    // traditional: true
-    // data: "gamertags=" + gamertag + "," + gamertag,
-    // dataType: 'json'
+    data: { gamertags: [gamertag] },
+    traditional: true
   }).done(
     function ( data ) {
-      console.log("data: ", data)
       buildPlayersTable(data)
     }
   )
-  // getPlayerStats(searchInput.value);
   searchInput.value = "";
   findPlayer("");
-}
-
-function getPlayerStats(player) {
-  console.log("getting ", player, " stats.")
 }
 
 function deletePlayerFromTable(rowId) {

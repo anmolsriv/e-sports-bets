@@ -20,11 +20,10 @@ public class PlayersController {
         return playerService.loadPlayersBySearchString(searchString);
     }
 
-    @RequestMapping(value = "/player_stats", method = RequestMethod.POST)
+    @RequestMapping(value = "/player_stats", method = RequestMethod.GET)
     @ResponseBody
     public List<Players> getPlayersInGamertagList(
-            @RequestBody String[] gamertags) {
-        System.out.println("here");
+            @RequestParam("gamertags") String[] gamertags) {
         return playerService.loadPlayersByGamertags(gamertags);
     }
 }
