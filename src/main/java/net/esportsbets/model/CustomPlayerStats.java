@@ -24,8 +24,7 @@ public interface CustomPlayerStats {
             "0.000001)}")
     double getWinPercentage();
 
-    @Value("#{target.shotsLanded * 100 / (target.shotsFired +" +
-            "target.shotsLanded + 0.000001)}")
+    @Value("#{target.shotsLanded * 100 / (target.shotsFired + 0.000001)}")
     double getAccuracy();
 
     Integer getPerfectKill();
