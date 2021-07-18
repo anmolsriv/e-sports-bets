@@ -1,16 +1,6 @@
 'use strict';
 
-// let players = [
-//   {"Gamertag": "player1", "KDA": 2.5, "Win Percentage": 60, "Accuracy": 60},
-//   {"Gamertag": "player2", "KDA": 2.5, "Win Percentage": 60, "Accuracy": 60}
-// ]
 
-// let allPlayers = [
-//   {"Gamertag": "player1", "KDA": 2.5, "Win Percentage": 60, "Accuracy": 60},
-//   {"Gamertag": "player2", "KDA": 2.5, "Win Percentage": 60, "Accuracy": 60},
-//   {"Gamertag": "testPlayer3", "KDA": 2.5, "Win Percentage": 60, "Accuracy": 60},
-//   {"Gamertag": "testPlayer4", "KDA": 2.5, "Win Percentage": 60, "Accuracy": 60}
-// ]
 
 function findPlayer(searchString) {
   if (searchString.length > 0) {
@@ -38,28 +28,49 @@ function createPlayerListGroup(gamertags) {
   }
 }
 
+function updatePlayerTable(gamertags) {
+  let playerTable = document.getElementById("playerTable");
+  playerTable.innerHTML = "";
+  if (gamertags.length > 0) {
+    $.ajax({
+      type: 'get',
+      url: '/player_stats',
+      data: { gamertags: gamertags },
+      traditional: true
+    }).done(
+      function ( data ) {
+        buildPlayersTable(data)
+      }
+    )
+  } else {
+    buildPlayersTable([])
+  }
+}
+
+function getGamertagsInTable() {
+  let gamertags = [];
+  $("#playerTable tr").not(':first').each(function(){
+    gamertags.push($(this).find("td:first").text());
+  });
+  return gamertags
+}
+
 function handleClickGamertag(gamertag) {
+  let gamertags = getGamertagsInTable();
+  if (gamertags.indexOf(gamertag) === -1) {
+    gamertags.push(gamertag)
+  }
   let searchInput = document.getElementById("searchInput");
   searchInput.value = gamertag;
-  $.ajax({
-    type: 'get',
-    url: '/player_stats',
-    data: { gamertags: [gamertag] },
-    traditional: true
-  }).done(
-    function ( data ) {
-      buildPlayersTable(data)
-    }
-  )
+  updatePlayerTable(gamertags);
   searchInput.value = "";
   findPlayer("");
 }
 
 function deletePlayerFromTable(rowId) {
-  // players.splice(rowId, 1);
-  let playerTable = document.getElementById("playerTable");
-  playerTable.innerHTML = "";
-  buildPlayersTable();
+  let gamertags = getGamertagsInTable();
+  gamertags.splice(rowId, 1);
+  updatePlayerTable(gamertags)
 }
 
 function buildPlayersTable(players) {
@@ -67,11 +78,14 @@ function buildPlayersTable(players) {
   let thead = document.createElement('thead');
   let tbody = document.createElement('tbody');
 
-  let columnHeaders = Object.keys(players[0]);
+  let columns = {"Gamertag": "gamertag", "Kills": "kills",
+    "Deaths": "deaths", "Assists": "assists", "Weapon Damage": "weaponDamage",
+    "KDA": "kda", "Win %": "winPercentage", "Accuracy %": "accuracy",
+    "Perfect Kills": "perfectKill", "Power Weapon Kills": "powerWeaponKills"}
   let theadTr = document.createElement('tr');
-  for (let i = 0; i < columnHeaders.length; i++) {
+  for (let columnHeader in columns) {
     let theadTh = document.createElement('th');
-    theadTh.innerHTML = columnHeaders[i];
+    theadTh.innerHTML = columnHeader;
     theadTr.appendChild(theadTh);
   }
   let theadTh = document.createElement('th');
@@ -81,14 +95,25 @@ function buildPlayersTable(players) {
 
   for (let j = 0; j < players.length; j++) {
     let tbodyTr = document.createElement('tr');
-    for (let k = 0; k < columnHeaders.length; k++) {
-      let tbodyTd = document.createElement('td');
-      tbodyTd.innerHTML = players[j][columnHeaders[k]];
+    for (let column in columns) {
+      let tbodyTd = document.createElement('td')
+      let cellValue;
+      if (Number.isInteger(players[j][columns[column]])) {
+        cellValue = players[j][columns[column]].toString().replace(
+          /\B(?=(\d{3})+(?!\d))/g, ","
+        );
+      } else if (typeof players[j][columns[column]] == "string") {
+        cellValue = players[j][columns[column]]
+      } else {
+        cellValue = Math.round(
+          (players[j][columns[column]] + Number.EPSILON) * 100) / 100
+      }
+      tbodyTd.innerHTML = cellValue;
       tbodyTr.appendChild(tbodyTd);
     }
     let tbodyTd = document.createElement('td');
     tbodyTd.innerHTML = ('<button class="btn" id="row' + j +
-      '" onclick="deletePlayerFromTable(this.id)">' +
+      '" onclick="deletePlayerFromTable(parseInt(this.id.substring(3)))">' +
       '<i class="bi bi-trash"></i></button>');
     tbodyTr.appendChild(tbodyTd);
     tbody.appendChild(tbodyTr);

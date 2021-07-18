@@ -1,6 +1,6 @@
 package net.esportsbets.controller;
 
-import net.esportsbets.dao.Players;
+import net.esportsbets.model.CustomPlayerStats;
 import net.esportsbets.service.PlayerInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,16 +13,17 @@ public class PlayersController {
     @Autowired
     private PlayerInfoService playerService;
 
-    @RequestMapping(value = "/player_search/{search_string}", method = RequestMethod.GET)
+    @RequestMapping(value = "/player_search/{search_string}",
+            method = RequestMethod.GET)
     @ResponseBody
-    public List<Players> getPlayersMatchingSearchString(
+    public List<CustomPlayerStats> getPlayersMatchingSearchString(
             @PathVariable("search_string") String searchString) {
         return playerService.loadPlayersBySearchString(searchString);
     }
 
     @RequestMapping(value = "/player_stats", method = RequestMethod.GET)
     @ResponseBody
-    public List<Players> getPlayersInGamertagList(
+    public List<CustomPlayerStats> getPlayersInGamertagList(
             @RequestParam("gamertags") String[] gamertags) {
         return playerService.loadPlayersByGamertags(gamertags);
     }
