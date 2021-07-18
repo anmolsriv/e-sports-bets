@@ -1,40 +1,39 @@
 'use strict';
 
-let players = [
-  {"Gamertag": "player1", "KDA": 2.5, "Win Percentage": 60, "Accuracy": 60},
-  {"Gamertag": "player2", "KDA": 2.5, "Win Percentage": 60, "Accuracy": 60}
-]
+// let players = [
+//   {"Gamertag": "player1", "KDA": 2.5, "Win Percentage": 60, "Accuracy": 60},
+//   {"Gamertag": "player2", "KDA": 2.5, "Win Percentage": 60, "Accuracy": 60}
+// ]
 
-let allPlayers = [
-  {"Gamertag": "player1", "KDA": 2.5, "Win Percentage": 60, "Accuracy": 60},
-  {"Gamertag": "player2", "KDA": 2.5, "Win Percentage": 60, "Accuracy": 60},
-  {"Gamertag": "testPlayer3", "KDA": 2.5, "Win Percentage": 60, "Accuracy": 60},
-  {"Gamertag": "testPlayer4", "KDA": 2.5, "Win Percentage": 60, "Accuracy": 60}
-]
+// let allPlayers = [
+//   {"Gamertag": "player1", "KDA": 2.5, "Win Percentage": 60, "Accuracy": 60},
+//   {"Gamertag": "player2", "KDA": 2.5, "Win Percentage": 60, "Accuracy": 60},
+//   {"Gamertag": "testPlayer3", "KDA": 2.5, "Win Percentage": 60, "Accuracy": 60},
+//   {"Gamertag": "testPlayer4", "KDA": 2.5, "Win Percentage": 60, "Accuracy": 60}
+// ]
 
 function findPlayer(searchString) {
-  searchString = searchString.toLowerCase();
-  let players;
   if (searchString.length > 0) {
-    $.get( "http://localhost:4567/players_info/" + searchString, function( data ) {
-      console.log("data: ", data);
-      createPlayerListGroup(data)
-    })
+    searchString = searchString.toLowerCase();
+    $.get( "/player_search/" + searchString).done(
+      function ( data ) {
+        createPlayerListGroup(data.map(player => player["gamertag"]))
+      }
+    )
   } else {
-    players = [];
-    createPlayerListGroup(players)
+    createPlayerListGroup([])
   }
 }
 
-function createPlayerListGroup(players) {
+function createPlayerListGroup(gamertags) {
   let searchResults = document.getElementById("searchResults");
   searchResults.innerHTML = "";
-  for (let player of players) {
+  for (let gamertag of gamertags) {
     let listItem = document.createElement('a');
     listItem.className = "list-group-item list-group-item-action";
-    listItem.innerHTML = player["gamertag"];
+    listItem.innerHTML = gamertag;
     listItem.addEventListener("click",
-      () => handleClickGamertag(player["gamertag"]));
+      () => handleClickGamertag(gamertag));
     searchResults.appendChild(listItem);
   }
 }
@@ -42,7 +41,28 @@ function createPlayerListGroup(players) {
 function handleClickGamertag(gamertag) {
   let searchInput = document.getElementById("searchInput");
   searchInput.value = gamertag;
-  getPlayerStats(searchInput.value);
+  let newData = { "gamertags": [gamertag, gamertag] }
+  $.ajax({
+    type: 'post',
+    headers: { //Required to avoid 415 error
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    url: '/player_stats',
+    // data: { gamertags: [gamertag, gamertag] },
+    data: JSON.stringify([gamertag, gamertag]),
+    contentType: "application/json; charset=utf-8",
+    dataType: 'json'
+    // traditional: true
+    // data: "gamertags=" + gamertag + "," + gamertag,
+    // dataType: 'json'
+  }).done(
+    function ( data ) {
+      console.log("data: ", data)
+      buildPlayersTable(data)
+    }
+  )
+  // getPlayerStats(searchInput.value);
   searchInput.value = "";
   findPlayer("");
 }
@@ -52,13 +72,13 @@ function getPlayerStats(player) {
 }
 
 function deletePlayerFromTable(rowId) {
-  players.splice(rowId, 1);
+  // players.splice(rowId, 1);
   let playerTable = document.getElementById("playerTable");
   playerTable.innerHTML = "";
-  buildPlayerTable();
+  buildPlayersTable();
 }
 
-function buildPlayerTable() {
+function buildPlayersTable(players) {
   let table = document.getElementById("playerTable");
   let thead = document.createElement('thead');
   let tbody = document.createElement('tbody');
@@ -93,5 +113,5 @@ function buildPlayerTable() {
 };
 
 window.onload = function() {
-  buildPlayerTable();
+  buildPlayersTable([]);
 };
