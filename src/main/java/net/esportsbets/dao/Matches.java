@@ -6,6 +6,8 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +31,7 @@ public class Matches {
     private String gameVariant;
 
     @Column(name = "time")
-    private Date time;
+    private Timestamp time;
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "match_id", referencedColumnName = "match_id")
