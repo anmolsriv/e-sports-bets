@@ -1,6 +1,6 @@
 package net.esportsbets.service;
 
-import net.esportsbets.dao.Players;
+import net.esportsbets.model.CustomPlayerStats;
 import net.esportsbets.repository.PlayersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -15,19 +15,23 @@ public class PlayerInfoService {
     @Autowired
     private PlayersRepository playersRepo;
 
-    public List<Players> loadPlayersBySearchString(String searchString) {
+    public List<CustomPlayerStats> loadPlayersBySearchString(
+            String searchString) {
         Pageable topTen = PageRequest.of(0, 10);
-        List<Players> players = playersRepo.findByGamertagStartingWithIgnoreCase(searchString, topTen);
+        List<CustomPlayerStats> players = (
+                playersRepo.findByGamertagStartingWithIgnoreCase(
+                        searchString, topTen));
         if (players == null) {
-            return new ArrayList<Players>();
+            return new ArrayList<CustomPlayerStats>();
         }
         return players;
     }
 
-    public List<Players> loadPlayersByGamertags(String[] gamertags) {
-        List<Players> players = playersRepo.findByGamertagIn(gamertags);
+    public List<CustomPlayerStats> loadPlayersByGamertags(String[] gamertags) {
+        List<CustomPlayerStats> players = playersRepo.findByGamertagIn(
+                gamertags);
         if (players == null) {
-            return new ArrayList<Players>();
+            return new ArrayList<CustomPlayerStats>();
         }
         return players;
     }
