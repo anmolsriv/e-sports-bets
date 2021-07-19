@@ -51,4 +51,7 @@ public class AppController {
 	@GetMapping("/players")
     public String viewPlayerStatisticsPage() { return "players"; }
 
+	@GetMapping("/results")
+	public String viewResultsPage() { return "results"; }
+
 }
