@@ -24,7 +24,7 @@ public class MatchInfoService {
     public List<MatchResults> getPastMatches( int pageNumber ) {
 
         Pageable page = PageRequest.of(pageNumber, 10);
-        List<Matches> matches = matchRepository.findByTimeIsBetweenOrderByTimeAsc(
+        List<Matches> matches = matchRepository.findByTimeIsBetweenOrderByTimeDesc(
                                                         new Timestamp( new java.util.Date().getTime() - 12*60*60*1000 ),
                                                         new Timestamp( new java.util.Date().getTime() ),
                                                         page);
@@ -38,7 +38,7 @@ public class MatchInfoService {
 
     public int getPastMatchesPageCount() {
 
-        int matches = matchRepository.countByTimeIsBetweenOrderByTimeAsc(
+        int matches = matchRepository.countByTimeIsBetween(
                                                         new Timestamp( new java.util.Date().getTime() - 12*60*60*1000 ),
                                                         new Timestamp( new java.util.Date().getTime() ));
         return matches/10;

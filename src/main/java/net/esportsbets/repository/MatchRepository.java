@@ -16,7 +16,7 @@ import java.util.List;
 @Repository
 public interface MatchRepository extends PagingAndSortingRepository<Matches, Long> {
 
-    List<Matches> findByTimeIsBetweenOrderByTimeAsc(@NonNull Timestamp timeStart, @NonNull Timestamp timeEnd, Pageable page);
+    List<Matches> findByTimeIsBetweenOrderByTimeDesc(@NonNull Timestamp timeStart, @NonNull Timestamp timeEnd, Pageable page);
 
-    int countByTimeIsBetweenOrderByTimeAsc(@NonNull Timestamp timeStart, @NonNull Timestamp timeEnd);
+    int countByTimeIsBetween(@NonNull Timestamp timeStart, @NonNull Timestamp timeEnd);
 }

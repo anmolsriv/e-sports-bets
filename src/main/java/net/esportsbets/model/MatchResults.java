@@ -19,6 +19,8 @@ class TeamDetails {
     private String teamName;
     private String result;
     private Integer score;
+    private Integer team;
+    private Integer spread;
 
     public static TeamDetails mapMatchResults(Matches match, int index) {
 
@@ -33,6 +35,8 @@ class TeamDetails {
         }
         mappedTeam.setScore( matchScore.getScore() );
         mappedTeam.setResult( match.getWinner().equals(matchScore.getTeamId())?"Win":"Loss" );
+        mappedTeam.setTeam( matchScore.getTeamId() );
+        mappedTeam.setSpread( 0 );
         return mappedTeam;
     }
 }
@@ -47,12 +51,14 @@ public class MatchResults {
     private String map;
     private TeamDetails team1;
     private TeamDetails team2;
+    private String gameVariant;
 
     public static MatchResults mapMatchResults(Matches match) {
 
         MatchResults mappedMatch = new MatchResults();
         mappedMatch.setTime( match.getTime() );
         mappedMatch.setMap( match.getMap() );
+        mappedMatch.setGameVariant( match.getGameVariant() );
         mappedMatch.setTeam1( TeamDetails.mapMatchResults(match, 0)  );
         mappedMatch.setTeam2( TeamDetails.mapMatchResults(match, 1)  );
         return mappedMatch;
