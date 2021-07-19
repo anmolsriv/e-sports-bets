@@ -1,23 +1,56 @@
-$("resultsDisplay1").ready(function () {
-    $.get( "/matches/results/count").done(
-        function ( data ) {
-            console.log("pages: ", data)
-        }
-    )
-    $.get( "/matches/results?page=0").done(
-        function ( data ) {
-            populateResults(data)
-        }
-    )
+$("resultsDisplay").ready(function () {
+    refreshResults(0);
 });
 
-function populateResults(matches) {
+function refreshResults(pageNumber) {
+    $("#loadingModal").modal('show');
+    $.get( "/matches/results?page=" + pageNumber).done(
+        function ( data ) {
+            populateResults(data, pageNumber)
+        }
+    );
+
+}
+
+function populateResults(matches, pageNumber) {
+
     var rows = "";
     matches.forEach(match=>{
         rows += populateRow(match);
         $("#resultsDisplay").html(rows);
     });
+
     $("#resultsDisplay").html(rows);
+    $.get( "/matches/results/count").done(
+        function ( data ) {
+            var resultsHtml = $("#resultsDisplay").html();
+            resultsHtml += populatePaginationNavBar(pageNumber, data);
+            $("#resultsDisplay").html(resultsHtml);
+        }
+    );
+    $("#loadingModal").modal('hide');
+
+}
+
+function populatePaginationNavBar( currPage, pages ) {
+    if (pages == 0) {
+        return '';
+    }
+    divText = ''
+    divText+='<nav aria-label="Results Page navigation" style="padding: 10px">'
+    divText+='    <ul class="pagination justify-content-center">'
+    divText+='        <li class="page-item"><a class="page-link" href="#" onclick="refreshResults(' + (((currPage)==0)?'#':(currPage-1)) + ')">Previous</a></li>'
+    for (let i = 0; i <= pages; i++) {
+        if (i==currPage) {
+            divText+='        <li class="page-item active"><a class="page-link" aria-current="page">' + (i+1) + '</a></li>'
+        } else {
+            divText+='        <li class="page-item"><a class="page-link" href="#" onclick="refreshResults(' + i + ')">' + (i+1) + '</a></li>'
+        }
+    }
+    divText+='        <li class="page-item"><a class="page-link" href="#" onclick="refreshResults(' + (((currPage)==pages)?'#':(pages+1)) + ')">Next</a></li>'
+    divText+='    </ul>'
+    divText+='</nav>'
+    return divText;
 }
 
 function populateRow(match) {

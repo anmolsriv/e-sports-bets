@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import net.esportsbets.dao.MatchGamertagLink;
 import net.esportsbets.dao.MatchScores;
 import net.esportsbets.dao.Matches;
 
@@ -23,7 +24,13 @@ class TeamDetails {
 
         MatchScores matchScore = match.getMatchScores().get(index);
         TeamDetails mappedTeam = new TeamDetails();
-        mappedTeam.setTeamName( matchScore.getMatchGamertagLink().get(0).getTeamName() );
+        mappedTeam.setTeamName( "" );
+        for (MatchGamertagLink matchGamertagLink : matchScore.getMatchGamertagLink()) {
+            if (!matchGamertagLink.getTeamName().isBlank()) {
+                mappedTeam.setTeamName( matchGamertagLink.getTeamName() );
+                break;
+            }
+        }
         mappedTeam.setScore( matchScore.getScore() );
         mappedTeam.setResult( match.getWinner().equals(matchScore.getTeamId())?"Win":"Loss" );
         return mappedTeam;
