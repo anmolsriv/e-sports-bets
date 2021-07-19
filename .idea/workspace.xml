@@ -5,18 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aa6a7598-7138-477d-a33b-fee26074cb3a" name="Default Changelist" comment="I am committing">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/homepage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ESportsBets.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ESportsBets.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/esportsbets/config/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/config/WebSecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/esportsbets/controller/AppController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/controller/AppController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/public/js/homepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/js/homepage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/public/js/jquery-3.4.1.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/js/jquery-3.4.1.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/public/js/view.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/net/esportsbets/config/WebSecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/net/esportsbets/config/WebSecurityConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/net/esportsbets/controller/AppController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/net/esportsbets/controller/AppController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/net/esportsbets/UserRepositoryTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/net/esportsbets/UserRepositoryTests.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/js/homepage.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/js/jquery-3.4.1.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/jquery-3.4.1.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/home_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/home_page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/home_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/home_page.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +54,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/templates" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/net/esportsbets/dao" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -75,6 +69,7 @@
       <recent name="C:\Users\Bryan\Desktop\Rice\Summer 2021\610 Software Design\Final Project\e-sports-bets\src\main\resources\templates" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Bryan\Desktop\Rice\Summer 2021\610 Software Design\Final Project\e-sports-bets\src\main\resources\static\js" />
       <recent name="C:\Users\Bryan\Desktop\Rice\Summer 2021\610 Software Design\Final Project\e-sports-bets\src\main\resources\js" />
     </key>
   </component>
@@ -109,7 +104,7 @@
       <workItem from="1626140303799" duration="2203000" />
       <workItem from="1626321544248" duration="939000" />
       <workItem from="1626322502961" duration="185000" />
-      <workItem from="1626674938438" duration="3392000" />
+      <workItem from="1626674938438" duration="7178000" />
     </task>
     <task id="LOCAL-00001" summary="I am committing">
       <created>1626675297204</created>
@@ -118,7 +113,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626675297204</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="I am committing">
+      <created>1626678369276</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1626678369276</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
