@@ -5,8 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aa6a7598-7138-477d-a33b-fee26074cb3a" name="Default Changelist" comment="I am committing">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ESportsBets.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ESportsBets.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/esportsbets/config/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/config/WebSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/esportsbets/controller/AppController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/controller/AppController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/public/js/homepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/js/homepage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/public/js/jquery-3.4.1.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/js/jquery-3.4.1.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/public/js/view.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/net/esportsbets/config/WebSecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/net/esportsbets/config/WebSecurityConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/net/esportsbets/controller/AppController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/net/esportsbets/controller/AppController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/net/esportsbets/UserRepositoryTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/net/esportsbets/UserRepositoryTests.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,6 +57,7 @@
     <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/templates" />
@@ -57,10 +68,14 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="vcs.Perforce" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Bryan\Desktop\Rice\Summer 2021\610 Software Design\Final Project\e-sports-bets\src\main\resources\templates" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Bryan\Desktop\Rice\Summer 2021\610 Software Design\Final Project\e-sports-bets\src\main\resources\js" />
     </key>
   </component>
   <component name="RunManager">
@@ -94,8 +109,16 @@
       <workItem from="1626140303799" duration="2203000" />
       <workItem from="1626321544248" duration="939000" />
       <workItem from="1626322502961" duration="185000" />
-      <workItem from="1626674938438" duration="86000" />
+      <workItem from="1626674938438" duration="3392000" />
     </task>
+    <task id="LOCAL-00001" summary="I am committing">
+      <created>1626675297204</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1626675297204</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -109,8 +132,42 @@
             <State />
           </value>
         </entry>
+        <entry key="d7939af2-edbd-4cc6-b47c-00d472e226b1">
+          <value>
+            <State>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="structure">
+                    <value>
+                      <list>
+                        <option value="dir:C:/Users/Bryan/Desktop/Rice/Summer 2021/610 Software Design/Final Project/e-sports-bets/src/main/resources/public/images/match_map" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="d7939af2-edbd-4cc6-b47c-00d472e226b1" value="TOOL_WINDOW" />
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="I am committing" />
+    <option name="LAST_COMMIT_MESSAGE" value="I am committing" />
   </component>
 </project>
