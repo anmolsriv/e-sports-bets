@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +25,8 @@ public class MatchInfoService {
 
         Pageable page = PageRequest.of(pageNumber, 10);
         List<Matches> matches = matchRepository.findByTimeIsBetweenOrderByTimeAsc(
-                                                        new Date( new java.util.Date().getTime() - 12*60*60*1000  ),
-                                                        new Date( new java.util.Date().getTime() ),
+                                                        new Timestamp( new java.util.Date().getTime() - 12*60*60*1000 ),
+                                                        new Timestamp( new java.util.Date().getTime() ),
                                                         page);
 
         List<MatchResults> matchResults = matches.stream()
@@ -38,8 +39,8 @@ public class MatchInfoService {
     public int getPastMatchesPageCount() {
 
         int matches = matchRepository.countByTimeIsBetweenOrderByTimeAsc(
-                                                        new Date( new java.util.Date().getTime() - 12*60*60*1000  ),
-                                                        new Date( new java.util.Date().getTime() ));
+                                                        new Timestamp( new java.util.Date().getTime() - 12*60*60*1000 ),
+                                                        new Timestamp( new java.util.Date().getTime() ));
         return matches/10;
     }
 }

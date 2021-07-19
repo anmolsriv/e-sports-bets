@@ -1,5 +1,6 @@
 package net.esportsbets.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -7,6 +8,8 @@ import net.esportsbets.dao.MatchScores;
 import net.esportsbets.dao.Matches;
 
 import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 
 @Getter
 @Setter
@@ -32,7 +35,8 @@ class TeamDetails {
 @ToString
 public class MatchResults {
 
-    private Date time;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="MM-dd-yyyy HH:mm:ss", timezone="GMT-5")
+    private Timestamp time;
     private String map;
     private TeamDetails team1;
     private TeamDetails team2;

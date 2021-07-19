@@ -9,13 +9,14 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Date;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
 public interface MatchRepository extends PagingAndSortingRepository<Matches, Long> {
 
-    List<Matches> findByTimeIsBetweenOrderByTimeAsc(@NonNull Date timeStart, @NonNull Date timeEnd, Pageable page);
+    List<Matches> findByTimeIsBetweenOrderByTimeAsc(@NonNull Timestamp timeStart, @NonNull Timestamp timeEnd, Pageable page);
 
-    int countByTimeIsBetweenOrderByTimeAsc(@NonNull Date timeStart, @NonNull Date timeEnd);
+    int countByTimeIsBetweenOrderByTimeAsc(@NonNull Timestamp timeStart, @NonNull Timestamp timeEnd);
 }
