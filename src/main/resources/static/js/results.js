@@ -42,7 +42,7 @@ function populatePaginationNavBar( currPage, pages ) {
     divText+='        <li class="page-item"><a class="page-link" href="#" onclick="refreshResults(' + (((currPage)==0)?'#':(currPage-1)) + ')">Previous</a></li>'
     for (let i = 0; i <= pages; i++) {
         if (i==currPage) {
-            divText+='        <li class="page-item"><a class="page-link">' + (i+1) + '</a></li>'
+            divText+='        <li class="page-item active"><a class="page-link" aria-current="page">' + (i+1) + '</a></li>'
         } else {
             divText+='        <li class="page-item"><a class="page-link" href="#" onclick="refreshResults(' + i + ')">' + (i+1) + '</a></li>'
         }
