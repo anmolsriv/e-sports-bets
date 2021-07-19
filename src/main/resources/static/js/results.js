@@ -37,8 +37,8 @@ function populatePaginationNavBar( currPage, pages ) {
         return '';
     }
     divText = ''
-    divText+='<nav aria-label="Results Page navigation">'
-    divText+='    <ul class="pagination">'
+    divText+='<nav aria-label="Results Page navigation" style="padding: 10px">'
+    divText+='    <ul class="pagination justify-content-center">'
     divText+='        <li class="page-item"><a class="page-link" href="#" onclick="refreshResults(' + (((currPage)==0)?0:(currPage-1)) + ')">Previous</a></li>'
     for (let i = 0; i <= pages; i++) {
         if (i==currPage) {
