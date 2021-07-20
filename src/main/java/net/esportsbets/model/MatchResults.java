@@ -41,7 +41,6 @@ class TeamDetails {
 @Setter
 @ToString
 public class MatchResults {
-
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="MM-dd-yyyy HH:mm:ss", timezone="GMT-5")
     private Timestamp time;
     private String map;
@@ -49,7 +48,6 @@ public class MatchResults {
     private TeamDetails team2;
 
     public static MatchResults mapMatchResults(Matches match) {
-
         MatchResults mappedMatch = new MatchResults();
         mappedMatch.setTime( match.getTime() );
         mappedMatch.setMap( match.getMap() );
@@ -57,4 +55,6 @@ public class MatchResults {
         mappedMatch.setTeam2( TeamDetails.mapMatchResults(match, 1)  );
         return mappedMatch;
     }
+
 }
+

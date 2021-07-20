@@ -1,19 +1,19 @@
 package net.esportsbets.service;
 
+import net.esportsbets.dao.BettableMatchesdao;
 import net.esportsbets.dao.Matches;
 import net.esportsbets.model.MatchResults;
+import net.esportsbets.repository.BettableRepository;
 import net.esportsbets.repository.MatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
 
 @Service
 public class MatchInfoService {
@@ -30,8 +30,9 @@ public class MatchInfoService {
                                                         page);
 
         List<MatchResults> matchResults = matches.stream()
-                                                    .map( match -> MatchResults.mapMatchResults(match) )
+                                                    .map(MatchResults::mapMatchResults)
                                                     .collect(Collectors.toList());
+
 
         return matchResults;
     }
@@ -43,4 +44,18 @@ public class MatchInfoService {
                                                         new Timestamp( new java.util.Date().getTime() ));
         return matches/10;
     }
+
+    @Autowired
+    private BettableRepository bettableRepository;
+
+    public List<BettableMatchesdao> getBettableMatches() {
+
+//        return StreamSupport.stream(bettableRepository.findAll().spliterator(), false)
+//                .collect(Collectors.toList());
+
+        return (List<BettableMatchesdao>) bettableRepository.findAll();
+
+    };
+
+
 }

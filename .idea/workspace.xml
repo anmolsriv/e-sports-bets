@@ -5,10 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aa6a7598-7138-477d-a33b-fee26074cb3a" name="Default Changelist" comment="I am committing">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/homepage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/JPAMappingSettings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/POJOGeneratorSettings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/model/BettableMatches.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/repository/BettableRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/js/homepage.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/js/jquery-3.4.1.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/jquery-3.4.1.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ESportsBets.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ESportsBets.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/esportsbets/controller/MatchesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/controller/MatchesController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/esportsbets/model/MatchResults.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/model/MatchResults.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/esportsbets/repository/MatchRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/repository/MatchRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/esportsbets/service/MatchInfoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/service/MatchInfoService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/homepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/homepage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/results.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/results.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/home_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/home_page.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/templates/home_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/home_page.html" afterDir="false" />
     </list>
@@ -24,6 +33,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="HTML File" />
+        <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -38,8 +49,19 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="GroovyConsoleState">
+    <option name="list">
+      <list>
+        <Entry>
+          <option name="moduleName" value="ESportsBets" />
+          <option name="url" value="file://$APPLICATION_CONFIG_DIR$/consoles/groovy/groovy_console.groovy" />
+        </Entry>
+      </list>
+    </option>
+  </component>
   <component name="ProjectId" id="1vEvvtjoYMrQT9aCscqYJHWLgcc" />
   <component name="ProjectViewState">
+    <option name="compactDirectories" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
@@ -59,10 +81,11 @@
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
-    <property name="settings.editor.selected.configurable" value="vcs.Perforce" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2710104" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -104,7 +127,7 @@
       <workItem from="1626140303799" duration="2203000" />
       <workItem from="1626321544248" duration="939000" />
       <workItem from="1626322502961" duration="185000" />
-      <workItem from="1626674938438" duration="7178000" />
+      <workItem from="1626674938438" duration="45468000" />
     </task>
     <task id="LOCAL-00001" summary="I am committing">
       <created>1626675297204</created>
@@ -120,7 +143,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626678369276</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="I am committing">
+      <created>1626684729131</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1626684729131</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

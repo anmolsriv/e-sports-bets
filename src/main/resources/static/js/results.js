@@ -67,7 +67,7 @@ function populateRow(match) {
     divText+='                <div class="row">\n'
     divText+='                    <div class="col-sm-6">\n'
     divText+='                        Time:\n'
-    divText+='                        <span id="time">' + match.time +'</span>\n'
+    divText+='                        <span id="time">' + match.time +" , "+match.matchId + '</span>\n'
     divText+='                    </div>\n'
     divText+='                </div>\n'
     divText+='                <div class="row">\n'

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.CrudRepository;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -19,4 +20,6 @@ public interface MatchRepository extends PagingAndSortingRepository<Matches, Lon
     List<Matches> findByTimeIsBetweenOrderByTimeAsc(@NonNull Timestamp timeStart, @NonNull Timestamp timeEnd, Pageable page);
 
     int countByTimeIsBetweenOrderByTimeAsc(@NonNull Timestamp timeStart, @NonNull Timestamp timeEnd);
+
 }
+
