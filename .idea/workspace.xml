@@ -5,21 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aa6a7598-7138-477d-a33b-fee26074cb3a" name="Default Changelist" comment="I am committing">
-      <change afterPath="$PROJECT_DIR$/.idea/JPAMappingSettings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/POJOGeneratorSettings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/model/BettableMatches.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/repository/BettableRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ESportsBets.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ESportsBets.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/esportsbets/controller/MatchesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/controller/MatchesController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/esportsbets/model/MatchResults.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/model/MatchResults.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/esportsbets/repository/MatchRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/repository/MatchRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/esportsbets/service/MatchInfoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/service/MatchInfoService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/homepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/homepage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/results.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/results.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/home_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/home_page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/home_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/home_page.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,7 +113,7 @@
       <workItem from="1626140303799" duration="2203000" />
       <workItem from="1626321544248" duration="939000" />
       <workItem from="1626322502961" duration="185000" />
-      <workItem from="1626674938438" duration="45468000" />
+      <workItem from="1626674938438" duration="46361000" />
     </task>
     <task id="LOCAL-00001" summary="I am committing">
       <created>1626675297204</created>
@@ -150,7 +136,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626684729131</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="I am committing">
+      <created>1626746564492</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1626746564492</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
