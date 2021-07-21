@@ -26,13 +26,7 @@ class TeamDetails {
 
         MatchScores matchScore = match.getMatchScores().get(index);
         TeamDetails mappedTeam = new TeamDetails();
-        mappedTeam.setTeamName( "" );
-        for (MatchGamertagLink matchGamertagLink : matchScore.getMatchGamertagLink()) {
-            if (!matchGamertagLink.getTeamName().isBlank()) {
-                mappedTeam.setTeamName( matchGamertagLink.getTeamName() );
-                break;
-            }
-        }
+        mappedTeam.setTeamName( matchScore.getMatchGamertagLink().get(0).getTeamName() );
         mappedTeam.setScore( matchScore.getScore() );
         mappedTeam.setResult( match.getWinner().equals(matchScore.getTeamId())?"Win":"Loss" );
         mappedTeam.setTeam( matchScore.getTeamId() );
@@ -46,7 +40,7 @@ class TeamDetails {
 @ToString
 public class MatchResults {
 
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="MM-dd-yyyy HH:mm:ss", timezone="GMT-5")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="MM-dd-yyyy HH:mm:ss")
     private Timestamp time;
     private String map;
     private TeamDetails team1;

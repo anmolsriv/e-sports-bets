@@ -2,16 +2,16 @@ package net.esportsbets.service;
 
 import net.esportsbets.dao.Matches;
 import net.esportsbets.model.MatchResults;
+import net.esportsbets.repository.MatchCustomRepository;
 import net.esportsbets.repository.MatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,10 +21,13 @@ public class MatchInfoService {
     @Autowired
     private MatchRepository matchRepository;
 
+    @Autowired
+    private MatchCustomRepository matchCustomRepository;
+
     public List<MatchResults> getPastMatches( int pageNumber ) {
 
         Pageable page = PageRequest.of(pageNumber, 10);
-        List<Matches> matches = matchRepository.findByTimeIsBetweenOrderByTimeDesc(
+        List<Matches> matches = matchCustomRepository.customMatchSearchQuery(
                                                         new Timestamp( new java.util.Date().getTime() - 12*60*60*1000 ),
                                                         new Timestamp( new java.util.Date().getTime() ),
                                                         page);
@@ -38,7 +41,7 @@ public class MatchInfoService {
 
     public int getPastMatchesPageCount() {
 
-        int matches = matchRepository.countByTimeIsBetween(
+        int matches = matchCustomRepository.customMatchesCount(
                                                         new Timestamp( new java.util.Date().getTime() - 12*60*60*1000 ),
                                                         new Timestamp( new java.util.Date().getTime() ));
         return matches/10;

@@ -1,4 +1,4 @@
-$("resultsDisplay").ready(function () {
+$("#resultsDisplay").ready(function () {
     refreshResults(0);
 });
 
@@ -16,8 +16,7 @@ function populateResults(matches, pageNumber) {
 
     var rows = "";
     matches.forEach(match=>{
-        rows += populateRow(match);
-        $("#resultsDisplay").html(rows);
+        rows+=populateRow(match);
     });
 
     $("#resultsDisplay").html(rows);
@@ -26,10 +25,9 @@ function populateResults(matches, pageNumber) {
             var resultsHtml = $("#resultsDisplay").html();
             resultsHtml += populatePaginationNavBar(pageNumber, data);
             $("#resultsDisplay").html(resultsHtml);
+            $("#loadingModal").modal('hide');
         }
     );
-    $("#loadingModal").modal('hide');
-
 }
 
 function populatePaginationNavBar( currPage, pages ) {
