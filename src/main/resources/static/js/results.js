@@ -38,6 +38,7 @@ function populatePaginationNavBar( currPage, pages ) {
     divText+='<nav aria-label="Results Page navigation" style="padding: 10px">'
     divText+='    <ul class="pagination justify-content-center">'
     divText+='        <li class="page-item"><a class="page-link"' + ( ((currPage)==0)?'':('onclick="refreshResults(' + (currPage-1) + ')"') ) + '>Previous</a></li>'
+    divText+='          <div style="overflow-x: scroll; max-width: 80%; display: inline-flex;">'
     for (let i = 0; i <= pages; i++) {
         if (i==currPage) {
             divText+='        <li class="page-item active"><a class="page-link" aria-current="page">' + (i+1) + '</a></li>'
@@ -45,6 +46,7 @@ function populatePaginationNavBar( currPage, pages ) {
             divText+='        <li class="page-item"><a class="page-link" onclick="refreshResults(' + i + ')">' + (i+1) + '</a></li>'
         }
     }
+    divText+='        </div>'
     divText+='        <li class="page-item"><a class="page-link" ' + ( ((currPage)==pages)?'':('onclick="refreshResults(' + (currPage+1) + ')"') ) + '>Next</a></li>'
     divText+='    </ul>'
     divText+='</nav>'
