@@ -5,6 +5,21 @@ let tableColumns = {"Gamertag": "gamertag", "Kills": "kills",
   "KDA": "kda", "Win %": "winPercentage", "Accuracy %": "accuracy",
   "Perfect Kills": "perfectKill", "Power Weapon Kills": "powerWeaponKills"}
 
+$(document).ready(function() {
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      let searchInputValue = $('#searchInput').val();
+      handleClickGamertag(searchInputValue)
+      return false;
+    }
+  });
+});
+
+$('input[type=search]').on('search', function () {
+  findPlayer("");
+});
+
 function findPlayer(searchString) {
   if (searchString.length > 0) {
     searchString = searchString.toLowerCase();
@@ -47,7 +62,7 @@ function getPlayerStatistics(gamertag) {
 function getGamertagsInTable() {
   let gamertags = [];
   $("#playerTable tr").not(':first').each(function(){
-    gamertags.push($(this).find("td:first").text());
+    gamertags.push($(this).find("td:first").text().toLowerCase());
   });
   return gamertags
 }
