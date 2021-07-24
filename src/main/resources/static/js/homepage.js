@@ -16,9 +16,14 @@ function populateResults(matches) {
      $("#resultsDisplay").html(rows);
 }
 
+// onclickk" selectBet(' + match.matchId + ') "
+// onclick = " selectBet(' + match.matchId + ') "
+// onclick = " selectBet(\'' + match.matchId + '\') "
+
+
 function populateRow(match) {
     divText = ''
-    divText+='<div class="col-lg-9" onclick=" ' + selectBet( match.matchId  ) + ' " \n' //outermost tag
+    divText+='<div class="col-lg-9" onclick = " selectBet(\'' + match.matchId + '\') " \n' //outermost tag
     divText+='     style="margin:auto; padding:20px; border-style:solid; border-width:2px; border-color:lightgray; border-radius:10px;">\n'
     divText+='    <div class="container">\n'
     divText+='        <div class="row">\n'
