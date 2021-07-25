@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
+	<Header>
+		<Application name="JPMML-SkLearn" version="1.6.25"/>
+		<Timestamp>2021-07-25T21:35:10Z</Timestamp>
+	</Header>
+	<MiningBuildTask>
+		<Extension name="repr">PMMLPipeline(steps=[('pre_processing', ColumnTransformer(remainder='passthrough',
+                  transformers=[('standardize', StandardScaler(),
+                                 ['csr_percentile', 'kda', 'top_gun_freq',
+                                  'triple_double_freq', 'win_perc'])])),
+       ('model', LinearRegression())])</Extension>
+	</MiningBuildTask>
+	<DataDictionary>
+		<DataField name="score" optype="continuous" dataType="double"/>
+		<DataField name="csr_percentile" optype="continuous" dataType="double"/>
+		<DataField name="kda" optype="continuous" dataType="double"/>
+		<DataField name="top_gun_freq" optype="continuous" dataType="double"/>
+		<DataField name="triple_double_freq" optype="continuous" dataType="double"/>
+		<DataField name="win_perc" optype="continuous" dataType="double"/>
+	</DataDictionary>
+	<RegressionModel functionName="regression" algorithmName="sklearn.linear_model._base.LinearRegression">
+		<MiningSchema>
+			<MiningField name="score" usageType="target"/>
+			<MiningField name="csr_percentile"/>
+			<MiningField name="kda"/>
+			<MiningField name="top_gun_freq"/>
+			<MiningField name="triple_double_freq"/>
+			<MiningField name="win_perc"/>
+		</MiningSchema>
+		<LocalTransformations>
+			<DerivedField name="standardScaler(csr_percentile)" optype="continuous" dataType="double">
+				<Apply function="/">
+					<Apply function="-">
+						<FieldRef field="csr_percentile"/>
+						<Constant dataType="double">0.11393248086796473</Constant>
+					</Apply>
+					<Constant dataType="double">5.528076638058289</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="standardScaler(kda)" optype="continuous" dataType="double">
+				<Apply function="/">
+					<Apply function="-">
+						<FieldRef field="kda"/>
+						<Constant dataType="double">-0.0015614988350681593</Constant>
+					</Apply>
+					<Constant dataType="double">0.14527908964564973</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="standardScaler(top_gun_freq)" optype="continuous" dataType="double">
+				<Apply function="/">
+					<Apply function="-">
+						<FieldRef field="top_gun_freq"/>
+						<Constant dataType="double">-3.7430842225441304E-5</Constant>
+					</Apply>
+					<Constant dataType="double">0.020777359628659845</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="standardScaler(triple_double_freq)" optype="continuous" dataType="double">
+				<Apply function="/">
+					<Apply function="-">
+						<FieldRef field="triple_double_freq"/>
+						<Constant dataType="double">-6.492951284105857E-4</Constant>
+					</Apply>
+					<Constant dataType="double">0.04204718854167599</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="standardScaler(win_perc)" optype="continuous" dataType="double">
+				<Apply function="/">
+					<Apply function="-">
+						<FieldRef field="win_perc"/>
+						<Constant dataType="double">-0.0010457746850628987</Constant>
+					</Apply>
+					<Constant dataType="double">0.0704091048981092</Constant>
+				</Apply>
+			</DerivedField>
+		</LocalTransformations>
+		<RegressionTable intercept="0.3942167974426039">
+			<NumericPredictor name="standardScaler(csr_percentile)" coefficient="-1.8381657370884896"/>
+			<NumericPredictor name="standardScaler(kda)" coefficient="0.9174083680510952"/>
+			<NumericPredictor name="standardScaler(top_gun_freq)" coefficient="0.8930056238033323"/>
+			<NumericPredictor name="standardScaler(triple_double_freq)" coefficient="0.5332331513698045"/>
+			<NumericPredictor name="standardScaler(win_perc)" coefficient="2.9032966351072393"/>
+		</RegressionTable>
+	</RegressionModel>
+</PMML>
