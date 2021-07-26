@@ -18,5 +18,7 @@ public interface MatchRepository extends PagingAndSortingRepository<Matches, Lon
 
     List<Matches> findByTimeIsBetweenOrderByTimeDesc(@NonNull Timestamp timeStart, @NonNull Timestamp timeEnd, Pageable page);
 
+    List<Matches> findOneByTimeIsBetweenOrderByTimeDesc(@NonNull Timestamp timeStart, @NonNull Timestamp timeEnd, Pageable page);
+
     int countByTimeIsBetween(@NonNull Timestamp timeStart, @NonNull Timestamp timeEnd);
 }

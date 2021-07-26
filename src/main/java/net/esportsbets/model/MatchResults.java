@@ -24,9 +24,9 @@ class TeamDetails {
 
     public static TeamDetails mapMatchResults(Matches match, int index) {
 
-        MatchScores matchScore = match.getMatchScores().get(index);
+        MatchScores matchScore = (MatchScores) match.getMatchScores().toArray()[index];
         TeamDetails mappedTeam = new TeamDetails();
-        mappedTeam.setTeamName( matchScore.getMatchGamertagLink().get(0).getTeamName() );
+        mappedTeam.setTeamName( ((MatchGamertagLink)(matchScore.getMatchGamertagLink().toArray()[0])).getTeamName() );
         mappedTeam.setScore( matchScore.getScore() );
         mappedTeam.setResult( match.getWinner().equals(matchScore.getTeamId())?"Win":"Loss" );
         mappedTeam.setTeam( matchScore.getTeamId() );
