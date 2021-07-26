@@ -4,7 +4,6 @@ import net.esportsbets.dao.BettableMatchesdao;
 import net.esportsbets.dao.Matches;
 import net.esportsbets.model.MatchResults;
 import net.esportsbets.repository.BettableRepository;
-import net.esportsbets.repository.MatchCustomRepository;
 import net.esportsbets.repository.MatchHibernateRepository;
 import net.esportsbets.repository.MatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
