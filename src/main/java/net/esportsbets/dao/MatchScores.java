@@ -1,13 +1,13 @@
 package net.esportsbets.dao;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+//import org.apache.commons.lang3.builder.EqualsBuilder;
+//import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 
 @Embeddable
@@ -23,6 +23,9 @@ class MatchScoresId implements Serializable {
 @Setter
 @ToString
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(exclude = "matchGamertagLink")
 @Table(name = "match_scores")
 @IdClass(MatchScoresId.class)
 public class MatchScores {
@@ -38,7 +41,7 @@ public class MatchScores {
     @Column(name = "team_id")
     private Integer teamId;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany
     @JoinColumns( {@JoinColumn(name = "match_id", referencedColumnName = "match_id"),
                     @JoinColumn(name = "team_id", referencedColumnName = "team_id")} )
     private List<MatchGamertagLink> matchGamertagLink;

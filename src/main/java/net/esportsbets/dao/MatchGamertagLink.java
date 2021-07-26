@@ -1,9 +1,6 @@
 package net.esportsbets.dao;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -21,6 +18,9 @@ class MatchGamertagLinkId implements Serializable {
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
 @Table(name = "match_gamertag_link")
 @IdClass(MatchGamertagLinkId.class)
 public class MatchGamertagLink {
