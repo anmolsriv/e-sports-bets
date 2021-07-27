@@ -136,22 +136,23 @@ function addPlayersToTable(players) {
   }
 }
 
-function getOdds(matchIds, betType) {
+function getOdds(matches) {
   $.ajax({
-    type: 'get',
-    url: '/odds',
-    data: { matchIds: matchIds, betType },
-    traditional: true
-  }).done(
-    function ( data ) {
-      console.log("data: ", data)
+    url: "/odds",
+    data: JSON.stringify(matches),
+    type: 'POST',
+    traditional: true,
+    contentType: "application/JSON",
+    success: function ( data) {
+      console.log(data)
     }
-  )
+  })
 }
 
 window.onload = function() {
   buildPlayersTable();
-  getOdds(['001fc61d-e1ac-4d2e-86d0-a8354047806a', '00208d69-dabc-400e-99b5-529535ef6962'], "slayerSpread")
+  // getOdds([ {'001fc61d-e1ac-4d2e-86d0-a8354047806a': 'slayer'}, {'00208d69-dabc-400e-99b5-529535ef6962': 'slayer'} ])
+  getOdds([ {'matchId': '001fc61d-e1ac-4d2e-86d0-a8354047806a', 'gameType': 'slayer'} ])
   // getOdds(['001fc61d-e1ac-4d2e-86d0-a8354047806a'], "strongholdSpread")
   // getOdds(['001fc61d-e1ac-4d2e-86d0-a8354047806a'], "oddballSpread")
   // getOdds(['001fc61d-e1ac-4d2e-86d0-a8354047806a'], "ctfSpread")

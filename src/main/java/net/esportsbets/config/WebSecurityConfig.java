@@ -48,13 +48,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 			.antMatchers("/").authenticated()
 			.anyRequest().permitAll()
-			.and()
+
+                .and()
 			.formLogin()
 				.usernameParameter("email")
 				.defaultSuccessUrl("/players")
 				.permitAll()
 			.and()
-			.logout().logoutSuccessUrl("/").permitAll();
+			.logout().logoutSuccessUrl("/").permitAll()
+                .and()
+                .csrf().disable();
 	}
 	
 	

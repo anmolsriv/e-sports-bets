@@ -1,6 +1,8 @@
 package net.esportsbets.controller;
 
 import net.esportsbets.model.CustomPlayerStats;
+import net.esportsbets.model.MatchOddsRequest;
+import net.esportsbets.model.MatchOddsResponse;
 import net.esportsbets.service.OddsModelingService;
 import net.esportsbets.service.PlayerInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,12 +35,13 @@ public class PlayersController {
         return playerService.loadPlayersByGamertags(gamertags);
     }
 
-    @RequestMapping(value = "/odds", method = RequestMethod.GET)
+    @RequestMapping(value = "/odds", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, List<Double>> getOddsForMatches(
-            @RequestParam("matchIds") String[] matchIds,
-            @RequestParam("betType") String betType) {
-        return oddService.loadOddsForMatches(matchIds, betType);
+    public List<MatchOddsResponse> getOddsForMatches(
+            @RequestBody List<MatchOddsRequest> matches
+            ) {
+        return null;
+        //return oddService.loadOddsForMatches(matches);
     }
 
 }

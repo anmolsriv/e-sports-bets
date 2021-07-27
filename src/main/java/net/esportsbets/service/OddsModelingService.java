@@ -2,56 +2,63 @@ package net.esportsbets.service;
 
 import net.esportsbets.ESportsBetsApplication;
 import net.esportsbets.dao.MlModel;
+import net.esportsbets.model.MatchOddsRequest;
+import net.esportsbets.model.MatchOddsResponse;
 import net.esportsbets.repository.MlModelRepository;
 import org.pmml4s.model.Model;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class OddsModelingService {
     @Autowired
     private MlModelRepository mlModelRepo;
 
-    private final Model moneylineModel = Model.fromFile(
-            ESportsBetsApplication.class.getClassLoader().getResource(
-                    "public/pmml/moneyline_bets.pmml").getFile());
+    @Autowired
+    @Qualifier("moneylineModel")
+    private Model moneylineModel;
 
-    private final Model slayerSpreadModel = Model.fromFile(
-            ESportsBetsApplication.class.getClassLoader().getResource(
-                    "public/pmml/slayer_spread.pmml").getFile());
+    @Autowired
+    @Qualifier("slayerSpreadModel")
+    private Model slayerSpreadModel;
 
-    private final Model strongholdSpreadModel = Model.fromFile(
-            ESportsBetsApplication.class.getClassLoader().getResource(
-                    "public/pmml/stronghold_spread.pmml").getFile());
+    @Autowired
+    @Qualifier("strongholdSpreadModel")
+    private Model strongholdSpreadModel;
 
-    private final Model oddballSpreadModel = Model.fromFile(
-            ESportsBetsApplication.class.getClassLoader().getResource(
-                    "public/pmml/oddball_spread.pmml").getFile());
+    @Autowired
+    @Qualifier("oddballSpreadModel")
+    private Model oddballSpreadModel;
 
-    private final Model ctfSpreadModel = Model.fromFile(
-            ESportsBetsApplication.class.getClassLoader().getResource(
-                    "public/pmml/ctf_spread.pmml").getFile());
+    @Autowired
+    @Qualifier("ctfSpreadModel")
+    private Model ctfSpreadModel;
 
-    public Map<String, List<Double>> loadOddsForMatches(
-            String[] matchIds, String betType) {
-        List<MlModel> modelData = loadModelDataByMatchIds(matchIds);
-        Map<String,  List<Double>> matchOdds = new HashMap<>();
-        for (MlModel matchData : modelData) {
-            Map<String, Float> values = getModelInputs(betType, matchData);
-            Model model = getModelForBetType(betType);
-            double prediction = getModelPrediction(model, values);
-            List<Double> teamOdds;
-            if (betType == "moneyline") {
-                teamOdds = Arrays.asList(1 / prediction, 1 / (1 - prediction));
-            } else {
-                teamOdds = Arrays.asList(-getNearestHalfPoint(prediction),
-                        getNearestHalfPoint(prediction));
-            }
-
-            matchOdds.put(matchData.getMatchId(), teamOdds);
-        }
+    public List<MatchOddsResponse> loadOddsForMatches(
+            List<MatchOddsRequest> matches) {
+        System.out.println(matches);
+//        List<MlModel> modelData = loadModelDataByMatchIds(matchIds);
+        List<MatchOddsRequest> ctfGames = matches.stream().filter(m -> m.getGameType().equalsIgnoreCase("CTF"))
+                .collect(Collectors.toList());
+        MatchOddsResponse matchOdds = new MatchOddsResponse();
+//        for (MlModel matchData : modelData) {
+//            Map<String, Float> values = getModelInputs(betType, matchData);
+//            Model model = getModelForBetType(betType);
+//            double prediction = getModelPrediction(model, values);
+//            List<Double> teamOdds;
+//            if (betType == "moneyline") {
+//                teamOdds = Arrays.asList(1 / prediction, 1 / (1 - prediction));
+//            } else {
+//                teamOdds = Arrays.asList(-getNearestHalfPoint(prediction),
+//                        getNearestHalfPoint(prediction));
+//            }
+//
+//            matchOdds.put(matchData.getMatchId(), teamOdds);
+//        }
         return matchOdds;
     }
 
