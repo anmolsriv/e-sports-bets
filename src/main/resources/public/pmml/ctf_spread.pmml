@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
+	<Header>
+		<Application name="JPMML-SkLearn" version="1.6.25"/>
+		<Timestamp>2021-07-25T21:35:20Z</Timestamp>
+	</Header>
+	<MiningBuildTask>
+		<Extension name="repr">PMMLPipeline(steps=[('pre_processing', ColumnTransformer(remainder='passthrough',
+                  transformers=[('standardize', StandardScaler(),
+                                 ['csr_percentile', 'kda', 'magnum_acc',
+                                  'top_gun_freq', 'triple_double_freq',
+                                  'win_perc'])])),
+       ('model', LinearRegression())])</Extension>
+	</MiningBuildTask>
+	<DataDictionary>
+		<DataField name="score" optype="continuous" dataType="double"/>
+		<DataField name="csr_percentile" optype="continuous" dataType="double"/>
+		<DataField name="kda" optype="continuous" dataType="double"/>
+		<DataField name="magnum_acc" optype="continuous" dataType="double"/>
+		<DataField name="top_gun_freq" optype="continuous" dataType="double"/>
+		<DataField name="triple_double_freq" optype="continuous" dataType="double"/>
+		<DataField name="win_perc" optype="continuous" dataType="double"/>
+	</DataDictionary>
+	<RegressionModel functionName="regression" algorithmName="sklearn.linear_model._base.LinearRegression">
+		<MiningSchema>
+			<MiningField name="score" usageType="target"/>
+			<MiningField name="csr_percentile"/>
+			<MiningField name="kda"/>
+			<MiningField name="magnum_acc"/>
+			<MiningField name="top_gun_freq"/>
+			<MiningField name="triple_double_freq"/>
+			<MiningField name="win_perc"/>
+		</MiningSchema>
+		<LocalTransformations>
+			<DerivedField name="standardScaler(csr_percentile)" optype="continuous" dataType="double">
+				<Apply function="/">
+					<Apply function="-">
+						<FieldRef field="csr_percentile"/>
+						<Constant dataType="double">-0.0038625532982192153</Constant>
+					</Apply>
+					<Constant dataType="double">5.507874682422212</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="standardScaler(kda)" optype="continuous" dataType="double">
+				<Apply function="/">
+					<Apply function="-">
+						<FieldRef field="kda"/>
+						<Constant dataType="double">-9.232313218692079E-4</Constant>
+					</Apply>
+					<Constant dataType="double">0.14703583443231813</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="standardScaler(magnum_acc)" optype="continuous" dataType="double">
+				<Apply function="/">
+					<Apply function="-">
+						<FieldRef field="magnum_acc"/>
+						<Constant dataType="double">-7.992707331954626E-4</Constant>
+					</Apply>
+					<Constant dataType="double">0.03636952357679072</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="standardScaler(top_gun_freq)" optype="continuous" dataType="double">
+				<Apply function="/">
+					<Apply function="-">
+						<FieldRef field="top_gun_freq"/>
+						<Constant dataType="double">-9.721670851541588E-5</Constant>
+					</Apply>
+					<Constant dataType="double">0.02061493329688846</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="standardScaler(triple_double_freq)" optype="continuous" dataType="double">
+				<Apply function="/">
+					<Apply function="-">
+						<FieldRef field="triple_double_freq"/>
+						<Constant dataType="double">-0.001115575618861381</Constant>
+					</Apply>
+					<Constant dataType="double">0.04200372778889328</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="standardScaler(win_perc)" optype="continuous" dataType="double">
+				<Apply function="/">
+					<Apply function="-">
+						<FieldRef field="win_perc"/>
+						<Constant dataType="double">-4.4645937466455574E-4</Constant>
+					</Apply>
+					<Constant dataType="double">0.0704267095526917</Constant>
+				</Apply>
+			</DerivedField>
+		</LocalTransformations>
+		<RegressionTable intercept="0.10218209179834462">
+			<NumericPredictor name="standardScaler(csr_percentile)" coefficient="-0.29233497962171445"/>
+			<NumericPredictor name="standardScaler(kda)" coefficient="0.003017581079654122"/>
+			<NumericPredictor name="standardScaler(magnum_acc)" coefficient="0.07365363568995567"/>
+			<NumericPredictor name="standardScaler(top_gun_freq)" coefficient="0.07624791705612233"/>
+			<NumericPredictor name="standardScaler(triple_double_freq)" coefficient="0.0741526040824721"/>
+			<NumericPredictor name="standardScaler(win_perc)" coefficient="0.6886915336054195"/>
+		</RegressionTable>
+	</RegressionModel>
+</PMML>
