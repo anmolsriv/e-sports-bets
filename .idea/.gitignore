@@ -1,0 +1,23 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Datasource local storage ignored files
+/../../../../../../:\Users\sawye\IdeaProjects\e-sports-bets\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+/.name
+/dataSources/6231b03d-2916-47b3-9959-71ccaaf653c9.xml
+/compiler.xml
+/dataSources.xml
+/encodings.xml
+/dataSources/6231b03d-2916-47b3-9959-71ccaaf653c9/storage_v2/_src_/schema/information_schema.FNRwLQ.meta
+/jarRepositories.xml
+/jpa-buddy.xml
+/JPAMappingSettings.xml
+/libraries/
+/misc.xml
+/modules.xml
+/POJOGeneratorSettings.xml
+/uiDesigner.xml
+/vcs.xml
