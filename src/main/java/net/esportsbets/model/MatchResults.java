@@ -55,6 +55,7 @@ public class MatchResults {
         mappedMatch.setGameVariant( match.getGameVariant() );
         mappedMatch.setTeam1( TeamDetails.mapMatchResults(match, 0)  );
         mappedMatch.setTeam2( TeamDetails.mapMatchResults(match, 1)  );
+
         return mappedMatch;
     }
 }

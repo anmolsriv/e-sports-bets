@@ -4,9 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="aa6a7598-7138-477d-a33b-fee26074cb3a" name="Default Changelist" comment="I am committing">
+    <list default="true" id="01be6ee9-b7c8-46ae-a255-d045c4f0573e" name="Default Changelist" comment="Hell">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_javassist_javassist_3_24_0_GA.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ESportsBets.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ESportsBets.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/esportsbets/config/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/config/WebSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/esportsbets/controller/MatchesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/controller/MatchesController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/esportsbets/model/BettableMatches.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/model/BettableMatches.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/esportsbets/model/MatchResults.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/model/MatchResults.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/esportsbets/service/MatchInfoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/service/MatchInfoService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/homepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/homepage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/net/esportsbets/config/WebSecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/net/esportsbets/config/WebSecurityConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/net/esportsbets/controller/AppController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/net/esportsbets/controller/AppController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/register_success.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/register_success.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/signup_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/signup_form.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,13 +97,15 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -151,7 +166,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626747304869</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Hell">
+      <created>1627263704194</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1627263704194</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -201,6 +223,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="I am committing" />
-    <option name="LAST_COMMIT_MESSAGE" value="I am committing" />
+    <MESSAGE value="Hell" />
+    <option name="LAST_COMMIT_MESSAGE" value="Hell" />
   </component>
 </project>

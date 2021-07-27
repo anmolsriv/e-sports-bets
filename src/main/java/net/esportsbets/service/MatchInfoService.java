@@ -2,6 +2,7 @@ package net.esportsbets.service;
 
 import net.esportsbets.dao.BettableMatchesdao;
 import net.esportsbets.dao.Matches;
+import net.esportsbets.model.BettableMatches;
 import net.esportsbets.model.MatchResults;
 import net.esportsbets.repository.BettableRepository;
 import net.esportsbets.repository.MatchHibernateRepository;
@@ -52,12 +53,18 @@ public class MatchInfoService {
     @Autowired
     private BettableRepository bettableRepository;
 
-    public List<BettableMatchesdao> getBettableMatches() {
+    public List<BettableMatches> getBettableMatches() {
 
 //        return StreamSupport.stream(bettableRepository.findAll().spliterator(), false)
 //                .collect(Collectors.toList());
 
-        return (List<BettableMatchesdao>) bettableRepository.findAll();
+        List<BettableMatchesdao> bettableMatches = (List<BettableMatchesdao>) bettableRepository.findAll();
+
+        List<BettableMatches> matchResults = bettableMatches.stream()
+                .map( match -> BettableMatches.mapMatchResults(match))
+                .collect(Collectors.toList());
+
+        return matchResults;
 
     };
 
