@@ -22,6 +22,10 @@ public class BettableMatches {
     private Timestamp time;
     private String team_1;
     private String team_0;
+    private String team0WinOdds;
+    private String team1WinOdds;
+    private String team0Spread;
+    private String team1Spread;
 
     public static BettableMatches mapMatchResults(BettableMatchesdao match) {
 

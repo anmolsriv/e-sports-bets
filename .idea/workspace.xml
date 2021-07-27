@@ -30,9 +30,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="01be6ee9-b7c8-46ae-a255-d045c4f0573e" name="Default Changelist" comment="Hell">
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/dao/MlModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/repository/MlModelRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/esportsbets/config/MlConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/config/MlConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/esportsbets/model/BettableMatches.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/model/BettableMatches.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/public/pmml/moneyline_bets_model.pmml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/public/pmml/moneyline_bets.pmml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/homepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/homepage.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,11 +67,15 @@
   <component name="JpbToolWindowState">
     <option name="myId2FirstActivated">
       <map>
+        <entry key="JPA Inspector" value="true" />
+        <entry key="JPA Palette" value="true" />
         <entry key="JPA Structure" value="true" />
       </map>
     </option>
     <option name="myId2Visible">
       <map>
+        <entry key="JPA Inspector" value="true" />
+        <entry key="JPA Palette" value="true" />
         <entry key="JPA Structure" value="true" />
       </map>
     </option>
@@ -91,7 +97,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/net/esportsbets/dao" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/public/pmml" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -103,12 +109,16 @@
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Bryan\Desktop\Rice\Summer 2021\610 Software Design\Final Project\e-sports-bets\src\main\resources\templates" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Bryan\Desktop\Rice\Summer 2021\610 Software Design\Final Project\e-sports-bets\src\main\resources\static\js" />
       <recent name="C:\Users\Bryan\Desktop\Rice\Summer 2021\610 Software Design\Final Project\e-sports-bets\src\main\resources\js" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="net.esportsbets.config" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\sawye\IdeaProjects\e-sports-bets\src\main\resources\public\pmml" />
+      <recent name="C:\Users\Bryan\Desktop\Rice\Summer 2021\610 Software Design\Final Project\e-sports-bets\src\main\resources\templates" />
     </key>
   </component>
   <component name="RunManager">
@@ -193,7 +203,21 @@
       <option name="project" value="LOCAL" />
       <updated>1627421783986</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="add pmml ML model files">
+      <created>1627421967661</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1627421967661</updated>
+    </task>
+    <task id="LOCAL-00009" summary="add MLModel dao and repository">
+      <created>1627422193455</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1627422193455</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -245,12 +269,46 @@
     <MESSAGE value="I am committing" />
     <MESSAGE value="Hell" />
     <MESSAGE value="add MlConfig.java" />
-    <option name="LAST_COMMIT_MESSAGE" value="add MlConfig.java" />
+    <MESSAGE value="add pmml ML model files" />
+    <MESSAGE value="add MLModel dao and repository" />
+    <option name="LAST_COMMIT_MESSAGE" value="add MLModel dao and repository" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="872" y="420" key="Vcs.Push.Dialog.v2" timestamp="1627421969750">
+    <state width="2517" height="401" key="GridCell.Tab.0.bottom" timestamp="1627422303129">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="872" y="420" key="Vcs.Push.Dialog.v2/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1627421969750" />
+    <state width="2517" height="401" key="GridCell.Tab.0.bottom/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1627422303129" />
+    <state width="2517" height="401" key="GridCell.Tab.0.center" timestamp="1627422303128">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="401" key="GridCell.Tab.0.center/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1627422303128" />
+    <state width="2517" height="401" key="GridCell.Tab.0.left" timestamp="1627422303128">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="401" key="GridCell.Tab.0.left/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1627422303128" />
+    <state width="2517" height="401" key="GridCell.Tab.0.right" timestamp="1627422303128">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="401" key="GridCell.Tab.0.right/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1627422303128" />
+    <state width="2517" height="401" key="GridCell.Tab.1.bottom" timestamp="1627422303129">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="401" key="GridCell.Tab.1.bottom/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1627422303129" />
+    <state width="2517" height="401" key="GridCell.Tab.1.center" timestamp="1627422303129">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="401" key="GridCell.Tab.1.center/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1627422303129" />
+    <state width="2517" height="401" key="GridCell.Tab.1.left" timestamp="1627422303129">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="401" key="GridCell.Tab.1.left/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1627422303129" />
+    <state width="2517" height="401" key="GridCell.Tab.1.right" timestamp="1627422303129">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="401" key="GridCell.Tab.1.right/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1627422303129" />
+    <state x="872" y="420" key="Vcs.Push.Dialog.v2" timestamp="1627422195831">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="872" y="420" key="Vcs.Push.Dialog.v2/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1627422195831" />
   </component>
 </project>

@@ -1,6 +1,7 @@
 $("resultsDisplay1").ready(function () {
     $.get( "/matches/bettable").done(
         function ( data ) {
+          console.log("data: ", data)
             populateResults(data)
         }
     )
