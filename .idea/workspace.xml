@@ -31,10 +31,8 @@
   <component name="ChangeListManager">
     <list default="true" id="01be6ee9-b7c8-46ae-a255-d045c4f0573e" name="Default Changelist" comment="Hell">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/esportsbets/config/MlConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/config/MlConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/esportsbets/model/BettableMatches.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/model/BettableMatches.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/public/pmml/moneyline_bets_model.pmml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/public/pmml/moneyline_bets.pmml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/homepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/homepage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/esportsbets/repository/MlModelRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/repository/MlModelRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/esportsbets/service/MatchInfoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/service/MatchInfoService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -217,7 +215,14 @@
       <option name="project" value="LOCAL" />
       <updated>1627422193455</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="update BettableMatches model to include odds and spread">
+      <created>1627422534819</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1627422534819</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -271,44 +276,45 @@
     <MESSAGE value="add MlConfig.java" />
     <MESSAGE value="add pmml ML model files" />
     <MESSAGE value="add MLModel dao and repository" />
-    <option name="LAST_COMMIT_MESSAGE" value="add MLModel dao and repository" />
+    <MESSAGE value="update BettableMatches model to include odds and spread" />
+    <option name="LAST_COMMIT_MESSAGE" value="update BettableMatches model to include odds and spread" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="2517" height="401" key="GridCell.Tab.0.bottom" timestamp="1627422303129">
+    <state width="2517" height="401" key="GridCell.Tab.0.bottom" timestamp="1627422467937">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2517" height="401" key="GridCell.Tab.0.bottom/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1627422303129" />
-    <state width="2517" height="401" key="GridCell.Tab.0.center" timestamp="1627422303128">
+    <state width="2517" height="401" key="GridCell.Tab.0.bottom/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1627422467937" />
+    <state width="2517" height="401" key="GridCell.Tab.0.center" timestamp="1627422467937">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2517" height="401" key="GridCell.Tab.0.center/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1627422303128" />
-    <state width="2517" height="401" key="GridCell.Tab.0.left" timestamp="1627422303128">
+    <state width="2517" height="401" key="GridCell.Tab.0.center/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1627422467937" />
+    <state width="2517" height="401" key="GridCell.Tab.0.left" timestamp="1627422467937">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2517" height="401" key="GridCell.Tab.0.left/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1627422303128" />
-    <state width="2517" height="401" key="GridCell.Tab.0.right" timestamp="1627422303128">
+    <state width="2517" height="401" key="GridCell.Tab.0.left/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1627422467937" />
+    <state width="2517" height="401" key="GridCell.Tab.0.right" timestamp="1627422467937">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2517" height="401" key="GridCell.Tab.0.right/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1627422303128" />
-    <state width="2517" height="401" key="GridCell.Tab.1.bottom" timestamp="1627422303129">
+    <state width="2517" height="401" key="GridCell.Tab.0.right/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1627422467937" />
+    <state width="2517" height="401" key="GridCell.Tab.1.bottom" timestamp="1627422467937">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2517" height="401" key="GridCell.Tab.1.bottom/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1627422303129" />
-    <state width="2517" height="401" key="GridCell.Tab.1.center" timestamp="1627422303129">
+    <state width="2517" height="401" key="GridCell.Tab.1.bottom/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1627422467937" />
+    <state width="2517" height="401" key="GridCell.Tab.1.center" timestamp="1627422467937">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2517" height="401" key="GridCell.Tab.1.center/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1627422303129" />
-    <state width="2517" height="401" key="GridCell.Tab.1.left" timestamp="1627422303129">
+    <state width="2517" height="401" key="GridCell.Tab.1.center/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1627422467937" />
+    <state width="2517" height="401" key="GridCell.Tab.1.left" timestamp="1627422467937">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2517" height="401" key="GridCell.Tab.1.left/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1627422303129" />
-    <state width="2517" height="401" key="GridCell.Tab.1.right" timestamp="1627422303129">
+    <state width="2517" height="401" key="GridCell.Tab.1.left/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1627422467937" />
+    <state width="2517" height="401" key="GridCell.Tab.1.right" timestamp="1627422467937">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2517" height="401" key="GridCell.Tab.1.right/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1627422303129" />
-    <state x="872" y="420" key="Vcs.Push.Dialog.v2" timestamp="1627422195831">
+    <state width="2517" height="401" key="GridCell.Tab.1.right/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1627422467937" />
+    <state x="872" y="420" key="Vcs.Push.Dialog.v2" timestamp="1627422536491">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="872" y="420" key="Vcs.Push.Dialog.v2/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1627422195831" />
+    <state x="872" y="420" key="Vcs.Push.Dialog.v2/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1627422536491" />
   </component>
 </project>
