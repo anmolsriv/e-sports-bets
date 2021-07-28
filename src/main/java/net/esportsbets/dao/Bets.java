@@ -8,12 +8,14 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Set;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "bets")
-@EqualsAndHashCode(exclude = "matchJoin")
+@EqualsAndHashCode(exclude = "match")
 public class Bets {
 
     public enum BetType {
