@@ -29,7 +29,7 @@ public class BetsStatusUpdateSchedular {
     @Autowired
     private UserBetsRepository userBetsRepository;
 
-    @Scheduled(cron = "0 0/2 * 1/1 * ?")
+    @Scheduled(cron = "0 1/30 * 1/1 * ?")
     public void computeBetResults() {
 
         Timestamp currTime = new Timestamp( new java.util.Date().getTime() );

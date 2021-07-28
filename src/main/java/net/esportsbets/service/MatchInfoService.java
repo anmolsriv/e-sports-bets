@@ -1,6 +1,7 @@
 package net.esportsbets.service;
 
 import net.esportsbets.dao.BettableMatchesdao;
+import net.esportsbets.dao.MatchScores;
 import net.esportsbets.dao.Matches;
 import net.esportsbets.dao.MlModel;
 import net.esportsbets.model.BettableMatches;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -33,6 +35,9 @@ public class MatchInfoService {
     @Autowired
     private MatchOddsAndSpreadCalculationService mlService;
 
+    @Autowired
+    private BettableRepository bettableRepository;
+
     public List<MatchResults> getPastMatches( int pageNumber ) {
 
         Pageable page = PageRequest.of(pageNumber, 10);
@@ -41,9 +46,20 @@ public class MatchInfoService {
                 new Timestamp( new java.util.Date().getTime() ),
                 page);
 
+        matches.forEach( match -> {
+            Pair<Double, Double> predictions = mlService.getPredictions( match.getGameVariant(), match.getMatchId() );
+            MatchScores[] matchScores = match.getMatchScores().toArray(new MatchScores[0]);
+            MatchScores team0 = matchScores[0].getTeamId().equals(0) ? matchScores[0] : matchScores[1];
+            MatchScores team1 = matchScores[0].getTeamId().equals(0) ? matchScores[1] : matchScores[0];
+            team0.setSpread( -getNearestHalfPoint( predictions.getFirst() ) );
+            team1.setSpread( getNearestHalfPoint( predictions.getFirst() ) );
+        } );
+
         List<MatchResults> matchResults = matches.stream()
                                                     .map( match -> MatchResults.mapMatchResults(match) )
                                                     .collect(Collectors.toList());
+
+        matchHibernateRepository.updateMatchesSpread( matches );
 
         return matchResults;
     }
@@ -51,13 +67,10 @@ public class MatchInfoService {
     public int getPastMatchesPageCount() {
 
         int matches = matchRepository.countByTimeIsBetween(
-                                                        new Timestamp( new java.util.Date().getTime() - 12*60*60*1000 ),
-                                                        new Timestamp( new java.util.Date().getTime() ));
-        return matches/10;
+                new Timestamp(new java.util.Date().getTime() - 12 * 60 * 60 * 1000),
+                new Timestamp(new java.util.Date().getTime()));
+        return matches / 10;
     }
-
-    @Autowired
-    private BettableRepository bettableRepository;
 
     public List<BettableMatches> getBettableMatches() {
 
@@ -68,17 +81,11 @@ public class MatchInfoService {
                 .collect(Collectors.toList());
 
         for (BettableMatches match : matchResults) {
-            MlModel matchData = mlService.loadModelDataByMatchId(match.getMatchId());
-            Map<String, Float> spreadInputs = mlService.getModelInputs( match.getGameVariant(), matchData );
-            Map<String, Float> moneylineInputs = mlService.getModelInputs( "", matchData );
-            Model spreadModel = mlService.getSpreadModelForGameVariant( match.getGameVariant() );
-            Model moneylineModel = mlService.getSpreadModelForGameVariant( "" );
-            double spreadPrediction = mlService.getModelPrediction( spreadModel, spreadInputs );
-            double moneylinePrediction = mlService.getModelPrediction( moneylineModel, moneylineInputs );
-            match.setTeam0WinOdds( new DecimalFormat("0.0#").format( 1 / moneylinePrediction ) );
-            match.setTeam1WinOdds( new DecimalFormat("0.0#").format( 1 / (1 - moneylinePrediction) ) );
-            match.setTeam0Spread( new DecimalFormat("0.0#").format( -getNearestHalfPoint(spreadPrediction) ) );
-            match.setTeam1Spread( new DecimalFormat("0.0#").format( getNearestHalfPoint(spreadPrediction) ) );
+            Pair<Double, Double> predictions = mlService.getPredictions( match.getGameVariant(), match.getMatchId() );
+            match.setTeam0WinOdds( new DecimalFormat("0.0#").format( 1 / predictions.getSecond() ) );
+            match.setTeam1WinOdds( new DecimalFormat("0.0#").format( 1 / ( 1 - predictions.getSecond() ) ) );
+            match.setTeam0Spread( new DecimalFormat("0.0#").format( -getNearestHalfPoint( predictions.getFirst() ) ) );
+            match.setTeam1Spread( new DecimalFormat("0.0#").format( getNearestHalfPoint( predictions.getFirst() ) ) );
         }
         return matchResults;
 

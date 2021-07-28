@@ -5,6 +5,7 @@ import net.esportsbets.repository.MlModelRepository;
 import org.pmml4s.model.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -36,8 +37,7 @@ public class MatchOddsAndSpreadCalculationService {
     @Qualifier("ctfSpreadModel")
     private Model ctfSpreadModel;
 
-    public MlModel loadModelDataByMatchId(
-            String matchId) {
+    private MlModel loadModelDataByMatchId(String matchId) {
         MlModel modelData = mlModelRepo.findByMatchId(matchId);
         if (modelData == null) {
             return new MlModel();
@@ -45,8 +45,7 @@ public class MatchOddsAndSpreadCalculationService {
         return modelData;
     }
 
-    public Double getModelPrediction(Model model, Map<String,
-            Float> inputs) {
+    private Double getModelPrediction(Model model, Map<String, Float> inputs) {
         Object[] valuesMap = Arrays.stream(model.inputNames())
                 .map(inputs::get)
                 .toArray();
@@ -55,7 +54,7 @@ public class MatchOddsAndSpreadCalculationService {
         return (Double) result[0];
     }
 
-    public Map<String, Float> getModelInputs(String gameVariant,
+    private Map<String, Float> getModelInputs(String gameVariant,
                                                     MlModel matchData) {
         if (gameVariant == "Slayer HCS") {
             return Map.of(
@@ -84,7 +83,7 @@ public class MatchOddsAndSpreadCalculationService {
         }
     }
 
-    public Model getSpreadModelForGameVariant(String gameVariant) {
+    private Model getSpreadModelForGameVariant(String gameVariant) {
         switch ( gameVariant ) {
             case "Slayer HCS":
                 return slayerSpreadModel;
@@ -100,5 +99,19 @@ public class MatchOddsAndSpreadCalculationService {
             default:
                 return ctfSpreadModel;
         }
+    }
+
+    /**
+     * @return Pair<spreadPrediction, moneylinePrediction>
+     * */
+    public Pair<Double, Double> getPredictions( String gameVariant, String matchId ) {
+        MlModel matchData = loadModelDataByMatchId( matchId );
+        Map<String, Float> spreadInputs = getModelInputs( gameVariant, matchData );
+        Map<String, Float> moneylineInputs = getModelInputs( "", matchData );
+        Model spreadModel = getSpreadModelForGameVariant( gameVariant );
+        Model moneylineModel = getSpreadModelForGameVariant( "" );
+        double spreadPrediction = getModelPrediction( spreadModel, spreadInputs );
+        double moneylinePrediction = getModelPrediction( moneylineModel, moneylineInputs );
+        return Pair.of( spreadPrediction, moneylinePrediction );
     }
 }
