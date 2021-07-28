@@ -44,7 +44,10 @@ public class MatchScores {
     @Column(name = "team_id")
     private Integer teamId;
 
-    @OneToMany
+    @Column(name = "team_name")
+    private String teamName;
+
+    @OneToMany(fetch = FetchType.LAZY)
     @Fetch(value = FetchMode.JOIN)
     @JoinColumns( {@JoinColumn(name = "match_id", referencedColumnName = "match_id"),
                     @JoinColumn(name = "team_id", referencedColumnName = "team_id")} )

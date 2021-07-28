@@ -1,0 +1,56 @@
+package net.esportsbets.dao;
+
+import lombok.Getter;
+import lombok.Setter;
+import org.apache.commons.math3.analysis.function.Identity;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import javax.persistence.*;
+import java.util.Set;
+
+@Getter
+@Setter
+@Entity
+@Table(name = "user_bets")
+public class UserBets {
+
+    public enum UserBetsComposition {
+        SINGLE, ACCUMULATOR;
+    }
+
+    public enum Conclusion {
+        IN_PROGRESS, PARTIAL, WIN, LOSS;
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer id;
+
+    @Column(name = "user_id")
+    private Long userId;
+
+    @Column(name = "bet_type")
+    @Enumerated(EnumType.STRING)
+    private UserBetsComposition betsComposition;
+
+    @Column(name = "concluded")
+    private Conclusion concluded;
+
+    @Column(name = "amount")
+    private Double amount;
+
+    @Column(name = "time", insertable = false)
+    private java.sql.Timestamp time;
+
+    @Column(name = "odds")
+    private Double odds;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @Fetch(value = FetchMode.JOIN)
+    @JoinColumn(name = "user_bet_id", referencedColumnName = "id")
+    private Set<Bets> userBets;
+
+}

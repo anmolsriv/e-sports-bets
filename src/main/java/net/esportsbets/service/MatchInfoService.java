@@ -2,7 +2,7 @@ package net.esportsbets.service;
 
 import net.esportsbets.dao.Matches;
 import net.esportsbets.model.MatchResults;
-import net.esportsbets.repository.MatchHibernateRepository;
+import net.esportsbets.repository.hibernate.MatchHibernateRepository;
 import net.esportsbets.repository.MatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;

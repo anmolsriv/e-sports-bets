@@ -1,4 +1,4 @@
-package net.esportsbets.repository;
+package net.esportsbets.repository.hibernate;
 
 import net.esportsbets.dao.MatchGamertagLink;
 import net.esportsbets.dao.MatchScores;
@@ -39,4 +39,5 @@ public class MatchHibernateRepository {
         return query.getResultList();
 
     }
+
 }

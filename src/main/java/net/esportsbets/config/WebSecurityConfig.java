@@ -52,6 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/logout").permitAll()
 			.antMatchers("/register").permitAll()
 			.antMatchers("/register_success").permitAll()
+			.antMatchers("/process_register").permitAll()
 			.antMatchers("/images/***").permitAll()
 			.antMatchers("/webjars/bootstrap/css/***").permitAll()
 			.antMatchers("/webjars/jquery/***").permitAll()
@@ -67,7 +68,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.and()
 			.logout()
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
-				.logoutSuccessUrl("/").permitAll();
+				.logoutSuccessUrl("/").permitAll()
+			.and()
+				.csrf().disable();
 	}
 	
 	

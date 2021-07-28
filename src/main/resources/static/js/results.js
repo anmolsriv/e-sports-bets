@@ -3,6 +3,28 @@ $("#resultsDisplay").ready(function () {
 });
 
 function refreshResults(pageNumber) {
+    // var data = {
+    //     betType: "SINGLE",
+    //     amount : 100,
+    //     odds : 10.1,
+    //     bets : [
+    //         {
+    //             matchId : "match-3",
+    //             betType : "SPREAD",
+    //             teamId : 1
+    //         }
+    //     ]
+    // };
+    //
+    // $.ajax({
+    //     url: "/bets/place_bet",
+    //     data: JSON.stringify(data),
+    //     contentType: "application/JSON",
+    //     type: "POST",
+    //     success: function (data) {
+    //         console.log(data)
+    //     }
+    // })
     $("#loadingModal").modal('show');
     $.get( "/matches/results?page=" + pageNumber).done(
         function ( data ) {

@@ -42,7 +42,7 @@ public class Matches {
     @Column(name = "time")
     private Timestamp time;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     @Fetch(value = FetchMode.JOIN)
     @JoinColumn(name = "match_id", referencedColumnName = "match_id")
     private Set<MatchScores> matchScores;
