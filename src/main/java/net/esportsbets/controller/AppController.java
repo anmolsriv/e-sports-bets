@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.esportsbets.dao.User;
 import net.esportsbets.repository.UserRepository;
+import net.esportsbets.service.BetsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -16,10 +17,19 @@ public class AppController {
 
 	@Autowired
 	private UserRepository userRepo;
+
+	@Autowired
+	private BetsService betsService;
 	
 	@GetMapping("")
 	public String viewHomePage() {
 		return "index";
+	}
+
+	@GetMapping("/login")
+	public String viewLoginPage() {
+
+		return "login";
 	}
 	
 	@GetMapping("/register")
@@ -35,7 +45,7 @@ public class AppController {
 		String encodedPassword = passwordEncoder.encode(user.getPassword());
 		user.setPassword(encodedPassword);
 		
-		userRepo.save(user);
+		betsService.createUserCredit(userRepo.save(user), 2000.0, null, "new user bonus credit");
 		
 		return "register_success";
 	}
@@ -50,5 +60,8 @@ public class AppController {
 
 	@GetMapping("/players")
     public String viewPlayerStatisticsPage() { return "players"; }
+
+	@GetMapping("/results")
+	public String viewResultsPage() { return "results"; }
 
 }
