@@ -42,20 +42,18 @@ public class BetsStatusUpdateSchedular {
     private void processSpreadBet( User user, UserBets bet, Bets subBet ) {
         MatchScores[] matchScores = (MatchScores[]) subBet.getMatch().getMatchScores().toArray();
         int scoresDiff = matchScores[0].getScore() - matchScores[1].getScore();
-        if ( matchScores[1].getTeamId() == subBet.getTeamId() ) {
+        if ( matchScores[1].getTeamId().equals( subBet.getTeamId() ) ) {
             scoresDiff *= -1;
         }
-        if ( subBet.getSpread()<0 ) {
+        if ( subBet.getSpread() < 0 ) {
             if ( -1*subBet.getSpread() == scoresDiff ) {
                 subBet.setConcluded( Bets.Conclusion.PUSH );
-                betsService.creditUser( user, bet.getAmount(), bet.getId(), "spread bet push" );
             } else if (-1*subBet.getSpread() > scoresDiff) {
                 subBet.setConcluded( Bets.Conclusion.WIN );
             }
-        } else if ( subBet.getSpread()>0 ) {
+        } else if ( subBet.getSpread() > 0 ) {
             if ( subBet.getSpread() == scoresDiff ) {
                 subBet.setConcluded( Bets.Conclusion.PUSH );
-                betsService.creditUser( user, bet.getAmount(), bet.getId(), "spread bet push" );
             } else if ( subBet.getSpread() > Math.abs(scoresDiff) ) {
                 subBet.setConcluded( Bets.Conclusion.WIN );
             }
@@ -84,17 +82,25 @@ public class BetsStatusUpdateSchedular {
         }
         boolean allBetsConcluded = true;
         boolean allBetsWin = true;
+        boolean pushConclusion = false;
         for (Bets subBet : bet.getUserBets()) {
             if ( subBet.getConcluded() == Bets.Conclusion.IN_PROGRESS ) {
                 allBetsConcluded = false;
             } else if ( subBet.getConcluded() == Bets.Conclusion.LOSS ) {
                 allBetsWin = false;
+            } else if ( subBet.getConcluded() == Bets.Conclusion.PUSH ) {
+                pushConclusion = true;
             }
         }
         if ( allBetsConcluded ) {
             if ( allBetsWin ) {
-                bet.setConcluded( UserBets.Conclusion.WIN );
-                betsService.creditUser( user, bet.getAmount()*bet.getOdds(), bet.getId(), "bet win" );
+                if ( pushConclusion ) {
+                    bet.setConcluded( UserBets.Conclusion.PUSH );
+                    betsService.creditUser( user, bet.getAmount(), bet.getId(), "bet push refund" );
+                } else {
+                    bet.setConcluded( UserBets.Conclusion.WIN );
+                    betsService.creditUser( user, bet.getAmount()*bet.getOdds(), bet.getId(), "bet win" );
+                }
             } else {
                 bet.setConcluded( UserBets.Conclusion.LOSS );
             }

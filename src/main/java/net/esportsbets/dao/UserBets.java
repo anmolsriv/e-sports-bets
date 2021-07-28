@@ -21,7 +21,7 @@ public class UserBets {
     }
 
     public enum Conclusion {
-        IN_PROGRESS, PARTIAL, WIN, LOSS;
+        IN_PROGRESS, PARTIAL, WIN, LOSS, PUSH;
     }
 
     @Id

@@ -39,14 +39,19 @@ public class BetsService {
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.NESTED)
     public Double placeBets(UserBetRequestModel betRequest, String userEmail) {
 
+        if ( betRequest.getBetType().equals("SINGLE") &&
+                betRequest.getBets().size() > 1 ) {
+            return -1.0;
+        }
+
         User user = userRepository.findByEmail( userEmail );
 
         UserCredits userCredits = userCreditsRepository.findById(user.getId()).get();
-        if(userCredits.getCredits()<betRequest.getAmount()) {
+        if( userCredits.getCredits()<betRequest.getAmount() ) {
             return -1.0;
         }
         UserBets userBet = new UserBets();
-        userBet.setBetsComposition(UserBets.UserBetsComposition.valueOf(betRequest.getBetType()) );
+        userBet.setBetsComposition( UserBets.UserBetsComposition.valueOf( betRequest.getBetType() ) );
         userBet.setUserId( user.getId() );
         userBet.setAmount( betRequest.getAmount() );
         userBet.setOdds( betRequest.getOdds() );
@@ -55,13 +60,13 @@ public class BetsService {
         betRequest.getBets().forEach( singleBet -> {
             Bets bet = new Bets();
             bet.setMatchId( singleBet.getMatchId() );
-            bet.setBetType( Bets.BetType.valueOf(singleBet.getBetType()) );
+            bet.setBetType( Bets.BetType.valueOf( singleBet.getBetType() ) );
             bet.setTeamId( singleBet.getTeamId() );
             bet.setConcluded( Bets.Conclusion.IN_PROGRESS );
             bet.setSpread( singleBet.getSpread() );
             userBet.getUserBets().add(bet);
         } );
-        UserBets savedUserBet = userBetsRepository.save(userBet);
+        UserBets savedUserBet = userBetsRepository.save( userBet );
 
         userCredits = debitUser( user, betRequest.getAmount(), savedUserBet.getId(), "placing bet" );
         return userCredits.getCredits();
