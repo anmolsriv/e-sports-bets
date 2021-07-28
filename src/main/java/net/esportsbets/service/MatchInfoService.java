@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,8 +47,12 @@ public class MatchInfoService {
                 new Timestamp( new java.util.Date().getTime() ),
                 page);
 
+        Map<String, String> matchInfo = matches.stream()
+                .collect(Collectors.toMap(Matches::getMatchId, Matches::getGameVariant));
+        Map<String, Pair<Double, Double>> resPredictions  = mlService.getPredictions(matchInfo);
+
         matches.forEach( match -> {
-            Pair<Double, Double> predictions = mlService.getPredictions( match.getGameVariant(), match.getMatchId() );
+            Pair<Double, Double> predictions = resPredictions.get(match.getMatchId());
             MatchScores[] matchScores = match.getMatchScores().toArray(new MatchScores[0]);
             MatchScores team0 = matchScores[0].getTeamId().equals(0) ? matchScores[0] : matchScores[1];
             MatchScores team1 = matchScores[0].getTeamId().equals(0) ? matchScores[1] : matchScores[0];
@@ -80,8 +85,11 @@ public class MatchInfoService {
                 .map( match -> BettableMatches.mapMatchResults(match))
                 .collect(Collectors.toList());
 
+        Map<String, String> matchInfo = matchResults.stream()
+                                        .collect(Collectors.toMap(BettableMatches::getMatchId, BettableMatches::getGameVariant));
+        Map<String, Pair<Double, Double>> resPredictions  = mlService.getPredictions(matchInfo);
         for (BettableMatches match : matchResults) {
-            Pair<Double, Double> predictions = mlService.getPredictions( match.getGameVariant(), match.getMatchId() );
+            Pair<Double, Double> predictions = resPredictions.get(match.getMatchId());
             match.setTeam0WinOdds( new DecimalFormat("0.0#").format( 1 / predictions.getSecond() ) );
             match.setTeam1WinOdds( new DecimalFormat("0.0#").format( 1 / ( 1 - predictions.getSecond() ) ) );
             match.setTeam0Spread( new DecimalFormat("0.0#").format( -getNearestHalfPoint( predictions.getFirst() ) ) );

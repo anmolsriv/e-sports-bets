@@ -8,8 +8,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class MatchOddsAndSpreadCalculationService {
@@ -37,12 +38,13 @@ public class MatchOddsAndSpreadCalculationService {
     @Qualifier("ctfSpreadModel")
     private Model ctfSpreadModel;
 
-    private MlModel loadModelDataByMatchId(String matchId) {
-        MlModel modelData = mlModelRepo.findByMatchId(matchId);
-        if (modelData == null) {
-            return new MlModel();
-        }
-        return modelData;
+    private Map<String, MlModel> loadModelDataByMatchId(Set<String> matchIds) {
+        List<MlModel> modelsData = mlModelRepo.findByMatchIdIn(matchIds);
+        Map<String, MlModel> mlModels = modelsData.stream()
+                                            .collect(Collectors.toMap(MlModel::getMatchId, Function.identity()));
+        matchIds.stream().filter(matchId -> !mlModels.containsKey(matchId))
+                            .forEach(matchId -> mlModels.put(matchId, new MlModel()));
+        return mlModels;
     }
 
     private Double getModelPrediction(Model model, Map<String, Float> inputs) {
@@ -102,16 +104,22 @@ public class MatchOddsAndSpreadCalculationService {
     }
 
     /**
-     * @return Pair<spreadPrediction, moneylinePrediction>
+     * @param matchInfo : The Map(matchId, GameVariant)
+     * @return : The Map(matchId, Pair(spreadPrediction, moneylinePrediction))
      * */
-    public Pair<Double, Double> getPredictions( String gameVariant, String matchId ) {
-        MlModel matchData = loadModelDataByMatchId( matchId );
-        Map<String, Float> spreadInputs = getModelInputs( gameVariant, matchData );
-        Map<String, Float> moneylineInputs = getModelInputs( "", matchData );
-        Model spreadModel = getSpreadModelForGameVariant( gameVariant );
-        Model moneylineModel = getSpreadModelForGameVariant( "" );
-        double spreadPrediction = getModelPrediction( spreadModel, spreadInputs );
-        double moneylinePrediction = getModelPrediction( moneylineModel, moneylineInputs );
-        return Pair.of( spreadPrediction, moneylinePrediction );
+    public Map<String, Pair<Double, Double>> getPredictions( Map<String, String> matchInfo ) {
+        Set<String> matchIds = matchInfo.keySet();
+        Map<String, MlModel> matchDatas = loadModelDataByMatchId( matchIds );
+        Map<String, Pair<Double, Double>> resPredictions  = new HashMap<>();
+        matchDatas.forEach( (matchId, matchData) -> {
+            Map<String, Float> spreadInputs = getModelInputs( matchInfo.get(matchId), matchData );
+            Map<String, Float> moneylineInputs = getModelInputs( "", matchData );
+            Model spreadModel = getSpreadModelForGameVariant( matchInfo.get(matchId) );
+            Model moneylineModel = getSpreadModelForGameVariant( "" );
+            double spreadPrediction = getModelPrediction( spreadModel, spreadInputs );
+            double moneylinePrediction = getModelPrediction( moneylineModel, moneylineInputs );
+            resPredictions.put(matchId, Pair.of( spreadPrediction, moneylinePrediction ));
+        });
+        return resPredictions;
     }
 }
