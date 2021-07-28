@@ -20,7 +20,7 @@ class TeamDetails {
     private String result;
     private Integer score;
     private Integer team;
-    private Integer spread;
+    private Double spread;
 
     public static TeamDetails mapMatchResults(Matches match, int index) {
 
@@ -30,7 +30,7 @@ class TeamDetails {
         mappedTeam.setScore( matchScore.getScore() );
         mappedTeam.setResult( match.getWinner().equals(matchScore.getTeamId())?"Win":"Loss" );
         mappedTeam.setTeam( matchScore.getTeamId() );
-        mappedTeam.setSpread( 0 );
+        mappedTeam.setSpread( matchScore.getSpread() );
         return mappedTeam;
     }
 }
