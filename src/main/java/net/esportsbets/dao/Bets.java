@@ -1,5 +1,6 @@
 package net.esportsbets.dao;
 
+import io.micrometer.core.annotation.Counted;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +21,7 @@ public class Bets {
     }
 
     public enum Conclusion {
-        IN_PROGRESS, WIN, LOSS;
+        IN_PROGRESS, WIN, LOSS, PUSH;
     }
 
     @Id
@@ -40,6 +41,9 @@ public class Bets {
 
     @Column(name = "user_bet_id")
     private Integer userBetId;
+
+    @Column(name = "spread")
+    private Double spread;
 
     @Column(name = "concluded")
     private Conclusion concluded;

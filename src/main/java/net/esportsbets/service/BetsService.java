@@ -7,7 +7,9 @@ import net.esportsbets.repository.UserCreditsRepository;
 import net.esportsbets.repository.UserRepository;
 import net.esportsbets.repository.UserTransactionHistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
@@ -34,7 +36,7 @@ public class BetsService {
         return userCredits.getCredits();
     }
 
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.NESTED)
     public Double placeBets(UserBetRequestModel betRequest, String userEmail) {
 
         User user = userRepository.findByEmail( userEmail );
@@ -56,31 +58,51 @@ public class BetsService {
             bet.setBetType( Bets.BetType.valueOf(singleBet.getBetType()) );
             bet.setTeamId( singleBet.getTeamId() );
             bet.setConcluded( Bets.Conclusion.IN_PROGRESS );
+            bet.setSpread( singleBet.getSpread() );
             userBet.getUserBets().add(bet);
         } );
         UserBets savedUserBet = userBetsRepository.save(userBet);
-        userCredits.setCredits(userCredits.getCredits()-betRequest.getAmount());
-        userCreditsRepository.save(userCredits);
-        UserTransactionHistory log = new UserTransactionHistory();
-        log.setAmount( betRequest.getAmount() );
-        log.setTransactionType(UserTransactionHistory.TransactionType.DEBIT);
-        log.setUserCreditId( userCredits.getUserId() );
-        log.setBetId( savedUserBet.getId() );
-        userTransactionHistoryRepository.save(log);
-        return 0.0;
+
+        userCredits = debitUser( user, betRequest.getAmount(), savedUserBet.getId(), "placing bet" );
+        return userCredits.getCredits();
     }
 
-    @Transactional(rollbackFor = Exception.class)
-    public void createUserCredit( User user ) {
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.NESTED)
+    public void createUserCredit( User user, Double amount, Long betId, String comment ) {
         UserCredits userCredits = new UserCredits();
-        userCredits.setCredits( 2000.0 );
+        userCredits.setCredits( 0.0 );
         userCredits.setUserId( user.getId() );
-        UserCredits savedUserCredits = userCreditsRepository.save(userCredits);
+        userCreditsRepository.save(userCredits);
+        creditUser( user, amount, betId, comment );
+    }
+
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.NESTED)
+    @Async
+    public UserCredits creditUser( User user, Double amount, Long betId, String comment ) {
+        UserCredits userCredits = userCreditsRepository.findById( user.getId() ).get();
+        userCredits.setCredits( userCredits.getCredits() + amount );
         UserTransactionHistory log = new UserTransactionHistory();
-        log.setAmount( 2000.0 );
-        log.setTransactionType(UserTransactionHistory.TransactionType.CREDIT);
-        log.setUserCreditId( savedUserCredits.getUserId() );
-        log.setComment( "new user bonus credit" );
+        log.setAmount( amount );
+        log.setBetId( betId );
+        log.setTransactionType( UserTransactionHistory.TransactionType.DEBIT );
+        log.setUserCreditId( userCredits.getUserId() );
+        log.setComment( comment );
         userTransactionHistoryRepository.save(log);
+        return userCreditsRepository.save( userCredits );
+    }
+
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.NESTED)
+    @Async
+    public UserCredits debitUser( User user, Double amount, Long betId, String comment ) {
+        UserCredits userCredits = userCreditsRepository.findById( user.getId() ).get();
+        userCredits.setCredits( userCredits.getCredits() - amount );
+        UserTransactionHistory log = new UserTransactionHistory();
+        log.setAmount( amount );
+        log.setBetId( betId );
+        log.setTransactionType( UserTransactionHistory.TransactionType.CREDIT );
+        log.setUserCreditId( userCredits.getUserId() );
+        log.setComment( comment );
+        userTransactionHistoryRepository.save(log);
+        return userCreditsRepository.save( userCredits );
     }
 }

@@ -45,7 +45,7 @@ public class AppController {
 		String encodedPassword = passwordEncoder.encode(user.getPassword());
 		user.setPassword(encodedPassword);
 		
-		betsService.createUserCredit(userRepo.save(user));
+		betsService.createUserCredit(userRepo.save(user), 2000.0, null, "new user bonus credit");
 		
 		return "register_success";
 	}

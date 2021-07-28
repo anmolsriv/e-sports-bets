@@ -3,16 +3,18 @@ package net.esportsbets.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class BetsRequestModel {
+public class UserBetRequestModel {
 
-    private String matchId;
     private String betType;
-    private Integer teamId;
-    private Double spread;
+    private Double amount;
+    private Double odds;
+    private List<BetsRequestModel> bets;
 }

@@ -31,7 +31,7 @@ public class UserTransactionHistory {
     private Double amount;
 
     @Column(name = "bet_id")
-    private Integer betId;
+    private Long betId;
 
     @Column(name = "comment")
     private String comment;

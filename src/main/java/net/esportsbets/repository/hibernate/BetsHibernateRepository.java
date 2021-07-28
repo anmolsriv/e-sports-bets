@@ -33,7 +33,7 @@ public class BetsHibernateRepository {
         Fetch<Matches, MatchScores> scoresJoin = matchJoin.fetch("matchScores", JoinType.INNER);
         Fetch<MatchScores, MatchGamertagLink> gamertagLinkJoin= scoresJoin.fetch("matchGamertagLink", JoinType.INNER);
 
-        Predicate timeClause = criteriaBuilder.lessThan(userBets.join("userBets").join("match").get("time"), timeStart);
+        Predicate timeClause = criteriaBuilder.lessThan( ((Join<Bets, Matches>)matchJoin).get("time"), timeStart);
 
         CriteriaBuilder.In<Integer> betStatusClause = criteriaBuilder.in( userBets.get("concluded") );
         betStatusClause.value(0);
