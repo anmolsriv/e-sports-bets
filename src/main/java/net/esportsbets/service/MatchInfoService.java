@@ -56,24 +56,25 @@ public class MatchInfoService {
                                             } )
                                             .collect(Collectors.toList());
 
-        Map<String, String> matchInfo = updatableMatches.stream()
-                .collect(Collectors.toMap(Matches::getMatchId, Matches::getGameVariant));
-        Map<String, Pair<Double, Double>> resPredictions  = mlService.getPredictions(matchInfo);
+        if ( updatableMatches.size() > 0 ) {
+            Map<String, String> matchInfo = updatableMatches.stream()
+                                                .collect(Collectors.toMap(Matches::getMatchId, Matches::getGameVariant));
+            Map<String, Pair<Double, Double>> resPredictions  = mlService.getPredictions(matchInfo);
 
-        updatableMatches.forEach( match -> {
-                    Pair<Double, Double> predictions = resPredictions.get(match.getMatchId());
-                    MatchScores[] matchScores = match.getMatchScores().toArray(new MatchScores[0]);
-                    MatchScores team0 = matchScores[0].getTeamId().equals(0) ? matchScores[0] : matchScores[1];
-                    MatchScores team1 = matchScores[0].getTeamId().equals(0) ? matchScores[1] : matchScores[0];
-                    team0.setSpread( -getNearestHalfPoint( predictions.getFirst() ) );
-                    team1.setSpread( getNearestHalfPoint( predictions.getFirst() ) );
-                } );
+            updatableMatches.forEach( match -> {
+                Pair<Double, Double> predictions = resPredictions.get(match.getMatchId());
+                MatchScores[] matchScores = match.getMatchScores().toArray(new MatchScores[0]);
+                MatchScores team0 = matchScores[0].getTeamId().equals(0) ? matchScores[0] : matchScores[1];
+                MatchScores team1 = matchScores[0].getTeamId().equals(0) ? matchScores[1] : matchScores[0];
+                team0.setSpread( -getNearestHalfPoint( predictions.getFirst() ) );
+                team1.setSpread( getNearestHalfPoint( predictions.getFirst() ) );
+            } );
+            matchHibernateRepository.updateMatchesSpread( updatableMatches );
+        }
 
         List<MatchResults> matchResults = matches.stream()
                                                     .map( match -> MatchResults.mapMatchResults(match) )
                                                     .collect(Collectors.toList());
-
-        matchHibernateRepository.updateMatchesSpread( updatableMatches );
 
         return matchResults;
     }
