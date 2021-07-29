@@ -109,9 +109,9 @@ public class MatchOddsAndSpreadCalculationService {
      * */
     public Map<String, Pair<Double, Double>> getPredictions( Map<String, String> matchInfo ) {
         Set<String> matchIds = matchInfo.keySet();
-        Map<String, MlModel> matchDatas = loadModelDataByMatchId( matchIds );
+        Map<String, MlModel> matchesData = loadModelDataByMatchId( matchIds );
         Map<String, Pair<Double, Double>> resPredictions  = new HashMap<>();
-        matchDatas.forEach( (matchId, matchData) -> {
+        matchesData.forEach( (matchId, matchData) -> {
             Map<String, Float> spreadInputs = getModelInputs( matchInfo.get(matchId), matchData );
             Map<String, Float> moneylineInputs = getModelInputs( "", matchData );
             Model spreadModel = getSpreadModelForGameVariant( matchInfo.get(matchId) );
