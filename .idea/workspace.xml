@@ -8,18 +8,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_javassist_javassist_3_24_0_GA.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ESportsBets.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ESportsBets.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/esportsbets/config/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/config/WebSecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/esportsbets/controller/MatchesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/controller/MatchesController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/esportsbets/model/BettableMatches.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/model/BettableMatches.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/esportsbets/model/MatchResults.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/model/MatchResults.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/esportsbets/service/MatchInfoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/esportsbets/service/MatchInfoService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/homepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/homepage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/net/esportsbets/config/WebSecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/net/esportsbets/config/WebSecurityConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/net/esportsbets/controller/AppController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/net/esportsbets/controller/AppController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/register_success.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/register_success.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/signup_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/signup_form.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -173,7 +161,14 @@
       <option name="project" value="LOCAL" />
       <updated>1627263704194</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Hell">
+      <created>1627408620273</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1627408620273</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
