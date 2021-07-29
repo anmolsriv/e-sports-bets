@@ -73,12 +73,10 @@ public class BetsStatusUpdateSchedular {
             if ( subBet.getConcluded() == Bets.Conclusion.IN_PROGRESS &&
                     subBet.getMatch().getTime().before( currTime ) ) {
                 subBet.setConcluded( Bets.Conclusion.LOSS );
-                if ( subBet.getMatch().getWinner().equals( subBet.getTeamId() ) ) {
-                    if ( subBet.getBetType() == Bets.BetType.SPREAD ) {
-                        processSpreadBet( user, bet, subBet );
-                    } else {
-                        subBet.setConcluded( Bets.Conclusion.WIN );
-                    }
+                if ( subBet.getBetType() == Bets.BetType.SPREAD ) {
+                    processSpreadBet( user, bet, subBet );
+                } else if ( subBet.getMatch().getWinner().equals( subBet.getTeamId() ) ) {
+                    subBet.setConcluded( Bets.Conclusion.WIN );
                 }
             }
         }
