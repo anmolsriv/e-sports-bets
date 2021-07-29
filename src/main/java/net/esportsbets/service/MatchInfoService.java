@@ -60,14 +60,7 @@ public class MatchInfoService {
                 .collect(Collectors.toMap(Matches::getMatchId, Matches::getGameVariant));
         Map<String, Pair<Double, Double>> resPredictions  = mlService.getPredictions(matchInfo);
 
-        updatableMatches.stream()
-                .filter( match -> {
-                    MatchScores[] matchScores = match.getMatchScores().toArray(new MatchScores[0]);
-                    if ( matchScores[0].getSpread() == null || matchScores[1].getSpread() == null )
-                        return true;
-                    return false;
-                    } )
-                .forEach( match -> {
+        updatableMatches.forEach( match -> {
                     Pair<Double, Double> predictions = resPredictions.get(match.getMatchId());
                     MatchScores[] matchScores = match.getMatchScores().toArray(new MatchScores[0]);
                     MatchScores team0 = matchScores[0].getTeamId().equals(0) ? matchScores[0] : matchScores[1];
