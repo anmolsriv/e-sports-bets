@@ -58,7 +58,7 @@ public class AppController {
 		return "users";
 	}
 
-	@GetMapping("/test")
+	@GetMapping("/home")
 	public String testHome() { return "home_page"; }
 
 	@GetMapping("/players")
