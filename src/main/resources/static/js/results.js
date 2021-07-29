@@ -38,7 +38,7 @@ function populatePaginationNavBar( currPage, pages ) {
     divText+='<nav aria-label="Results Page navigation" style="padding: 10px">'
     divText+='    <ul class="pagination justify-content-center">'
     divText+='        <li class="page-item"><a class="page-link"' + ( ((currPage)==0)?'':('onclick="refreshResults(' + (currPage-1) + ')"') ) + '>Previous</a></li>'
-    divText+='        <li class="page-item"><a class="page-link" ' + ( (currPage==0)?'':('onclick="refreshResults(0)"') ) + '> 1 </a></li>'
+    divText+='        <li class="page-item ' + ( (currPage==0)?'active':'' ) + '"><a class="page-link" ' + ( (currPage==0)?'':('onclick="refreshResults(0)"') ) + '> 1 </a></li>'
     divText+='          <div style="overflow-x: scroll; max-width: 80%; display: inline-flex;">'
     for (let i = 1; i < pages; i++) {
         if (i==currPage) {
@@ -48,7 +48,7 @@ function populatePaginationNavBar( currPage, pages ) {
         }
     }
     divText+='        </div>'
-    divText+='        <li class="page-item"><a class="page-link" ' + ( (currPage==pages)?'':('onclick="refreshResults(' + pages + ')"') ) + '>' + (pages+1) + '</a></li>'
+    divText+='        <li class="page-item ' + ( (currPage==pages)?'active':'' ) + '"><a class="page-link" ' + ( (currPage==pages)?'':('onclick="refreshResults(' + pages + ')"') ) + '>' + (pages+1) + ' </a></li>'
     divText+='        <li class="page-item"><a class="page-link" ' + ( ((currPage)==pages)?'':('onclick="refreshResults(' + (currPage+1) + ')"') ) + '>Next</a></li>'
     divText+='    </ul>'
     divText+='</nav>'
@@ -71,7 +71,7 @@ function populateRow(match) {
     divText+='                <div class="row">\n'
     divText+='                    <div class="col-sm-6">\n'
     divText+='                        Time:\n'
-    divText+='                        <span id="time">' + match.time +" , "+match.matchId + '</span>\n'
+    divText+='                        <span id="time">' + match.time +'</span>\n'
     divText+='                    </div>\n'
     divText+='                    <div class="col-sm-6">\n'
     divText+='                        Game Variant:\n'
