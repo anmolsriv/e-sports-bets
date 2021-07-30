@@ -4,10 +4,14 @@ import net.esportsbets.dao.MlModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface MlModelRepository extends JpaRepository<MlModel, Long> {
 
-    List<MlModel> findByMatchIdIn(String[] matchIds);
+    MlModel findByMatchId(String matchId);
+
+    List<MlModel> findByMatchIdIn(Set<String> matchIds);
 }

@@ -12,6 +12,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.annotation.Rollback;
 
+import java.sql.Date;
+
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @Rollback(false)
@@ -36,6 +38,7 @@ public class UserRepositoryTests {
 		user.setPassword("email123");
 		user.setFirstName("name");
 		user.setLastName("name1");
+		user.setDob(new Date( new java.util.Date().getTime()));
 		
 		User savedUser = repo.save(user);
 		
