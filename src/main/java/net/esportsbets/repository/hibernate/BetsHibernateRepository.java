@@ -1,16 +1,12 @@
 package net.esportsbets.repository.hibernate;
 
 import net.esportsbets.dao.*;
-import org.hibernate.Criteria;
-import org.hibernate.query.criteria.internal.predicate.InPredicate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.sql.Timestamp;

@@ -1,6 +1,5 @@
 package net.esportsbets.controller;
 
-import net.esportsbets.dao.BettableMatchesdao;
 import net.esportsbets.model.BettableMatches;
 import net.esportsbets.model.MatchResults;
 import net.esportsbets.service.MatchInfoService;

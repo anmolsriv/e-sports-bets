@@ -13,7 +13,6 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Set;
 
 @Repository
 public class MatchHibernateRepository {

@@ -22,7 +22,7 @@ public class PlayerInfoService {
                 playersRepo.findByGamertagStartingWithIgnoreCase(
                         searchString, topTen));
         if (players == null) {
-            return new ArrayList<CustomPlayerStats>();
+            return new ArrayList<>();
         }
         return players;
     }
@@ -31,7 +31,7 @@ public class PlayerInfoService {
         List<CustomPlayerStats> players = playersRepo.findByGamertagIn(
                 gamertags);
         if (players == null) {
-            return new ArrayList<CustomPlayerStats>();
+            return new ArrayList<>();
         }
         return players;
     }

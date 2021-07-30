@@ -3,16 +3,12 @@ package net.esportsbets.service;
 import net.esportsbets.dao.BettableMatchesdao;
 import net.esportsbets.dao.MatchScores;
 import net.esportsbets.dao.Matches;
-import net.esportsbets.dao.MlModel;
 import net.esportsbets.model.BettableMatches;
 import net.esportsbets.model.MatchResults;
 import net.esportsbets.repository.hibernate.MatchHibernateRepository;
 import net.esportsbets.repository.BettableRepository;
 import net.esportsbets.repository.MatchRepository;
-import net.esportsbets.repository.MlModelRepository;
-import org.pmml4s.model.Model;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.util.Pair;
@@ -21,7 +17,6 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
