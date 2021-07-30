@@ -131,11 +131,7 @@ public class BetsService {
         List<Matches> matches = userBets.parallelStream()
                                         .map(UserBets::getUserBets)
                                         .flatMap(Collection::stream)
-                                        .collect(Collectors.toList())
-                                        .parallelStream()
                                         .map(Bets::getMatch)
-                                        .collect(Collectors.toSet())
-                                        .parallelStream()
                                         .collect(Collectors.toList());
 
         matchInfoService.updateSpreadForMatches( matches );
