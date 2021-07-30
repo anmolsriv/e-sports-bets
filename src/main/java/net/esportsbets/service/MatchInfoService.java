@@ -100,9 +100,7 @@ public class MatchInfoService {
         List<Matches> updatableMatches = matches.stream()
                 .filter( match -> {
                     MatchScores[] matchScores = match.getMatchScores().toArray(new MatchScores[0]);
-                    if ( matchScores[0].getSpread() == null || matchScores[1].getSpread() == null )
-                        return true;
-                    return false;
+                    return matchScores[0].getSpread() == null || matchScores[1].getSpread() == null;
                 } )
                 .collect(Collectors.toList());
 
