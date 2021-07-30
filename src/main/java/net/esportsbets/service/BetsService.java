@@ -2,10 +2,12 @@ package net.esportsbets.service;
 
 import net.esportsbets.dao.*;
 import net.esportsbets.model.UserBetRequestModel;
+import net.esportsbets.model.UserBetsResponse;
 import net.esportsbets.repository.UserBetsRepository;
 import net.esportsbets.repository.UserCreditsRepository;
 import net.esportsbets.repository.UserRepository;
 import net.esportsbets.repository.UserTransactionHistoryRepository;
+import net.esportsbets.repository.hibernate.BetsHibernateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -13,7 +15,11 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class BetsService {
@@ -29,6 +35,12 @@ public class BetsService {
 
     @Autowired
     private UserTransactionHistoryRepository userTransactionHistoryRepository;
+
+    @Autowired
+    private BetsHibernateRepository betsHibernateRepository;
+
+    @Autowired
+    private MatchInfoService matchInfoService;
 
     public Double getUserCredits(String userEmail) {
         User user = userRepository.findByEmail( userEmail );
@@ -72,6 +84,7 @@ public class BetsService {
         return userCredits.getCredits();
     }
 
+
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.NESTED)
     public void createUserCredit( User user, Double amount, Long betId, String comment ) {
         UserCredits userCredits = new UserCredits();
@@ -109,5 +122,26 @@ public class BetsService {
         log.setComment( comment );
         userTransactionHistoryRepository.save(log);
         return userCreditsRepository.save( userCredits );
+    }
+
+    public List<UserBetsResponse> getBetsForUser(String userEmail ) {
+        User user = userRepository.findByEmail( userEmail );
+        Set<UserBets> userBets = betsHibernateRepository.getBetsForUser( user.getId() );
+
+        List<Matches> matches = userBets.parallelStream()
+                                        .map(UserBets::getUserBets)
+                                        .flatMap(Collection::stream)
+                                        .collect(Collectors.toList())
+                                        .parallelStream()
+                                        .map(Bets::getMatch)
+                                        .collect(Collectors.toSet())
+                                        .parallelStream()
+                                        .collect(Collectors.toList());
+
+        matchInfoService.updateSpreadForMatches( matches );
+
+        return userBets.stream()
+                        .map(UserBetsResponse::getInstance)
+                        .collect(Collectors.toList());
     }
 }

@@ -47,36 +47,11 @@ public class MatchInfoService {
                 new Timestamp( new java.util.Date().getTime() ),
                 page);
 
-        List<Matches> updatableMatches = matches.stream()
-                                            .filter( match -> {
-                                                MatchScores[] matchScores = match.getMatchScores().toArray(new MatchScores[0]);
-                                                if ( matchScores[0].getSpread() == null || matchScores[1].getSpread() == null )
-                                                    return true;
-                                                return false;
-                                            } )
-                                            .collect(Collectors.toList());
+        updateSpreadForMatches( matches );
 
-        if ( updatableMatches.size() > 0 ) {
-            Map<String, String> matchInfo = updatableMatches.stream()
-                                                .collect(Collectors.toMap(Matches::getMatchId, Matches::getGameVariant));
-            Map<String, Pair<Double, Double>> resPredictions  = mlService.getPredictions(matchInfo);
-
-            updatableMatches.forEach( match -> {
-                Pair<Double, Double> predictions = resPredictions.get(match.getMatchId());
-                MatchScores[] matchScores = match.getMatchScores().toArray(new MatchScores[0]);
-                MatchScores team0 = matchScores[0].getTeamId().equals(0) ? matchScores[0] : matchScores[1];
-                MatchScores team1 = matchScores[0].getTeamId().equals(0) ? matchScores[1] : matchScores[0];
-                team0.setSpread( -getNearestHalfPoint( predictions.getFirst() ) );
-                team1.setSpread( getNearestHalfPoint( predictions.getFirst() ) );
-            } );
-            matchHibernateRepository.updateMatchesSpread( updatableMatches );
-        }
-
-        List<MatchResults> matchResults = matches.stream()
-                                                    .map( match -> MatchResults.mapMatchResults(match) )
-                                                    .collect(Collectors.toList());
-
-        return matchResults;
+        return matches.stream()
+                        .map(MatchResults::mapMatchResults)
+                        .collect(Collectors.toList());
     }
 
     public int getPastMatchesPageCount() {
@@ -92,7 +67,7 @@ public class MatchInfoService {
         List<BettableMatchesdao> bettableMatches = (List<BettableMatchesdao>) bettableRepository.findAll();
 
         List<BettableMatches> matchResults = bettableMatches.stream()
-                .map( match -> BettableMatches.mapMatchResults(match))
+                .map(BettableMatches::mapMatchResults)
                 .collect(Collectors.toList());
 
         Map<String, String> matchInfo = matchResults.stream()
@@ -109,7 +84,7 @@ public class MatchInfoService {
 
     }
 
-    private final double getNearestHalfPoint(Double point) {
+    private double getNearestHalfPoint(Double point) {
         double pointRoundToHalf = Math.round(point * 2) / 2.0;
         if (pointRoundToHalf % 1 == 0) {
             if (pointRoundToHalf >= point) {
@@ -119,6 +94,33 @@ public class MatchInfoService {
             }
         }
         return pointRoundToHalf;
+    }
+
+    public void updateSpreadForMatches( List<Matches> matches ) {
+        List<Matches> updatableMatches = matches.stream()
+                .filter( match -> {
+                    MatchScores[] matchScores = match.getMatchScores().toArray(new MatchScores[0]);
+                    if ( matchScores[0].getSpread() == null || matchScores[1].getSpread() == null )
+                        return true;
+                    return false;
+                } )
+                .collect(Collectors.toList());
+
+        if ( updatableMatches.size() > 0 ) {
+            Map<String, String> matchInfo = updatableMatches.stream()
+                    .collect(Collectors.toMap(Matches::getMatchId, Matches::getGameVariant));
+            Map<String, Pair<Double, Double>> resPredictions  = mlService.getPredictions(matchInfo);
+
+            updatableMatches.forEach( match -> {
+                Pair<Double, Double> predictions = resPredictions.get(match.getMatchId());
+                MatchScores[] matchScores = match.getMatchScores().toArray(new MatchScores[0]);
+                MatchScores team0 = matchScores[0].getTeamId().equals(0) ? matchScores[0] : matchScores[1];
+                MatchScores team1 = matchScores[0].getTeamId().equals(0) ? matchScores[1] : matchScores[0];
+                team0.setSpread( -getNearestHalfPoint( predictions.getFirst() ) );
+                team1.setSpread( getNearestHalfPoint( predictions.getFirst() ) );
+            } );
+            matchHibernateRepository.updateMatchesSpread( updatableMatches );
+        }
     }
 
 }
