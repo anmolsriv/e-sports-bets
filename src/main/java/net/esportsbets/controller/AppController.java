@@ -67,4 +67,7 @@ public class AppController {
 	@GetMapping("/results")
 	public String viewResultsPage() { return "results"; }
 
+    @GetMapping("/history")
+    public String viewHistoryPage() { return "history"; }
+
 }
