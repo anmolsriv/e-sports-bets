@@ -52,23 +52,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/logout").permitAll()
 			.antMatchers("/register").permitAll()
 			.antMatchers("/register_success").permitAll()
+			.antMatchers("/process_register").permitAll()
 			.antMatchers("/images/***").permitAll()
 			.antMatchers("/webjars/bootstrap/css/***").permitAll()
 			.antMatchers("/webjars/jquery/***").permitAll()
 			.antMatchers("/webjars/bootstrap/css/***").permitAll()
 			.antMatchers("/js/***").permitAll()
-//			.anyRequest().authenticated()
-			.anyRequest().permitAll()
+			.anyRequest().authenticated()
 			.and()
 			.formLogin()
 				.loginPage("/login")
 				.usernameParameter("email")
-				.defaultSuccessUrl("/players", true)
+				.defaultSuccessUrl("/home", true)
 				.permitAll()
 			.and()
 			.logout()
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
-				.logoutSuccessUrl("/").permitAll();
+				.logoutSuccessUrl("/").permitAll()
+			.and()
+				.csrf().disable();
 	}
 	
 	

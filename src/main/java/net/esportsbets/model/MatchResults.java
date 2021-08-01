@@ -20,17 +20,17 @@ class TeamDetails {
     private String result;
     private Integer score;
     private Integer team;
-    private Integer spread;
+    private Double spread;
 
     public static TeamDetails mapMatchResults(Matches match, int index) {
 
         MatchScores matchScore = (MatchScores) match.getMatchScores().toArray()[index];
         TeamDetails mappedTeam = new TeamDetails();
-        mappedTeam.setTeamName( ((MatchGamertagLink)(matchScore.getMatchGamertagLink().toArray()[0])).getTeamName() );
+        mappedTeam.setTeamName( matchScore.getTeamName() );
         mappedTeam.setScore( matchScore.getScore() );
         mappedTeam.setResult( match.getWinner().equals(matchScore.getTeamId())?"Win":"Loss" );
         mappedTeam.setTeam( matchScore.getTeamId() );
-        mappedTeam.setSpread( 0 );
+        mappedTeam.setSpread( matchScore.getSpread() );
         return mappedTeam;
     }
 }

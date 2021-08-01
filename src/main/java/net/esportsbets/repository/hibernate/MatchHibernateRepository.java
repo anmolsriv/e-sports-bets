@@ -1,11 +1,10 @@
-package net.esportsbets.repository;
+package net.esportsbets.repository.hibernate;
 
-import net.esportsbets.dao.MatchGamertagLink;
-import net.esportsbets.dao.MatchScores;
-import net.esportsbets.dao.Matches;
+import net.esportsbets.dao.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +13,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class MatchHibernateRepository {
@@ -39,4 +39,22 @@ public class MatchHibernateRepository {
         return query.getResultList();
 
     }
+
+    @Transactional()
+    @Async
+    public void updateMatchesSpread( @NonNull List<Matches> matches ) {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        matches.forEach(match -> {
+            match.getMatchScores().forEach(matchScore -> {
+                CriteriaUpdate<MatchScores> criteriaMatchScore = builder.createCriteriaUpdate(MatchScores.class);
+                Root<MatchScores> scoresRoot = criteriaMatchScore.from(MatchScores.class);
+                criteriaMatchScore.set(scoresRoot.get("spread"), matchScore.getSpread());
+                criteriaMatchScore.where(builder.equal(scoresRoot.get("matchId"), matchScore.getMatchId()),
+                        builder.equal(scoresRoot.get("teamId"), matchScore.getTeamId()));
+                entityManager.createQuery(criteriaMatchScore).executeUpdate();
+            });
+        } );
+        entityManager.flush();
+    }
+
 }
