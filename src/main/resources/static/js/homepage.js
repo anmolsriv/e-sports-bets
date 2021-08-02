@@ -86,6 +86,23 @@ function populateRow(match) {
     divText+='                      </a>\n'
     divText+='                    </div>\n'
     divText+='                </div>\n'
+    // divText+='                <div class="row">\n'
+    // divText+='                    <div class="col-sm-3">\n'
+    // divText+='                        \n'
+    // divText+='                    </div>\n'
+    // divText+='                    <div class="col-sm-3">\n'
+    // // divText+='                        Moneyline Odds\n'
+    // divText+='                      <button class="moneyline btn btn-success" id="' + match.matchId + '" type="button"   onclick="selectBet(this.id, this.className)"   >Moneyline Bet</button>\n'
+    // // divText+='                      <button type="button" id="sidebarCollapse" class="btn btn-info">pop</button>\n'
+    // divText+='                    </div>\n'
+    // divText+='                    <div class="col-sm-6" style="text-align: center">\n'
+    // // divText+='                        Spread\n'
+    // divText+='                      <button class="moneyline btn btn-success"  id="' + match.matchId + '" type="button"   onclick="selectBet(this.id, this.className)"   >Spread Bet</button>\n'
+    // divText+='                    </div>\n'
+    // divText+='                    <div class="col-sm-3">\n'
+    // divText+='                        Spread Odds\n'
+    divText+='                    </div>\n'
+    divText+='                </div>\n'
     divText+='            </div>\n'
     divText+='        </div>\n'
     divText+='    </div>\n'
@@ -94,6 +111,73 @@ function populateRow(match) {
     return divText;
 }
 
-function selectBet(id_match, type, team, odds, spread) {
-    window.alert("Looking to make a "+type+" bet on "+id_match+" team " + team + " with odds " + odds + " and spread " + spread)
+// Bryan did these :)
+
+function toggleBetUponMenu() {
+    var menu = document.getElementById("betsMenu");
+    var results = document.getElementById("resultsDisplay");
+
+    menu.classList.toggle("d-none");
+    menu.classList.toggle("col-md-3");
+    results.classList.toggle("col-md-9");
+    results.classList.toggle("col-md-12");
+};
+
+document.getElementById("betsMenuToggle").onclick = function () {
+    toggleBetUponMenu();
+    // console.log("Aint it");
+};
+
+function populateBetMenu(matches) {
+    var rows = "";
+    var idx = 0;
+    matches.forEach(match=>{
+        rows += populateBet(match, idx);
+        $("#betUponDisplay").html(rows);
+        idx += 1;
+    });
+    $("#betUponDisplay").html(rows);
+//for each bet, sticky card of details?
+}
+
+function heheText(match) {
+    return "Looking to make a " + match.type + " bet on " + match.id_match + " team " + match.team + " with odds " + match.odds + " and spread " + match.spread
+}
+
+function populateBet(match,betUponIndex) {
+
+    divText=''
+    divText+='<div class="card-body" style="background-color:#ECFAEE!important">\n'
+    divText+='' + heheText(match) +  '\n'
+    divText+='<br>'
+    divText+='  <div class="text-center">\n'
+    divText+='      <button type="button" class="btn btn-danger" onclick="unselectBet(' + betUponIndex + ')">Remove Bet</button>\n'
+    divText+='      <p> ' + match.id_match + ' </p>\n'
+    divText+='  </div>\n'
+    divText+='</div>\n'
+    divText+='<br>'
+
+    return divText;
+}
+
+const betUponMatches = []
+
+function unselectBet(betUponIndex) {
+    // console.log("removed at index", betUponIndex, ":",heheText(betUponMatches[betUponIndex]))
+    betUponMatches.splice(betUponIndex,1)
+    populateBetMenu(betUponMatches);
+    if (betUponMatches.length == 0){
+        toggleBetUponMenu();
+    }
+}
+
+function selectBet(id_match, type, team='test', odds=1.1, spread=2.0) {
+    if (betUponMatches.length == 0) {
+        toggleBetUponMenu();
+    }
+    let bUM = {id_match:id_match, type:type, team:team, odds:odds, spread:spread };
+    let betUponIndex = betUponMatches.push(bUM);
+    // betUponMatches.push("Looking to make a "+type+" bet on "+id_match+" team " + team + " with odds " + odds + " and spread " + spread);
+    populateBetMenu(betUponMatches, betUponIndex);
+    // window.alert("Looking to make a "+type+" bet on "+id_match+" team " + team + " with odds " + odds + " and spread " + spread)
 }
