@@ -1,7 +1,6 @@
 $("resultsDisplay1").ready(function () {
   $.get( "/matches/bettable").done(
     function ( data ) {
-      console.log("data: ", data)
       populateResults(data)
     }
   )
@@ -52,7 +51,9 @@ function populateRow(match) {
   divText+='                </div>\n'
   divText+='                <div class="row alert-info">\n'
   divText+='                    <div class="col-sm-3">\n'
+  divText+='                      <a href="#" onclick="selectTeam(\'' + match.matchId + '\', 0)">\n'
   divText+='                        ' + match.team_0 + '\n'
+  divText+='                      </a>\n'
   divText+='                    </div>\n'
   divText+='                    <div class="col-sm-3">\n'
   divText+='                      <a href="#" onclick="selectBet(\'' + match.matchId + '\', \'MONEYLINE\', 0, ' + match.team0WinOdds + ')">\n'
@@ -70,7 +71,9 @@ function populateRow(match) {
   divText+='                </div>\n'
   divText+='                <div class="row alert-danger">\n'
   divText+='                    <div class="col-sm-3">\n'
+  divText+='                      <a href="#" onclick="selectTeam(\'' + match.matchId + '\', 1)">\n'
   divText+='                        ' + match.team_1 + '\n'
+  divText+='                      </a>\n'
   divText+='                    </div>\n'
   divText+='                    <div class="col-sm-3">\n'
   divText+='                      <a href="#" onclick="selectBet(\'' + match.matchId + '\', \'MONEYLINE\', 1, ' + match.team1WinOdds + ')">\n'
@@ -96,4 +99,18 @@ function populateRow(match) {
 
 function selectBet(id_match, type, team, odds, spread) {
   window.alert("Looking to make a "+type+" bet on "+id_match+" team " + team + " with odds " + odds + " and spread " + spread)
+}
+
+function selectTeam(matchId, teamId) {
+  $.ajax({
+    type: 'get',
+    url: '/matches/team_stats',
+    data: { matchId: matchId, teamId: teamId },
+    traditional: true
+  }).done(
+    function ( data ) {
+      setCookie("gamertags", JSON.stringify(data), 0.003);
+      window.location.href = window.location.origin + "/players";
+    }
+  )
 }

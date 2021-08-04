@@ -24,7 +24,7 @@ public class PlayersController {
     @RequestMapping(value = "/player_stats", method = RequestMethod.GET)
     @ResponseBody
     public List<CustomPlayerStats> getPlayersInGamertagList(
-            @RequestParam("gamertags") String[] gamertags) {
+            @RequestParam("gamertags") List<String> gamertags) {
         return playerService.loadPlayersByGamertags(gamertags);
     }
 

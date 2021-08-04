@@ -27,7 +27,7 @@ public class PlayerInfoService {
         return players;
     }
 
-    public List<CustomPlayerStats> loadPlayersByGamertags(String[] gamertags) {
+    public List<CustomPlayerStats> loadPlayersByGamertags(List<String> gamertags) {
         List<CustomPlayerStats> players = playersRepo.findByGamertagIn(
                 gamertags);
         if (players == null) {
@@ -37,7 +37,6 @@ public class PlayerInfoService {
     }
 
     public List<CustomPlayerStats> loadTopPlayers(String attribute, Integer limit) {
-        List<CustomPlayerStats> players = new ArrayList<>();
         Pageable playerLimit = PageRequest.of(0, limit);
         switch (attribute) {
             case "kills":

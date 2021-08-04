@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface PlayersRepository extends JpaRepository<Players, Long> {
 
-    List<CustomPlayerStats> findByGamertagIn(String[] gamertags);
+    List<CustomPlayerStats> findByGamertagIn(List<String> gamertags);
 
     List<CustomPlayerStats> findByGamertagStartingWithIgnoreCase(
             String searchString, Pageable pageable);
