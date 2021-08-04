@@ -28,4 +28,12 @@ public class PlayersController {
         return playerService.loadPlayersByGamertags(gamertags);
     }
 
+    @RequestMapping(value = "/top_players", method = RequestMethod.GET)
+    @ResponseBody
+    public List<CustomPlayerStats> getTopPlayers(
+            @RequestParam("attribute") String attribute,
+            @RequestParam("limit") Integer limit) {
+        return playerService.loadTopPlayers(attribute, limit);
+    }
+
 }

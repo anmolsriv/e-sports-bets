@@ -35,4 +35,31 @@ public class PlayerInfoService {
         }
         return players;
     }
+
+    public List<CustomPlayerStats> loadTopPlayers(String attribute, Integer limit) {
+        List<CustomPlayerStats> players = new ArrayList<>();
+        Pageable playerLimit = PageRequest.of(0, limit);
+        switch (attribute) {
+            case "kills":
+                return playersRepo.findTopPlayersByKills(playerLimit);
+            case "deaths":
+                return playersRepo.findTopPlayersByDeaths(playerLimit);
+            case "assists":
+                return playersRepo.findTopPlayersByAssists(playerLimit);
+            case "weaponDamage":
+                return playersRepo.findTopPlayersByWeaponDamage(playerLimit);
+            case "kda":
+                return  playersRepo.findTopPlayersByKDA(playerLimit);
+            case "winPercentage":
+                return playersRepo.findTopPlayersByWinPercentage(playerLimit);
+            case "accuracy":
+                return playersRepo.findTopPlayersByAccuracy(playerLimit);
+            case "perfectKill":
+                return playersRepo.findTopPlayersByPerfectKill(playerLimit);
+            case "powerWeaponKills":
+                return playersRepo.findTopPlayersByPowerWeaponKills(playerLimit);
+            default:
+                return new ArrayList<>();
+        }
+    }
 }
