@@ -10,8 +10,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -29,7 +27,7 @@ public class BetsStatusUpdateSchedular {
     @Autowired
     private UserBetsRepository userBetsRepository;
 
-    @Scheduled(cron = "0 0/2 * 1/1 * ?")
+    @Scheduled(cron = "0 1/30 * 1/1 * ?")
     public void computeBetResults() {
 
         Timestamp currTime = new Timestamp( new java.util.Date().getTime() );
@@ -73,12 +71,10 @@ public class BetsStatusUpdateSchedular {
             if ( subBet.getConcluded() == Bets.Conclusion.IN_PROGRESS &&
                     subBet.getMatch().getTime().before( currTime ) ) {
                 subBet.setConcluded( Bets.Conclusion.LOSS );
-                if ( subBet.getMatch().getWinner().equals( subBet.getTeamId() ) ) {
-                    if ( subBet.getBetType() == Bets.BetType.SPREAD ) {
-                        processSpreadBet( user, bet, subBet );
-                    } else {
-                        subBet.setConcluded( Bets.Conclusion.WIN );
-                    }
+                if ( subBet.getBetType() == Bets.BetType.SPREAD ) {
+                    processSpreadBet( user, bet, subBet );
+                } else if ( subBet.getMatch().getWinner().equals( subBet.getTeamId() ) ) {
+                    subBet.setConcluded( Bets.Conclusion.WIN );
                 }
             }
         }

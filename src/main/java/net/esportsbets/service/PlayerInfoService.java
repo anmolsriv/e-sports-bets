@@ -22,7 +22,7 @@ public class PlayerInfoService {
                 playersRepo.findByGamertagStartingWithIgnoreCase(
                         searchString, topTen));
         if (players == null) {
-            return new ArrayList<CustomPlayerStats>();
+            return new ArrayList<>();
         }
         return players;
     }
@@ -31,8 +31,35 @@ public class PlayerInfoService {
         List<CustomPlayerStats> players = playersRepo.findByGamertagIn(
                 gamertags);
         if (players == null) {
-            return new ArrayList<CustomPlayerStats>();
+            return new ArrayList<>();
         }
         return players;
+    }
+
+    public List<CustomPlayerStats> loadTopPlayers(String attribute, Integer limit) {
+        List<CustomPlayerStats> players = new ArrayList<>();
+        Pageable playerLimit = PageRequest.of(0, limit);
+        switch (attribute) {
+            case "kills":
+                return playersRepo.findTopPlayersByKills(playerLimit);
+            case "deaths":
+                return playersRepo.findTopPlayersByDeaths(playerLimit);
+            case "assists":
+                return playersRepo.findTopPlayersByAssists(playerLimit);
+            case "weaponDamage":
+                return playersRepo.findTopPlayersByWeaponDamage(playerLimit);
+            case "kda":
+                return  playersRepo.findTopPlayersByKDA(playerLimit);
+            case "winPercentage":
+                return playersRepo.findTopPlayersByWinPercentage(playerLimit);
+            case "accuracy":
+                return playersRepo.findTopPlayersByAccuracy(playerLimit);
+            case "perfectKill":
+                return playersRepo.findTopPlayersByPerfectKill(playerLimit);
+            case "powerWeaponKills":
+                return playersRepo.findTopPlayersByPowerWeaponKills(playerLimit);
+            default:
+                return new ArrayList<>();
+        }
     }
 }

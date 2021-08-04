@@ -20,10 +20,16 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="col-md-4 navbar-nav mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link" aria-current="page" href="/home">Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/results">Results</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="/history">History</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Players</a>
         </li>
       </ul>
       <a class="col-md-4 navbar-brand" href="#" style="text-align:center">
@@ -56,6 +62,27 @@
     </div>
   </div>
 </nav>
+<div style="text-align: center; padding-top: 20px; padding-bottom: 20px;">
+  <Form>
+  <span>Top</span>
+  <input type="number" id="playerLimit" name="playerLimit required"
+         min="1" max="100" style="width: 75px; text-align: center; height: 30px;">
+  <span>Players By</span>
+  <select id="selectAttribute" class="bootstrap-select" style="height: 30px; width: 175px;">
+    <option value="kills" selected="selected">Kills</option>
+    <option value="deaths">Deaths</option>
+    <option value="assists">Assists</option>
+    <option value="weaponDamage">Weapon Damage</option>
+    <option value="kda">KDA</option>
+    <option value="winPercentage">Win %</option>
+    <option value="accuracy">Weapon Accuracy</option>
+    <option value="perfectKill">Perfect Kills</option>
+    <option value="powerWeaponKills">Power Weapon Kills</option>
+  </select>
+  <input type="button" class="btn btn-primary btn-sm" value="Submit"
+         onclick="getTopPlayers()" style="vertical-align: top">
+  </Form>
+</div>
 <div class="col-md-8" style="margin:auto; padding-top:20px">
   <table id="playerTable" class="table"></table>
 </div>
