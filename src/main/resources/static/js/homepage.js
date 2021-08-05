@@ -1,7 +1,6 @@
 $("resultsDisplay1").ready(function () {
   $.get( "/matches/bettable").done(
     function ( data ) {
-      console.log("data: ", data)
       populateResults(data)
     }
   )
@@ -50,9 +49,11 @@ function populateRow(match) {
   divText+='                        Spread Odds\n'
   divText+='                    </div>\n'
   divText+='                </div>\n'
-  divText+='                <div class="row alert-info">\n'
+  divText+='                <div class="row alert-danger">\n'
   divText+='                    <div class="col-sm-3">\n'
+  divText+='                      <a href="#" onclick="selectTeam(\'' + match.matchId + '\', 0)">\n'
   divText+='                        ' + match.team_0 + '\n'
+  divText+='                      </a>\n'
   divText+='                    </div>\n'
   divText+='                    <div class="col-sm-3">\n'
   divText+='                      <a href="#" onclick="selectBet(\'' + match.matchId + '\', \'MONEYLINE\', 0, ' + match.team0WinOdds + ')">\n'
@@ -68,9 +69,11 @@ function populateRow(match) {
   divText+='                      </a>\n'
   divText+='                    </div>\n'
   divText+='                </div>\n'
-  divText+='                <div class="row alert-danger">\n'
+  divText+='                <div class="row alert-info">\n'
   divText+='                    <div class="col-sm-3">\n'
+  divText+='                      <a href="#" onclick="selectTeam(\'' + match.matchId + '\', 1)">\n'
   divText+='                        ' + match.team_1 + '\n'
+  divText+='                      </a>\n'
   divText+='                    </div>\n'
   divText+='                    <div class="col-sm-3">\n'
   divText+='                      <a href="#" onclick="selectBet(\'' + match.matchId + '\', \'MONEYLINE\', 1, ' + match.team1WinOdds + ')">\n'

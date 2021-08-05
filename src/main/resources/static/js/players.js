@@ -23,7 +23,7 @@ $('input[type=search]').on('search', function () {
 function findPlayer(searchString) {
   if (searchString.length > 0) {
     searchString = searchString.toLowerCase();
-    $.get( "/player_search/" + searchString).done(
+    $.get( "/players/player_search/" + searchString).done(
       function ( data ) {
         createPlayerListGroup(data.map(player => player["gamertag"]))
       }
@@ -39,7 +39,7 @@ function getTopPlayers() {
   if (document.getElementById('playerLimit').checkValidity() == true) {
     $.ajax({
       type: 'get',
-      url: '/top_players',
+      url: '/players/top_players',
       data: { attribute: attribute, limit: limit },
       traditional: true
     }).done(
@@ -51,6 +51,20 @@ function getTopPlayers() {
   } else {
     document.getElementById('playerLimit').reportValidity()
   }
+}
+
+function selectTeam(matchId, teamId) {
+  $.ajax({
+    type: 'get',
+    url: '/players/team_stats',
+    data: { matchId: matchId, teamId: teamId },
+    traditional: true
+  }).done(
+    function ( data ) {
+      setCookie("gamertags", JSON.stringify(data), 0.003);
+      window.location.href = window.location.origin + "/players";
+    }
+  )
 }
 
 function createPlayerListGroup(gamertags) {
@@ -69,7 +83,7 @@ function createPlayerListGroup(gamertags) {
 function getPlayerStatistics(gamertags) {
   $.ajax({
     type: 'get',
-    url: '/player_stats',
+    url: '/players/player_stats',
     data: { gamertags: gamertags },
     traditional: true
   }).done(
@@ -92,7 +106,7 @@ function handleClickGamertag(gamertag) {
   if (gamertags.indexOf(gamertag) === -1) {
     let url = window.location.href.split("/")
     if (url[url.length - 1] != "players") {
-      setCookie("gamertag", gamertag, 0.003)
+      setCookie("gamertags", gamertag, 0.003)
       window.location.href = window.location.origin + "/players";
     }
     getPlayerStatistics([gamertag]);
@@ -161,7 +175,7 @@ function addPlayersToTable(players) {
   }
 }
 
-function setCookie(name,value,days) {
+function setCookie(name, value, days) {
   var expires = "";
   if (days) {
     var date = new Date();
@@ -184,12 +198,22 @@ function eraseCookie(name) {
   document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
 
+function parseCookie(cookie) {
+  if (cookie[0] == "[") {
+    cookie = cookie.slice(1, -1);
+    cookie = cookie.replace(/["]+/g, '')
+    return cookie.split(',');
+  }
+  return [cookie]
+}
+
 window.onload = function() {
   buildPlayersTable();
-  let gamertag = getCookie("gamertag");
-  if (gamertag != null) {
-    getPlayerStatistics([gamertag]);
-    eraseCookie("gamertag");
+  let cookie = getCookie("gamertags");
+  let gamertags = parseCookie(cookie)
+  if (gamertags.length != 0) {
+    getPlayerStatistics(gamertags);
+    eraseCookie("gamertags");
   }
 
 };
