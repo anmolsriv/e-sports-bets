@@ -23,7 +23,7 @@ $('input[type=search]').on('search', function () {
 function findPlayer(searchString) {
   if (searchString.length > 0) {
     searchString = searchString.toLowerCase();
-    $.get( "/player_search/" + searchString).done(
+    $.get( "/players/player_search/" + searchString).done(
       function ( data ) {
         createPlayerListGroup(data.map(player => player["gamertag"]))
       }
@@ -39,7 +39,7 @@ function getTopPlayers() {
   if (document.getElementById('playerLimit').checkValidity() == true) {
     $.ajax({
       type: 'get',
-      url: '/top_players',
+      url: '/players/top_players',
       data: { attribute: attribute, limit: limit },
       traditional: true
     }).done(
@@ -51,6 +51,20 @@ function getTopPlayers() {
   } else {
     document.getElementById('playerLimit').reportValidity()
   }
+}
+
+function selectTeam(matchId, teamId) {
+  $.ajax({
+    type: 'get',
+    url: '/players/team_stats',
+    data: { matchId: matchId, teamId: teamId },
+    traditional: true
+  }).done(
+    function ( data ) {
+      setCookie("gamertags", JSON.stringify(data), 0.003);
+      window.location.href = window.location.origin + "/players";
+    }
+  )
 }
 
 function createPlayerListGroup(gamertags) {
@@ -69,7 +83,7 @@ function createPlayerListGroup(gamertags) {
 function getPlayerStatistics(gamertags) {
   $.ajax({
     type: 'get',
-    url: '/player_stats',
+    url: '/players/player_stats',
     data: { gamertags: gamertags },
     traditional: true
   }).done(

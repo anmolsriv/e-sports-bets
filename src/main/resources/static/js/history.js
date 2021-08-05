@@ -1,7 +1,6 @@
 $("#historyDisplay").ready(function () {
   $.get( "/bets/user_bets").done(
     function ( data ) {
-      console.log("data: ", data)
       populateHistory(data)
     }
   )
@@ -166,7 +165,9 @@ function populateHistoryRow(bet) {
     divText+='                        Spread\n'
     divText+='                    </div>\n'
     divText+='                </div>\n'
-    divText+='                <div class="row alert-info">\n'
+    divText+='                <div class="row '
+    divText+=                               (bet.userBets[i].match.team1.team==0)?'alert-danger':'alert-info'
+    divText+=                                '">\n'
     divText+='                    <div class="col-sm-4">\n'
     divText+='                        ' + bet.userBets[i].match.team1.teamName + '\n'
     divText+='                    </div>\n'
@@ -177,7 +178,9 @@ function populateHistoryRow(bet) {
     divText+='                        ' + bet.userBets[i].match.team1.spread + '\n'
     divText+='                    </div>\n'
     divText+='                </div>\n'
-    divText+='                <div class="row alert-danger">\n'
+    divText+='                <div class="row '
+    divText+=                               (bet.userBets[i].match.team2.team==0)?'alert-danger':'alert-info'
+    divText+=                                '">\n'
     divText+='                    <div class="col-sm-4">\n'
     divText+='                        ' + bet.userBets[i].match.team2.teamName + '\n'
     divText+='                    </div>\n'
@@ -198,7 +201,3 @@ function populateHistoryRow(bet) {
 
   return divText;
 }
-
-// function selectBet(id_match, type, team, odds, spread) {
-//   window.alert("Looking to make a "+type+" bet on "+id_match+" team " + team + " with odds " + odds + " and spread " + spread)
-// }

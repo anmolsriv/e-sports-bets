@@ -56,6 +56,7 @@ function populatePaginationNavBar( currPage, pages ) {
 }
 
 function populateRow(match) {
+    console.log("match: ", match)
     let divText = ''
     divText+='<div class="col-lg-9"\n'
     divText+='     style="margin:auto; padding:20px; border-style:solid; border-width:2px; border-color:lightgray; border-radius:10px;">\n'
