@@ -23,7 +23,7 @@ function populateHistoryRow(bet) {
     winnings = bet.odds * bet.amount;
   } else if (bet.concluded == "LOSS") {
     winnings = -bet.amount;
-  } else if (bets.concluded == "PUSH") {
+  } else if (bet.concluded == "PUSH") {
     winnings = bet.amount;
   } else {
     winnings = ""
@@ -44,6 +44,7 @@ function populateHistoryRow(bet) {
       teamName = bet.userBets[i].match.team2.teamName;
     }
 
+    let betString = i + 1;
     if (i == 0) {
       divText+='        <div class="row">\n'
       divText+='            <div class="col-lg-6">\n'
@@ -74,7 +75,7 @@ function populateHistoryRow(bet) {
       divText+='            <div class="col-lg-6">\n'
       divText+='                <div class="row">\n'
       divText+='                    <div class="col-sm-12">\n'
-      divText+='                        <span style="text-decoration: underline; font-weight: bold;">Bet ' + i+1 + '</span>\n'
+      divText+='                        <span style="text-decoration: underline; font-weight: bold;">Bet ' + betString + '</span>\n'
       divText+='                    </div>\n'
       divText+='                </div>\n'
       divText+='                <div class="row">\n'
@@ -104,7 +105,7 @@ function populateHistoryRow(bet) {
       divText+='            <div class="col-lg-6">\n'
       divText+='                <div class="row">\n'
       divText+='                    <div class="col-sm-12">\n'
-      divText+='                        <span style="text-decoration: underline; font-weight: bold;">Bet ' + i+1 + '</span>\n'
+      divText+='                        <span style="text-decoration: underline; font-weight: bold;">Bet ' + betString + '</span>\n'
       divText+='                    </div>\n'
       divText+='                </div>\n'
       divText+='                <div class="row">\n'

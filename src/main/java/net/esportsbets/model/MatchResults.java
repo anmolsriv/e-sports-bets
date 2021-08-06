@@ -37,7 +37,7 @@ class TeamDetails {
 @ToString
 public class MatchResults {
 
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="MM-dd-yyyy HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd-yyyy HH:mm:ss", timezone = "GMT-5")
     private Timestamp time;
     private String map;
     private TeamDetails team1;
