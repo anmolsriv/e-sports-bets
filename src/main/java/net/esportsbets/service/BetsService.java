@@ -15,10 +15,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -137,6 +134,8 @@ public class BetsService {
         matchInfoService.updateSpreadForMatches( matches );
 
         return userBets.stream()
+                .sorted(Comparator.comparing( (UserBets userBet) -> userBet.getConcluded()== UserBets.Conclusion.IN_PROGRESS)
+                                    .thenComparing(userBet -> userBet.getTime()).reversed())
                         .map(UserBetsResponse::getInstance)
                         .collect(Collectors.toList());
     }
