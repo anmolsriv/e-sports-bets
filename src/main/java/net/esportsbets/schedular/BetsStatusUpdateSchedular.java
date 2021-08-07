@@ -5,6 +5,7 @@ import net.esportsbets.repository.UserBetsRepository;
 import net.esportsbets.repository.UserRepository;
 import net.esportsbets.repository.hibernate.BetsHibernateRepository;
 import net.esportsbets.service.BetsService;
+import net.esportsbets.service.helper.BetsServiceHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,9 @@ public class BetsStatusUpdateSchedular {
 
     @Autowired
     private UserBetsRepository userBetsRepository;
+
+    @Autowired
+    private BetsServiceHelper betsServiceHelper;
 
     @Scheduled(cron = "0 1/30 * 1/1 * ?")
     public void computeBetResults() {
@@ -62,7 +66,7 @@ public class BetsStatusUpdateSchedular {
         }
 
         if ( subBet.getConcluded() == Bets.Conclusion.LOSS ) {
-            betsService.debitUser( user, 10.0, bet.getId(), "spread bet loss" );
+            betsServiceHelper.debitUser( user, 10.0, bet.getId(), "spread bet loss" );
         }
     }
 
@@ -96,10 +100,10 @@ public class BetsStatusUpdateSchedular {
             if ( allBetsWin ) {
                 if ( pushConclusion ) {
                     bet.setConcluded( UserBets.Conclusion.PUSH );
-                    betsService.creditUser( user, bet.getAmount(), bet.getId(), "bet push refund" );
+                    betsServiceHelper.creditUser( user, bet.getAmount(), bet.getId(), "bet push refund" );
                 } else {
                     bet.setConcluded( UserBets.Conclusion.WIN );
-                    betsService.creditUser( user, bet.getAmount()*bet.getOdds(), bet.getId(), "bet win" );
+                    betsServiceHelper.creditUser( user, bet.getAmount()*bet.getOdds(), bet.getId(), "bet win" );
                 }
             } else {
                 bet.setConcluded( UserBets.Conclusion.LOSS );

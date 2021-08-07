@@ -22,6 +22,22 @@ public class MatchHibernateRepository {
     private EntityManager entityManager;
 
     @Transactional(readOnly = true)
+    public Matches customMatchSearchQuery(@NonNull String matchId, @NonNull Timestamp timeStart) {
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Matches> matchesSearchQuery = criteriaBuilder.createQuery(Matches.class);
+        Root<Matches> matches = matchesSearchQuery.from(Matches.class);
+        Fetch<Matches, MatchScores> scoresJoin= matches.fetch("matchScores", JoinType.INNER);
+        Fetch<MatchScores, MatchGamertagLink> gamertagLinkJoin= scoresJoin.fetch("matchGamertagLink", JoinType.INNER);
+        Predicate timeClause = criteriaBuilder.greaterThan(matches.get("time"), timeStart);
+        Predicate matchIdClause = criteriaBuilder.equal(matches.get("matchId"), matchId);
+        matchesSearchQuery.where(matchIdClause, timeClause);
+        TypedQuery<Matches> query = entityManager.createQuery(matchesSearchQuery);
+        return query.getSingleResult();
+
+    }
+
+    @Transactional(readOnly = true)
     public List<Matches> customMatchSearchQuery(@NonNull Timestamp timeStart, @NonNull Timestamp timeEnd, Pageable page) {
 
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
