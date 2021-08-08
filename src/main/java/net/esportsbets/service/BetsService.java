@@ -9,6 +9,7 @@ import net.esportsbets.repository.hibernate.BetsHibernateRepository;
 import net.esportsbets.repository.hibernate.MatchHibernateRepository;
 import net.esportsbets.service.helper.BetsServiceHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -54,22 +55,22 @@ public class BetsService {
     }
 
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.NESTED)
-    public Double placeBets(UserBetRequestModel betRequest, String userEmail) {
+    public ResponseEntity<String> placeBets(UserBetRequestModel betRequest, String userEmail) {
 
         if ( betRequest.getBets()==null || betRequest.getBets().isEmpty() ) {
-            return -1.0;
+            return ResponseEntity.badRequest().body( "No bets selected" );
         }
 
         if ( betRequest.getBetType().equals("SINGLE") &&
                 betRequest.getBets().size() > 1 ) {
-            return -1.0;
+            return ResponseEntity.badRequest().body( "Multiple bets selected for Singular bet" );
         }
 
         User user = userRepository.findByEmail( userEmail );
 
         UserCredits userCredits = userCreditsRepository.findById(user.getId()).get();
         if( userCredits.getCredits() < betRequest.getAmount() ) {
-            return -1.0;
+            return ResponseEntity.badRequest().body( "Insufficient balance for this bet" );
         }
 
         List<String> matchIds = betRequest.getBets()
@@ -81,7 +82,7 @@ public class BetsService {
                                                                 new Timestamp( new java.util.Date().getTime() ) );
 
         if ( matches.size() != betRequest.getBets().size() ) {
-            return -1.0;
+            return ResponseEntity.badRequest().body( "Some of the matches in the bet have already started" );
         }
 
         List<UserBetsDetailsLock> userBetsDetailsList = userBetsDetailsLockRepository.findByUserIdEqualsAndMatchIdIn(
@@ -119,7 +120,7 @@ public class BetsService {
         UserBets savedUserBet = userBetsRepository.save( userBet );
 
         userCredits = betsServiceHelper.debitUser( user, betRequest.getAmount(), savedUserBet.getId(), "placing bet" );
-        return userCredits.getCredits();
+        return ResponseEntity.accepted().body( userCredits.getCredits().toString() );
     }
 
 
