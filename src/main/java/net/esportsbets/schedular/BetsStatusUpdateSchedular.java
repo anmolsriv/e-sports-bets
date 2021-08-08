@@ -20,13 +20,7 @@ public class BetsStatusUpdateSchedular {
     private BetsHibernateRepository betsHibernateRepository;
 
     @Autowired
-    private BetsService betsService;
-
-    @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private UserBetsRepository userBetsRepository;
 
     @Autowired
     private BetsServiceHelper betsServiceHelper;
@@ -45,26 +39,27 @@ public class BetsStatusUpdateSchedular {
 
     private void processSpreadBet( User user, UserBets bet, Bets subBet ) {
         MatchScores[] matchScores = subBet.getMatch().getMatchScores().toArray(new MatchScores[0]);
+
+        // calculating score(team user bet on) - score(other team)
         int scoresDiff = matchScores[0].getScore() - matchScores[1].getScore();
         if ( matchScores[1].getTeamId().equals( subBet.getTeamId() ) ) {
             scoresDiff *= -1;
         }
+
         if ( subBet.getSpread() < 0 ) {
+            // -ve spread
             if ( -1*subBet.getSpread() == scoresDiff ) {
                 subBet.setConcluded( Bets.Conclusion.PUSH );
-            } else if (-1*subBet.getSpread() > scoresDiff) {
+            } else if ( -1*subBet.getSpread() > scoresDiff ) {
                 subBet.setConcluded( Bets.Conclusion.WIN );
             }
         } else if ( subBet.getSpread() > 0 ) {
+            // +ve spread
             if ( subBet.getSpread() == scoresDiff ) {
                 subBet.setConcluded( Bets.Conclusion.PUSH );
-            } else if ( subBet.getSpread() > Math.abs(scoresDiff) ) {
+            } else if ( scoresDiff > -1*subBet.getSpread() ) {
                 subBet.setConcluded( Bets.Conclusion.WIN );
             }
-        }
-
-        if ( subBet.getConcluded() == Bets.Conclusion.LOSS ) {
-            betsServiceHelper.debitUser( user, 10.0, bet.getId(), "spread bet loss" );
         }
     }
 
