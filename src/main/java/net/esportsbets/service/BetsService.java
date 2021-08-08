@@ -71,24 +71,18 @@ public class BetsService {
         if( userCredits.getCredits() < betRequest.getAmount() ) {
             return -1.0;
         }
-        List<BetsRequestModel> invalidBets = betRequest.getBets().stream().filter(singleBet -> {
-                                                                            Matches match = matchRepository.customMatchSearchQuery(
-                                                                                    singleBet.getMatchId(),
-                                                                                    new Timestamp( new java.util.Date().getTime() ) );
-                                                                            if (match==null) {
-                                                                               return true;
-                                                                            }
-                                                                            return false;
-                                                                        } )
-                                                                        .collect(Collectors.toList());
-        if (!invalidBets.isEmpty()) {
-            return -1.0;
-        }
 
         List<String> matchIds = betRequest.getBets()
-                                            .stream()
-                                            .map(BetsRequestModel::getMatchId)
-                                            .collect(Collectors.toList());
+                .stream()
+                .map(BetsRequestModel::getMatchId)
+                .collect(Collectors.toList());
+
+        List<Matches> matches  = matchRepository.getMatchesAfterTime( matchIds,
+                                                                new Timestamp( new java.util.Date().getTime() ) );
+
+        if ( matches.size() != betRequest.getBets().size() ) {
+            return -1.0;
+        }
 
         List<UserBetsDetailsLock> userBetsDetailsList = userBetsDetailsLockRepository.findByUserIdEqualsAndMatchIdIn(
                                                                                                 user.getId(), matchIds );
