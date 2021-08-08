@@ -1,8 +1,7 @@
 package net.esportsbets.controller;
 
-import net.esportsbets.dao.Matches;
+import net.esportsbets.model.BettableMatches;
 import net.esportsbets.model.MatchResults;
-import net.esportsbets.repository.MatchRepository;
 import net.esportsbets.service.MatchInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,4 +27,11 @@ public class MatchesController {
     public Integer getResultMatchesCount() {
         return matchInfoService.getPastMatchesPageCount();
     }
+
+    @RequestMapping(value = "/bettable", method = RequestMethod.GET)
+    @ResponseBody
+    public List<BettableMatches> getBettableMatches() {
+        return matchInfoService.getBettableMatches();
+    }
+
 }

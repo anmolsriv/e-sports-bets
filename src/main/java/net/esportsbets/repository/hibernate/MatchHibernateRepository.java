@@ -4,6 +4,7 @@ import net.esportsbets.dao.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,7 +13,6 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Set;
 
 @Repository
 public class MatchHibernateRepository {
@@ -40,7 +40,8 @@ public class MatchHibernateRepository {
     }
 
     @Transactional()
-    public void updateMatchesSpread( @NonNull Set<Matches> matches ) {
+    @Async
+    public void updateMatchesSpread( @NonNull List<Matches> matches ) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         matches.forEach(match -> {
             match.getMatchScores().forEach(matchScore -> {

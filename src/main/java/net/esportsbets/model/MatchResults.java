@@ -4,12 +4,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import net.esportsbets.dao.MatchGamertagLink;
 import net.esportsbets.dao.MatchScores;
 import net.esportsbets.dao.Matches;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
 
 @Getter
@@ -40,7 +37,7 @@ class TeamDetails {
 @ToString
 public class MatchResults {
 
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="MM-dd-yyyy HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd-yyyy HH:mm:ss", timezone = "GMT-5")
     private Timestamp time;
     private String map;
     private TeamDetails team1;
@@ -55,6 +52,7 @@ public class MatchResults {
         mappedMatch.setGameVariant( match.getGameVariant() );
         mappedMatch.setTeam1( TeamDetails.mapMatchResults(match, 0)  );
         mappedMatch.setTeam2( TeamDetails.mapMatchResults(match, 1)  );
+
         return mappedMatch;
     }
 }

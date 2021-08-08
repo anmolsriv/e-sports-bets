@@ -2,9 +2,7 @@ package net.esportsbets.config;
 
 import javax.sql.DataSource;
 
-import net.esportsbets.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -63,7 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.formLogin()
 				.loginPage("/login")
 				.usernameParameter("email")
-				.defaultSuccessUrl("/players", true)
+				.defaultSuccessUrl("/home", true)
 				.permitAll()
 			.and()
 			.logout()

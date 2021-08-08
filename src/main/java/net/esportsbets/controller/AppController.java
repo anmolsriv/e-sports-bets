@@ -58,10 +58,16 @@ public class AppController {
 		return "users";
 	}
 
+	@GetMapping("/home")
+	public String testHome() { return "home_page"; }
+
 	@GetMapping("/players")
     public String viewPlayerStatisticsPage() { return "players"; }
 
 	@GetMapping("/results")
 	public String viewResultsPage() { return "results"; }
+
+    @GetMapping("/history")
+    public String viewHistoryPage() { return "history"; }
 
 }
