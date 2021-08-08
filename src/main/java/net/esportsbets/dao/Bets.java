@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class Bets {
 
     public enum BetType {
-        SPREAD, WIN;
+        SPREAD, MONEYLINE;
     }
 
     public enum Conclusion {

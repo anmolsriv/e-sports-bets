@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -30,8 +31,8 @@ public class MatchesController {
 
     @RequestMapping(value = "/bettable", method = RequestMethod.GET)
     @ResponseBody
-    public List<BettableMatches> getBettableMatches() {
-        return matchInfoService.getBettableMatches();
+    public List<BettableMatches> getBettableMatches( HttpServletRequest httpRequest ) {
+        return matchInfoService.getBettableMatches( httpRequest.getUserPrincipal().getName() );
     }
 
 }

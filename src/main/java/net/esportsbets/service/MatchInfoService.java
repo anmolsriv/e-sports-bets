@@ -1,22 +1,25 @@
 package net.esportsbets.service;
 
-import net.esportsbets.dao.BettableMatchesdao;
-import net.esportsbets.dao.MatchScores;
-import net.esportsbets.dao.Matches;
+import net.esportsbets.dao.*;
 import net.esportsbets.model.BettableMatches;
 import net.esportsbets.model.MatchResults;
+import net.esportsbets.repository.*;
 import net.esportsbets.repository.hibernate.MatchHibernateRepository;
-import net.esportsbets.repository.BettableRepository;
-import net.esportsbets.repository.MatchRepository;
+import net.esportsbets.service.helper.MatchInfoServiceHelper;
+import org.pmml4s.model.Model;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.util.Pair;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,6 +36,11 @@ public class MatchInfoService {
 
     @Autowired
     private BettableRepository bettableRepository;
+
+    @Autowired
+    private MatchInfoServiceHelper matchInfoServiceHelper;
+
+
 
     public List<MatchResults> getPastMatches( int pageNumber ) {
 
@@ -57,7 +65,7 @@ public class MatchInfoService {
         return matches / 10;
     }
 
-    public List<BettableMatches> getBettableMatches() {
+    public List<BettableMatches> getBettableMatches( String userEmail ) {
 
         List<BettableMatchesdao> bettableMatches = (List<BettableMatchesdao>) bettableRepository.findAll();
 
@@ -72,23 +80,14 @@ public class MatchInfoService {
             Pair<Double, Double> predictions = resPredictions.get(match.getMatchId());
             match.setTeam0WinOdds( new DecimalFormat("0.0#").format( 1 / predictions.getSecond() ) );
             match.setTeam1WinOdds( new DecimalFormat("0.0#").format( 1 / ( 1 - predictions.getSecond() ) ) );
-            match.setTeam0Spread( new DecimalFormat("0.0#").format( -getNearestHalfPoint( predictions.getFirst() ) ) );
-            match.setTeam1Spread( new DecimalFormat("0.0#").format( getNearestHalfPoint( predictions.getFirst() ) ) );
+            match.setTeam0Spread( new DecimalFormat("0.0#").format( -matchInfoServiceHelper.getNearestHalfPoint( predictions.getFirst() ) ) );
+            match.setTeam1Spread( new DecimalFormat("0.0#").format( matchInfoServiceHelper.getNearestHalfPoint( predictions.getFirst() ) ) );
         }
+
+        matchInfoServiceHelper.saveUserMatchesOdds( userEmail, matchResults );
+
         return matchResults;
 
-    }
-
-    private double getNearestHalfPoint(Double point) {
-        double pointRoundToHalf = Math.round(point * 2) / 2.0;
-        if (pointRoundToHalf % 1 == 0) {
-            if (pointRoundToHalf >= point) {
-                return pointRoundToHalf - 0.5;
-            } else {
-                return pointRoundToHalf + 0.5;
-            }
-        }
-        return pointRoundToHalf;
     }
 
     public void updateSpreadForMatches( List<Matches> matches ) {
@@ -109,8 +108,8 @@ public class MatchInfoService {
                 MatchScores[] matchScores = match.getMatchScores().toArray(new MatchScores[0]);
                 MatchScores team0 = matchScores[0].getTeamId().equals(0) ? matchScores[0] : matchScores[1];
                 MatchScores team1 = matchScores[0].getTeamId().equals(0) ? matchScores[1] : matchScores[0];
-                team0.setSpread( -getNearestHalfPoint( predictions.getFirst() ) );
-                team1.setSpread( getNearestHalfPoint( predictions.getFirst() ) );
+                team0.setSpread( -matchInfoServiceHelper.getNearestHalfPoint( predictions.getFirst() ) );
+                team1.setSpread( matchInfoServiceHelper.getNearestHalfPoint( predictions.getFirst() ) );
             } );
             matchHibernateRepository.updateMatchesSpread( updatableMatches );
         }

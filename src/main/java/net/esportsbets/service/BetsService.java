@@ -1,23 +1,22 @@
 package net.esportsbets.service;
 
 import net.esportsbets.dao.*;
+import net.esportsbets.model.BetsRequestModel;
 import net.esportsbets.model.UserBetRequestModel;
 import net.esportsbets.model.UserBetsResponse;
-import net.esportsbets.repository.UserBetsRepository;
-import net.esportsbets.repository.UserCreditsRepository;
-import net.esportsbets.repository.UserRepository;
-import net.esportsbets.repository.UserTransactionHistoryRepository;
+import net.esportsbets.repository.*;
 import net.esportsbets.repository.hibernate.BetsHibernateRepository;
+import net.esportsbets.repository.hibernate.MatchHibernateRepository;
+import net.esportsbets.service.helper.BetsServiceHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.sql.Timestamp;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,13 +32,21 @@ public class BetsService {
     private UserCreditsRepository userCreditsRepository;
 
     @Autowired
-    private UserTransactionHistoryRepository userTransactionHistoryRepository;
-
-    @Autowired
     private BetsHibernateRepository betsHibernateRepository;
 
     @Autowired
     private MatchInfoService matchInfoService;
+
+    @Autowired
+    private MatchHibernateRepository matchRepository;
+
+    @Autowired
+    private UserBetsDetailsLockRepository userBetsDetailsLockRepository;
+
+    @Autowired
+    private BetsServiceHelper betsServiceHelper;
+
+
 
     public Double getUserCredits(String userEmail) {
         User user = userRepository.findByEmail( userEmail );
@@ -48,39 +55,72 @@ public class BetsService {
     }
 
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.NESTED)
-    public Double placeBets(UserBetRequestModel betRequest, String userEmail) {
+    public ResponseEntity<String> placeBets(UserBetRequestModel betRequest, String userEmail) {
+
+        if ( betRequest.getBets()==null || betRequest.getBets().isEmpty() ) {
+            return ResponseEntity.badRequest().body( "No bets selected" );
+        }
 
         if ( betRequest.getBetType().equals("SINGLE") &&
                 betRequest.getBets().size() > 1 ) {
-            return -1.0;
+            return ResponseEntity.badRequest().body( "Multiple bets selected for Singular bet" );
         }
 
         User user = userRepository.findByEmail( userEmail );
 
         UserCredits userCredits = userCreditsRepository.findById(user.getId()).get();
-        if( userCredits.getCredits()<betRequest.getAmount() ) {
-            return -1.0;
+        if( userCredits.getCredits() < betRequest.getAmount() ) {
+            return ResponseEntity.badRequest().body( "Insufficient balance for this bet" );
         }
+
+        List<String> matchIds = betRequest.getBets()
+                .stream()
+                .map(BetsRequestModel::getMatchId)
+                .collect(Collectors.toList());
+
+        List<Matches> matches  = matchRepository.getMatchesAfterTime( matchIds,
+                                                                new Timestamp( new java.util.Date().getTime() ) );
+
+        if ( matches.size() != betRequest.getBets().size() ) {
+            return ResponseEntity.badRequest().body( "Some of the matches in the bet have already started" );
+        }
+
+        List<UserBetsDetailsLock> userBetsDetailsList = userBetsDetailsLockRepository.findByUserIdEqualsAndMatchIdIn(
+                                                                                                user.getId(), matchIds );
+
         UserBets userBet = new UserBets();
         userBet.setBetsComposition( UserBets.UserBetsComposition.valueOf( betRequest.getBetType() ) );
         userBet.setUserId( user.getId() );
         userBet.setAmount( betRequest.getAmount() );
-        userBet.setOdds( betRequest.getOdds() );
         userBet.setConcluded( UserBets.Conclusion.IN_PROGRESS );
         userBet.setUserBets( new HashSet<>());
+        userBet.setOdds( 1.0 );
         betRequest.getBets().forEach( singleBet -> {
             Bets bet = new Bets();
+            UserBetsDetailsLock userBetsDetailsLock =  userBetsDetailsList.stream()
+                                                                        .filter(betDetail ->
+                                                                                betDetail.getMatchId().equals(singleBet.getMatchId()))
+                                                                        .findFirst()
+                                                                        .get();
             bet.setMatchId( singleBet.getMatchId() );
             bet.setBetType( Bets.BetType.valueOf( singleBet.getBetType() ) );
             bet.setTeamId( singleBet.getTeamId() );
             bet.setConcluded( Bets.Conclusion.IN_PROGRESS );
-            bet.setSpread( singleBet.getSpread() );
+            bet.setSpread( singleBet.getTeamId().equals(0) ? userBetsDetailsLock.getTeam0Spread() : userBetsDetailsLock.getTeam1Spread() );
+            if ( bet.getBetType() == Bets.BetType.MONEYLINE ) {
+                userBet.setOdds( userBet.getOdds() *
+                        ( singleBet.getTeamId().equals(0) ? userBetsDetailsLock.getTeam0MoneylineOdds() : userBetsDetailsLock.getTeam1MoneylineOdds() ) );
+            } else if ( bet.getBetType() == Bets.BetType.SPREAD ) {
+                userBet.setOdds( userBet.getOdds() *
+                        ( singleBet.getTeamId().equals(0) ? userBetsDetailsLock.getTeam0SpreadOdds() : userBetsDetailsLock.getTeam1SpreadOdds() ) );
+            }
             userBet.getUserBets().add(bet);
         } );
+
         UserBets savedUserBet = userBetsRepository.save( userBet );
 
-        userCredits = debitUser( user, betRequest.getAmount(), savedUserBet.getId(), "placing bet" );
-        return userCredits.getCredits();
+        userCredits = betsServiceHelper.debitUser( user, betRequest.getAmount(), savedUserBet.getId(), "placing bet" );
+        return ResponseEntity.accepted().body( userCredits.getCredits().toString() );
     }
 
 
@@ -90,37 +130,7 @@ public class BetsService {
         userCredits.setCredits( 0.0 );
         userCredits.setUserId( user.getId() );
         userCreditsRepository.save(userCredits);
-        creditUser( user, amount, betId, comment );
-    }
-
-    @Transactional(rollbackFor = Exception.class, propagation = Propagation.NESTED)
-    @Async
-    public UserCredits creditUser( User user, Double amount, Long betId, String comment ) {
-        UserCredits userCredits = userCreditsRepository.findById( user.getId() ).get();
-        userCredits.setCredits( userCredits.getCredits() + amount );
-        UserTransactionHistory log = new UserTransactionHistory();
-        log.setAmount( amount );
-        log.setBetId( betId );
-        log.setTransactionType( UserTransactionHistory.TransactionType.DEBIT );
-        log.setUserCreditId( userCredits.getUserId() );
-        log.setComment( comment );
-        userTransactionHistoryRepository.save(log);
-        return userCreditsRepository.save( userCredits );
-    }
-
-    @Transactional(rollbackFor = Exception.class, propagation = Propagation.NESTED)
-    @Async
-    public UserCredits debitUser( User user, Double amount, Long betId, String comment ) {
-        UserCredits userCredits = userCreditsRepository.findById( user.getId() ).get();
-        userCredits.setCredits( userCredits.getCredits() - amount );
-        UserTransactionHistory log = new UserTransactionHistory();
-        log.setAmount( amount );
-        log.setBetId( betId );
-        log.setTransactionType( UserTransactionHistory.TransactionType.CREDIT );
-        log.setUserCreditId( userCredits.getUserId() );
-        log.setComment( comment );
-        userTransactionHistoryRepository.save(log);
-        return userCreditsRepository.save( userCredits );
+        betsServiceHelper.creditUser( user, amount, betId, comment );
     }
 
     public List<UserBetsResponse> getBetsForUser(String userEmail ) {
@@ -136,6 +146,8 @@ public class BetsService {
         matchInfoService.updateSpreadForMatches( matches );
 
         return userBets.stream()
+                .sorted(Comparator.comparing( (UserBets userBet) -> userBet.getConcluded()== UserBets.Conclusion.IN_PROGRESS)
+                                    .thenComparing(userBet -> userBet.getTime()).reversed())
                         .map(UserBetsResponse::getInstance)
                         .collect(Collectors.toList());
     }

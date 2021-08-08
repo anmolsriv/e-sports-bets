@@ -73,10 +73,12 @@ public class BetsHibernateRepository {
         Predicate userIdClause = criteriaBuilder.equal( userBets.get("userId"), userId );
 
         Order betStatusOrder = criteriaBuilder.asc( userBets.get("concluded") );
-        Order timeOrder = criteriaBuilder.desc( ((Join<Bets, Matches>)matchJoin).get("time") );
+        Order userBetsOrder = criteriaBuilder.desc( userBets.get("id") );
+        Order betsOrder = criteriaBuilder.desc( ((Join<UserBets, Bets>)betsJoin).get("betId") );
+        Order timeOrder = criteriaBuilder.desc( userBets.get("time") );
 
         betsSearchQuery.where( userIdClause );
-        betsSearchQuery.orderBy( betStatusOrder, timeOrder );
+        betsSearchQuery.orderBy( betStatusOrder, userBetsOrder, betsOrder, timeOrder );
 
         TypedQuery<UserBets> query = entityManager.createQuery( betsSearchQuery );
         return new HashSet<UserBets>( query.getResultList() );
