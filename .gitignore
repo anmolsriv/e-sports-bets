@@ -1,0 +1,12 @@
+#idea files:
+.idea
+ESportsBets.iml
+
+# Ignore Mac system files
+.DS_store
+
+#Ignore target files
+target
+
+#Ignore jpg intellij plugin files:
+.jpb
