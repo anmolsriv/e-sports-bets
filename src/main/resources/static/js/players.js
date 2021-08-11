@@ -5,10 +5,25 @@ let tableColumns = {"Gamertag": "gamertag", "Kills": "kills",
   "KDA": "kda", "Win %": "winPercentage", "Accuracy %": "accuracy",
   "Perfect Kills": "perfectKill", "Power Weapon Kills": "powerWeaponKills"}
 
+$(document).ready(function() {
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      let searchInputValue = $('#searchInput').val();
+      handleClickGamertag(searchInputValue)
+      return false;
+    }
+  });
+});
+
+$('input[type=search]').on('search', function () {
+  findPlayer("");
+});
+
 function findPlayer(searchString) {
   if (searchString.length > 0) {
     searchString = searchString.toLowerCase();
-    $.get( "/player_search/" + searchString).done(
+    $.get( "/players/player_search/" + searchString).done(
       function ( data ) {
         createPlayerListGroup(data.map(player => player["gamertag"]))
       }
@@ -16,6 +31,40 @@ function findPlayer(searchString) {
   } else {
     createPlayerListGroup([])
   }
+}
+
+function getTopPlayers() {
+  let attribute = $('#selectAttribute :selected').val();
+  let limit = $('#playerLimit').val();
+  if (document.getElementById('playerLimit').checkValidity() == true) {
+    $.ajax({
+      type: 'get',
+      url: '/players/top_players',
+      data: { attribute: attribute, limit: limit },
+      traditional: true
+    }).done(
+      function ( data ) {
+        $("#playerTable tbody").empty();
+        addPlayersToTable(data);
+      }
+    )
+  } else {
+    document.getElementById('playerLimit').reportValidity()
+  }
+}
+
+function selectTeam(matchId, teamId) {
+  $.ajax({
+    type: 'get',
+    url: '/players/team_stats',
+    data: { matchId: matchId, teamId: teamId },
+    traditional: true
+  }).done(
+    function ( data ) {
+      setCookie("gamertags", JSON.stringify(data), 0.003);
+      window.location.href = window.location.origin + "/players";
+    }
+  )
 }
 
 function createPlayerListGroup(gamertags) {
@@ -31,11 +80,11 @@ function createPlayerListGroup(gamertags) {
   }
 }
 
-function getPlayerStatistics(gamertag) {
+function getPlayerStatistics(gamertags) {
   $.ajax({
     type: 'get',
-    url: '/player_stats',
-    data: { gamertags: [gamertag] },
+    url: '/players/player_stats',
+    data: { gamertags: gamertags },
     traditional: true
   }).done(
     function ( data ) {
@@ -47,7 +96,7 @@ function getPlayerStatistics(gamertag) {
 function getGamertagsInTable() {
   let gamertags = [];
   $("#playerTable tr").not(':first').each(function(){
-    gamertags.push($(this).find("td:first").text());
+    gamertags.push($(this).find("td:first").text().toLowerCase());
   });
   return gamertags
 }
@@ -55,7 +104,12 @@ function getGamertagsInTable() {
 function handleClickGamertag(gamertag) {
   let gamertags = getGamertagsInTable();
   if (gamertags.indexOf(gamertag) === -1) {
-    getPlayerStatistics(gamertag);
+    let url = window.location.href.split("/")
+    if (url[url.length - 1] != "players") {
+      setCookie("gamertags", gamertag, 0.003)
+      window.location.href = window.location.origin + "/players";
+    }
+    getPlayerStatistics([gamertag]);
   }
   let searchInput = document.getElementById("searchInput");
   searchInput.value = gamertag;
@@ -121,6 +175,45 @@ function addPlayersToTable(players) {
   }
 }
 
+function setCookie(name, value, days) {
+  var expires = "";
+  if (days) {
+    var date = new Date();
+    date.setTime(date.getTime() + (days*24*60*60*1000));
+    expires = "; expires=" + date.toUTCString();
+  }
+  document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+}
+function getCookie(name) {
+  var nameEQ = name + "=";
+  var ca = document.cookie.split(';');
+  for(var i=0;i < ca.length;i++) {
+    var c = ca[i];
+    while (c.charAt(0)==' ') c = c.substring(1,c.length);
+    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+  }
+  return null;
+}
+function eraseCookie(name) {
+  document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+function parseCookie(cookie) {
+  if (cookie[0] == "[") {
+    cookie = cookie.slice(1, -1);
+    cookie = cookie.replace(/["]+/g, '')
+    return cookie.split(',');
+  }
+  return [cookie]
+}
+
 window.onload = function() {
   buildPlayersTable();
+  let cookie = getCookie("gamertags");
+  let gamertags = parseCookie(cookie)
+  if (gamertags.length != 0) {
+    getPlayerStatistics(gamertags);
+    eraseCookie("gamertags");
+  }
+
 };

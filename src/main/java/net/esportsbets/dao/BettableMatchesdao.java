@@ -1,16 +1,10 @@
 package net.esportsbets.dao;
 
 import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -36,8 +30,4 @@ public class BettableMatchesdao implements Serializable {
   @Column(name = "team_0")
   private String team_0;
 
-//
-//  @OneToMany(fetch = FetchType.EAGER)
-//  @JoinColumn(name = "match_id", referencedColumnName = "match_id")
-//  private List<MatchScores> match_winner_loser = new ArrayList<>();
 }

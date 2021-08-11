@@ -1,5 +1,7 @@
 #idea files:
 .idea
+/.idea/****
+.idea/dataSources.local.xml
 ESportsBets.iml
 
 # Ignore Mac system files

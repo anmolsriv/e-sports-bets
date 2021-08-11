@@ -6,11 +6,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class MlConfig {
+public class MLConfig {
 
     @Bean("moneylineModel")
     public Model moneylineModel() {
-        return Model.fromFile(
+       return Model.fromFile(
                 ESportsBetsApplication.class.getClassLoader().getResource(
                         "public/pmml/moneyline_bets.pmml").getFile());
     }

@@ -1,6 +1,5 @@
 package net.esportsbets.dao;
 
-import io.micrometer.core.annotation.Counted;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,8 +7,6 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -19,7 +16,7 @@ import java.util.Set;
 public class Bets {
 
     public enum BetType {
-        SPREAD, WIN;
+        SPREAD, MONEYLINE;
     }
 
     public enum Conclusion {

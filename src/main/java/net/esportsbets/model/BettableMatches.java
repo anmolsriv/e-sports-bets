@@ -5,9 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import net.esportsbets.dao.BettableMatchesdao;
-import net.esportsbets.dao.Matches;
 
-import javax.persistence.Column;
 import java.sql.Timestamp;
 
 @Getter

@@ -5,13 +5,12 @@ import net.esportsbets.repository.UserBetsRepository;
 import net.esportsbets.repository.UserRepository;
 import net.esportsbets.repository.hibernate.BetsHibernateRepository;
 import net.esportsbets.service.BetsService;
+import net.esportsbets.service.helper.BetsServiceHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -21,13 +20,10 @@ public class BetsStatusUpdateSchedular {
     private BetsHibernateRepository betsHibernateRepository;
 
     @Autowired
-    private BetsService betsService;
-
-    @Autowired
     private UserRepository userRepository;
 
     @Autowired
-    private UserBetsRepository userBetsRepository;
+    private BetsServiceHelper betsServiceHelper;
 
     @Scheduled(cron = "0 1/30 * 1/1 * ?")
     public void computeBetResults() {
@@ -43,26 +39,27 @@ public class BetsStatusUpdateSchedular {
 
     private void processSpreadBet( User user, UserBets bet, Bets subBet ) {
         MatchScores[] matchScores = subBet.getMatch().getMatchScores().toArray(new MatchScores[0]);
+
+        // calculating score(team user bet on) - score(other team)
         int scoresDiff = matchScores[0].getScore() - matchScores[1].getScore();
         if ( matchScores[1].getTeamId().equals( subBet.getTeamId() ) ) {
             scoresDiff *= -1;
         }
+
         if ( subBet.getSpread() < 0 ) {
+            // -ve spread
             if ( -1*subBet.getSpread() == scoresDiff ) {
                 subBet.setConcluded( Bets.Conclusion.PUSH );
-            } else if (-1*subBet.getSpread() > scoresDiff) {
+            } else if ( -1*subBet.getSpread() > scoresDiff ) {
                 subBet.setConcluded( Bets.Conclusion.WIN );
             }
         } else if ( subBet.getSpread() > 0 ) {
+            // +ve spread
             if ( subBet.getSpread() == scoresDiff ) {
                 subBet.setConcluded( Bets.Conclusion.PUSH );
-            } else if ( subBet.getSpread() > Math.abs(scoresDiff) ) {
+            } else if ( scoresDiff > -1*subBet.getSpread() ) {
                 subBet.setConcluded( Bets.Conclusion.WIN );
             }
-        }
-
-        if ( subBet.getConcluded() == Bets.Conclusion.LOSS ) {
-            betsService.debitUser( user, 10.0, bet.getId(), "spread bet loss" );
         }
     }
 
@@ -96,10 +93,10 @@ public class BetsStatusUpdateSchedular {
             if ( allBetsWin ) {
                 if ( pushConclusion ) {
                     bet.setConcluded( UserBets.Conclusion.PUSH );
-                    betsService.creditUser( user, bet.getAmount(), bet.getId(), "bet push refund" );
+                    betsServiceHelper.creditUser( user, bet.getAmount(), bet.getId(), "bet push refund" );
                 } else {
                     bet.setConcluded( UserBets.Conclusion.WIN );
-                    betsService.creditUser( user, bet.getAmount()*bet.getOdds(), bet.getId(), "bet win" );
+                    betsServiceHelper.creditUser( user, bet.getAmount()*bet.getOdds(), bet.getId(), "bet win" );
                 }
             } else {
                 bet.setConcluded( UserBets.Conclusion.LOSS );

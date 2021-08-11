@@ -1,16 +1,12 @@
 package net.esportsbets.repository.hibernate;
 
 import net.esportsbets.dao.*;
-import org.hibernate.Criteria;
-import org.hibernate.query.criteria.internal.predicate.InPredicate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.sql.Timestamp;
@@ -77,10 +73,12 @@ public class BetsHibernateRepository {
         Predicate userIdClause = criteriaBuilder.equal( userBets.get("userId"), userId );
 
         Order betStatusOrder = criteriaBuilder.asc( userBets.get("concluded") );
-        Order timeOrder = criteriaBuilder.desc( ((Join<Bets, Matches>)matchJoin).get("time") );
+        Order userBetsOrder = criteriaBuilder.desc( userBets.get("id") );
+        Order betsOrder = criteriaBuilder.desc( ((Join<UserBets, Bets>)betsJoin).get("betId") );
+        Order timeOrder = criteriaBuilder.desc( userBets.get("time") );
 
         betsSearchQuery.where( userIdClause );
-        betsSearchQuery.orderBy( betStatusOrder, timeOrder );
+        betsSearchQuery.orderBy( betStatusOrder, userBetsOrder, betsOrder, timeOrder );
 
         TypedQuery<UserBets> query = entityManager.createQuery( betsSearchQuery );
         return new HashSet<UserBets>( query.getResultList() );
