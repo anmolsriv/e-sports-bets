@@ -59,7 +59,7 @@
              width:10%">
                 </div>
             </form>
-            <button type="button" class="btn-default" id="betsMenuToggle">button</button>
+<!--            <button type="button" class="btn-default" id="betsMenuToggle">button</button>-->
             <a href="/logout" class="text-decoration-none">
                 Logout
                 <i class="bi bi-box-arrow-right"></i>
@@ -87,19 +87,20 @@
 <!--            TODO add remove bet button-->
 <!--            <button class="btn-default">Remove Bet</button>-->
             <div class="card p-3">
-                <form action="/action_page.php" class="p-3">
-                    <label for="fname">Bet Amount:</label>
-                    <input type="text" id="fname" name="fname"><br><br>
+                <form method="POST" action="#" class="p-3" id="submitBet">
+                    <label for="bamount">Bet Amount:</label>
+                    <input type="number" id="bamount" name="BetAmount">
+                    <br>
+                    <br>
                     <div class="text-center">
                         <button type="submit" class="btn-lg">Submit Bet(s)</button>
+                        <button class="btn-lg" onclick="placeholder()">TEst</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
-
 
 <!--<div class="row">-->
 
