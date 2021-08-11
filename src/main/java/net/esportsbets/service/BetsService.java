@@ -61,6 +61,10 @@ public class BetsService {
             return ResponseEntity.badRequest().body( "No bets selected" );
         }
 
+        if ( betRequest.getAmount() == null || betRequest.getAmount()<0.0 ) {
+            return ResponseEntity.badRequest().body( "invalid bet amount" );
+        }
+
         if ( betRequest.getBetType().equals("SINGLE") &&
                 betRequest.getBets().size() > 1 ) {
             return ResponseEntity.badRequest().body( "Multiple bets selected for Singular bet" );
@@ -81,7 +85,9 @@ public class BetsService {
         List<Matches> matches  = matchRepository.getMatchesAfterTime( matchIds,
                                                                 new Timestamp( new java.util.Date().getTime() ) );
 
-        if ( matches.size() != betRequest.getBets().size() ) {
+        Set<String> uniqueMatchIds = new HashSet<>(matchIds);
+
+        if ( uniqueMatchIds.size() != matches.size() ) {
             return ResponseEntity.badRequest().body( "Some of the matches in the bet have already started" );
         }
 
