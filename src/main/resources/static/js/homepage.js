@@ -1,7 +1,16 @@
+var bettableMatches = new Map();
+var userCredits;
+
 $("resultsDisplay1").ready(function () {
+
+    $.get( "/bets/user_credits").done(
+        function ( data ) {
+            userCredits = JSON.parse(data);
+        }
+    )
+
     $.get( "/matches/bettable").done(
         function ( data ) {
-            console.log(typeof(data),"data: ", data)
             populateResults(data)
         }
     )
@@ -10,7 +19,6 @@ $("resultsDisplay1").ready(function () {
 function populateResults(matches) {
     var rows = "";
     matches.forEach(match=>{
-        console.log(typeof(match));
         rows += populateRow(match);
 
         $("#resultsDisplay").html(rows)//.attr('id', match.matchId);
@@ -22,8 +30,7 @@ const betUponMatches = [];
 
 function populateRow(match) {
 
-    Match = JSON.stringify(match);
-    console.log(Match);
+    bettableMatches.set(match.matchId, match)
 
     divText = ''
     divText+='<div class="col-lg-9"\n' //outermost tag
@@ -62,13 +69,7 @@ function populateRow(match) {
     divText+='                        ' + match.team_0 + '\n'
     divText+='                    </div>\n'
     divText+='                    <div class="col-sm-3">\n'
-    // divText+='                      <a href="#" onclick="selectBet(\'' + match.matchId + '\', \'MONEYLINE\', 0, ' + match.team0WinOdds + ')">\n'
-    divText+='                      <a href="#" onclick="selectBet( \'' +  Match + '\' , \'MONEYLINE\', 0 )">\n'
-    // divText+='                      <a href="#" onclick="console.log(JSON.stringify( '+match+' ))">\n'
-    // divText+='                      <a href="#" onclick="console.log(\'' + match.matchId + '\')">\n'
-    // divText+='                      <a href="#" onclick="console.log(\'' + match.team_0 + '\')">\n'
-    // match = match;
-    // divText+='                      <a href="#" onclick="console.log(Match)">\n'
+    divText+='                      <a href="#" onclick="selectBet( \'' +  match.matchId + '\' , \'MONEYLINE\', 0 )">\n'
     divText+='                        ' + match.team0WinOdds + '\n'
     divText+='                      </a>\n'
     divText+='                    </div>\n'
@@ -76,9 +77,8 @@ function populateRow(match) {
     divText+='                        ' + match.team0Spread + '\n'
     divText+='                    </div>\n'
     divText+='                    <div class="col-sm-3">\n'
-    // divText+='                      <a href="#" onclick="selectBet(\''+ match.matchId + '\', \'SPREAD\', 0, 2, ' + match.team0Spread + ')">\n'
-    divText+='                      <a href="#" onclick="selectBet(\''+ match.matchId + '\', \'SPREAD\', 0, 2, ' + match.team0Spread + ')">\n'
-    divText+='                        ' + 2 + '\n'
+    divText+='                      <a href="#" onclick="selectBet( \'' +  match.matchId + '\', \'SPREAD\', 0 )">\n'
+    divText+='                        ' + 1.91 + '\n'
     divText+='                      </a>\n'
     divText+='                    </div>\n'
     divText+='                </div>\n'
@@ -87,7 +87,7 @@ function populateRow(match) {
     divText+='                        ' + match.team_1 + '\n'
     divText+='                    </div>\n'
     divText+='                    <div class="col-sm-3">\n'
-    divText+='                      <a href="#" onclick="selectBet(\'' + match.matchId + '\', \'MONEYLINE\', 1, ' + match.team1WinOdds + ')">\n'
+    divText+='                      <a href="#" onclick="selectBet(\'' +  match.matchId + '\', \'MONEYLINE\', 1 )">\n'
     divText+='                        ' + match.team1WinOdds + '\n'
     divText+='                      </a>\n'
     divText+='                    </div>\n'
@@ -95,26 +95,11 @@ function populateRow(match) {
     divText+='                      ' + match.team1Spread + '\n'
     divText+='                    </div>\n'
     divText+='                    <div class="col-sm-3">\n'
-    divText+='                      <a href="#" onclick="selectBet(\'' + + match.matchId + '\', \'SPREAD\', 1, 2, ' + match.team1Spread + ')">\n'
-    divText+='                        ' + 2 + '\n'
+    divText+='                      <a href="#" onclick="selectBet(\'' +  match.matchId + '\', \'SPREAD\', 1 )">\n'
+    divText+='                        ' + 1.91 + '\n'
     divText+='                      </a>\n'
     divText+='                    </div>\n'
     divText+='                </div>\n'
-    // divText+='                <div class="row">\n'
-    // divText+='                    <div class="col-sm-3">\n'
-    // divText+='                        \n'
-    // divText+='                    </div>\n'
-    // divText+='                    <div class="col-sm-3">\n'
-    // // divText+='                        Moneyline Odds\n'
-    // divText+='                      <button class="moneyline btn btn-success" id="' + match.matchId + '" type="button"   onclick="selectBet(this.id, this.className)"   >Moneyline Bet</button>\n'
-    // // divText+='                      <button type="button" id="sidebarCollapse" class="btn btn-info">pop</button>\n'
-    // divText+='                    </div>\n'
-    // divText+='                    <div class="col-sm-6" style="text-align: center">\n'
-    // // divText+='                        Spread\n'
-    // divText+='                      <button class="moneyline btn btn-success"  id="' + match.matchId + '" type="button"   onclick="selectBet(this.id, this.className)"   >Spread Bet</button>\n'
-    // divText+='                    </div>\n'
-    // divText+='                    <div class="col-sm-3">\n'
-    // divText+='                        Spread Odds\n'
     divText+='                    </div>\n'
     divText+='                </div>\n'
     divText+='            </div>\n'
@@ -165,11 +150,10 @@ function heheText(match) {
 
 function populateBet(Match,betUponIndex) {
 
-    // console.log(match);
     match = Match.match;
     bet = Match.bet;
     // TODO make dynamic/enumerated
-    chance = bet.odds;
+    chance = bet.type=="MONEYLINE"?bet.odds:1.91;
 
     divText=''
     divText+='<div class="card-body" style="background-color:#ECFAEE!important">\n'
@@ -177,10 +161,9 @@ function populateBet(Match,betUponIndex) {
     divText+='<p>' + match.team_0 + ' vs. ' + match.team_1 + ' </p>\n'
     divText+='<p>' + match.time + ' </p>\n'
     divText+='<br>\n'
-    divText+='<p>' + bet.type + ' for ' + bet.team + ' and  ' + chance + '</p>\n'
+    divText+='<p>' + bet.type + ' for ' + bet.teamName + ' with odds  ' + chance + (bet.type=="MONEYLINE"?'':(' and spread ' + bet.spread)) + '</p>\n'
     divText+='  <div class="text-center">\n'
     divText+='      <button type="button" class="btn btn-danger" onclick="unselectBet(' + betUponIndex + ')">Remove Bet</button>\n'
-    divText+='      <p> ' + match.id_match + ' </p>\n'
     divText+='  </div>\n'
     divText+='</div>\n'
     divText+='<br>'
@@ -198,71 +181,79 @@ function unselectBet(betUponIndex) {
     }
 }
 
-function selectBet(match, type='INCOMPLETE', team=-1) {
+function clearBets() {
+    betUponMatches.length = 0;
+    populateBetMenu(betUponMatches);
+    toggleBetUponMenu();
+}
+
+function selectBet(matchId, type='INCOMPLETE', team=-1) {
     if (betUponMatches.length === 0) {
         toggleBetUponMenu();
     }
-    console.log(match);
+    match = bettableMatches.get(matchId);
     id_match = match.id_match;
-    odds = null;
-    spread = null;
-    let bUM = {match:match, bet:{type:type, team:team, odds:odds, spread:spread} };
+    if ( team == 0 ) {
+        odds = match.team0WinOdds;
+        teamName = match.team_0;
+        spread = match.team0Spread;
+    } else {
+        odds = match.team1WinOdds
+        teamName = match.team_1;
+        spread = match.team1Spread;
+    }
+
+    let bUM = {match:match, bet:{type:type, team:team, teamName:teamName, odds:odds, spread:spread} };
     let betUponIndex = betUponMatches.push(bUM);
     // betUponMatches.push("Looking to make a "+type+" bet on "+id_match+" team " + team + " with odds " + odds + " and spread " + spread);
     populateBetMenu(betUponMatches, betUponIndex);
     // window.alert("Looking to make a "+type+" bet on "+id_match+" team " + team + " with odds " + odds + " and spread " + spread)
 }
 
-var settings = {
-    "url": "/bets/place_bet",
-    "method": "POST",
-    "headers": {
-        "Content-Type": "application/json"
-    },
-    "data": JSON.stringify({
-        "betType": "ACCUMULATOR",
-        "amount": 1000,
-        "odds": 7.7,
-        "bets": [
-            {
-                "matchId": "358fd72a-b651-464c-8023-ba15ba2401b1",
-                "betType": "WIN",
-                "odds": 2.29,
-                "teamId": 0
-            },
-            {
-                "matchId": "a2545fc3-989a-46b1-b78d-0a7f041c2a6d",
-                "betType": "WIN",
-                "odds": 1.68,
-                "teamId": 0
-            },
-            {
-                "matchId": "e27fbe1b-4688-417b-986b-62b326e73514",
-                "betType": "SPREAD",
-                "spread": -5.5,
-                "odds": 2,
-                "teamId": 0
-            }
-        ]
-    }),
-};
 
 $("#submitBet").submit(function( event ){
     event.preventDefault();
-    placeholder();
+    var amount = $("#bamount").val();
+    if ( amount==null || amount=="" || amount==undefined ) {
+        alert("Enter bet amount")
+    }
+    if (amount > userCredits) {
+        alert("Insufficient credits for bet. Current credits: " + userCredits)
+    }
+
+    var bets = "[";
+    for (var matchBet in betUponMatches) {
+        bets += "{";
+        bets += "\"matchId\": \"" + betUponMatches[matchBet].match.matchId + "\",";
+        bets += "\"betType\": \"" + betUponMatches[matchBet].bet.type + "\",";
+        bets += "\"teamId\": " + betUponMatches[matchBet].bet.team;
+        bets += "}" + (matchBet==betUponMatches.length-1?" ":", ");
+    }
+    bets += "]";
+
+    var betRequest = "{" ;
+    betRequest += "\"betType\": \"" + (betUponMatches.length>1?"ACCUMULATOR":"SINGLE") + "\",";
+    betRequest += "\"amount\": " + amount + ",";
+    betRequest += "\"bets\": " + bets;
+    betRequest += "}" ;
+
+    $.ajax({
+        url: "/bets/place_bet",
+        method: "POST",
+        contentType: "application/json",
+        data: betRequest,
+        success: function(data) {
+            clearBets();
+            userCredits = JSON.parse(data);
+            alert("Bet successfully placed.")
+        },
+        error: function( request ) {
+            if (request.status==400) {
+                alert(request.responseText)
+            } else {
+                alert("Error occurred while placing the bet.")
+            }
+        }
+    })
 })
 
-function placeholder(){
-
-    $.ajax(settings
-    ).done(function (msg){
-        console.log(msg)
-        })
-//    xhttp = new XMLHttpRequest();
-//    xhttp.open("POST", "/bets/place_bet", true);
-//    xhttp.send();
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});
