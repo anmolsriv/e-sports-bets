@@ -183,7 +183,7 @@ function populateBet(Match,betUponIndex) {
     match = Match.match;
     bet = Match.bet;
     // TODO make dynamic/enumerated
-    chance = bet.type=="MONEYLINE"?bet.odds:1.91;
+    chance = bet.odds;
 
     divText=''
     divText+='<div class="card-body" style="background-color:#ECFAEE!important">\n'
@@ -218,11 +218,26 @@ function clearBets() {
     toggleBetUponMenu();
 }
 
+function checkIfBetIsAlreadyAdded(matchId, type, team) {
+
+    for (const betUponMatch of betUponMatches) {
+        if ( betUponMatch.match.matchId == matchId && betUponMatch.bet.type == type &&
+                betUponMatch.bet.team == team ) {
+            alert ("Bet already selected previously.");
+            return true;
+        }
+    }
+    return false;
+}
+
 function selectBet(matchId, type='INCOMPLETE', team=-1) {
     if (betUponMatches.length === 0) {
         // updatePotentialWinnings();
         toggleBetUponMenu();
     }
+
+    if ( checkIfBetIsAlreadyAdded(matchId, type, team) )
+        return;
 
     match = bettableMatches.get(matchId);
     id_match = match.id_match;
