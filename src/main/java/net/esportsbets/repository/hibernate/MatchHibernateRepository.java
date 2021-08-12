@@ -12,7 +12,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class MatchHibernateRepository {
@@ -21,7 +23,7 @@ public class MatchHibernateRepository {
     private EntityManager entityManager;
 
     @Transactional(readOnly = true)
-    public List<Matches> getMatchesAfterTime(@NonNull List<String> matchId, @NonNull Timestamp timeStart) {
+    public Set<Matches> getMatchesAfterTime(@NonNull List<String> matchId, @NonNull Timestamp timeStart) {
 
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Matches> matchesSearchQuery = criteriaBuilder.createQuery(Matches.class);
@@ -32,7 +34,7 @@ public class MatchHibernateRepository {
         Predicate matchIdClause = matches.get("matchId").in(matchId);
         matchesSearchQuery.where(matchIdClause, timeClause);
         TypedQuery<Matches> query = entityManager.createQuery(matchesSearchQuery);
-        return query.getResultList();
+        return new HashSet<Matches>(query.getResultList());
 
     }
 

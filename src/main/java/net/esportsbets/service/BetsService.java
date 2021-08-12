@@ -54,7 +54,7 @@ public class BetsService {
         return userCredits.getCredits();
     }
 
-    @Transactional(rollbackFor = Exception.class, propagation = Propagation.NESTED)
+    @Transactional(rollbackFor = Exception.class)
     public ResponseEntity<String> placeBets(UserBetRequestModel betRequest, String userEmail) {
 
         if ( betRequest.getBets()==null || betRequest.getBets().isEmpty() ) {
@@ -82,7 +82,7 @@ public class BetsService {
                 .map(BetsRequestModel::getMatchId)
                 .collect(Collectors.toList());
 
-        List<Matches> matches  = matchRepository.getMatchesAfterTime( matchIds,
+        Set<Matches> matches  = matchRepository.getMatchesAfterTime( matchIds,
                                                                 new Timestamp( new java.util.Date().getTime() ) );
 
         Set<String> uniqueMatchIds = new HashSet<>(matchIds);
@@ -130,7 +130,7 @@ public class BetsService {
     }
 
 
-    @Transactional(rollbackFor = Exception.class, propagation = Propagation.NESTED)
+    @Transactional(rollbackFor = Exception.class)
     public void createUserCredit( User user, Double amount, Long betId, String comment ) {
         UserCredits userCredits = new UserCredits();
         userCredits.setCredits( 0.0 );

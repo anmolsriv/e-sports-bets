@@ -22,8 +22,7 @@ public class BetsServiceHelper {
 
 
 
-    @Transactional(rollbackFor = Exception.class, propagation = Propagation.NESTED)
-    @Async
+    @Transactional(rollbackFor = Exception.class)
     public UserCredits creditUser(User user, Double amount, Long betId, String comment ) {
         UserCredits userCredits = userCreditsRepository.findById( user.getId() ).get();
         userCredits.setCredits( userCredits.getCredits() + amount );
@@ -37,8 +36,7 @@ public class BetsServiceHelper {
         return userCreditsRepository.save( userCredits );
     }
 
-    @Transactional(rollbackFor = Exception.class, propagation = Propagation.NESTED)
-    @Async
+    @Transactional(rollbackFor = Exception.class)
     public UserCredits debitUser( User user, Double amount, Long betId, String comment ) {
         UserCredits userCredits = userCreditsRepository.findById( user.getId() ).get();
         userCredits.setCredits( userCredits.getCredits() - amount );
