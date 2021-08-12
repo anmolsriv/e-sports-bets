@@ -25,7 +25,7 @@ public class BetsStatusUpdateSchedular {
     @Autowired
     private BetsServiceHelper betsServiceHelper;
 
-    @Scheduled(cron = "0 1/30 * 1/1 * ?")
+    @Scheduled(cron = "0 1/2 * 1/1 * ?")
     public void computeBetResults() {
 
         Timestamp currTime = new Timestamp( new java.util.Date().getTime() );
@@ -37,32 +37,6 @@ public class BetsStatusUpdateSchedular {
         betsHibernateRepository.updateUserBetsConclusion( pendingBets );
     }
 
-    private void processSpreadBet( User user, UserBets bet, Bets subBet ) {
-        MatchScores[] matchScores = subBet.getMatch().getMatchScores().toArray(new MatchScores[0]);
-
-        // calculating score(team user bet on) - score(other team)
-        int scoresDiff = matchScores[0].getScore() - matchScores[1].getScore();
-        if ( matchScores[1].getTeamId().equals( subBet.getTeamId() ) ) {
-            scoresDiff *= -1;
-        }
-
-        if ( subBet.getSpread() < 0 ) {
-            // -ve spread
-            if ( -1*subBet.getSpread() == scoresDiff ) {
-                subBet.setConcluded( Bets.Conclusion.PUSH );
-            } else if ( -1*subBet.getSpread() > scoresDiff ) {
-                subBet.setConcluded( Bets.Conclusion.WIN );
-            }
-        } else if ( subBet.getSpread() > 0 ) {
-            // +ve spread
-            if ( subBet.getSpread() == scoresDiff ) {
-                subBet.setConcluded( Bets.Conclusion.PUSH );
-            } else if ( scoresDiff > -1*subBet.getSpread() ) {
-                subBet.setConcluded( Bets.Conclusion.WIN );
-            }
-        }
-    }
-
     private void processBetResults( UserBets bet, Timestamp currTime ) {
 
         User user = userRepository.findById( bet.getUserId() ).get();
@@ -71,7 +45,8 @@ public class BetsStatusUpdateSchedular {
                     subBet.getMatch().getTime().before( currTime ) ) {
                 subBet.setConcluded( Bets.Conclusion.LOSS );
                 if ( subBet.getBetType() == Bets.BetType.SPREAD ) {
-                    processSpreadBet( user, bet, subBet );
+                    MatchScores[] matchScores = subBet.getMatch().getMatchScores().toArray(new MatchScores[0]);
+                    subBet.setConcluded( betsServiceHelper.processSpreadBet( matchScores, subBet.getTeamId(), subBet.getSpread() ) );
                 } else if ( subBet.getMatch().getWinner().equals( subBet.getTeamId() ) ) {
                     subBet.setConcluded( Bets.Conclusion.WIN );
                 }

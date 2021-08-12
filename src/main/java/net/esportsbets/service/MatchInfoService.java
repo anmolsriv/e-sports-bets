@@ -5,6 +5,7 @@ import net.esportsbets.model.BettableMatches;
 import net.esportsbets.model.MatchResults;
 import net.esportsbets.repository.*;
 import net.esportsbets.repository.hibernate.MatchHibernateRepository;
+import net.esportsbets.service.helper.BetsServiceHelper;
 import net.esportsbets.service.helper.MatchInfoServiceHelper;
 import org.pmml4s.model.Model;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,8 @@ public class MatchInfoService {
     @Autowired
     private MatchInfoServiceHelper matchInfoServiceHelper;
 
+    @Autowired
+    private BetsServiceHelper betsServiceHelper;
 
 
     public List<MatchResults> getPastMatches( int pageNumber ) {
@@ -53,7 +56,7 @@ public class MatchInfoService {
         updateSpreadForMatches( matches );
 
         return matches.stream()
-                        .map(MatchResults::mapMatchResults)
+                        .map(match -> MatchResults.mapMatchResults(match, betsServiceHelper))
                         .collect(Collectors.toList());
     }
 

@@ -34,7 +34,7 @@ public class BetsHibernateRepository {
         CriteriaBuilder.In<UserBets.Conclusion> betStatusClause = criteriaBuilder.in( userBets.get("concluded") );
         betStatusClause.value( UserBets.Conclusion.IN_PROGRESS );
         betStatusClause.value( UserBets.Conclusion.PARTIAL );
-        betsSearchQuery.where( betStatusClause, timeClause );
+        betsSearchQuery.where( betStatusClause );
         TypedQuery<UserBets> query = entityManager.createQuery( betsSearchQuery );
         return new HashSet<UserBets>( query.getResultList() );
     }

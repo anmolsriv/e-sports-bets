@@ -154,7 +154,7 @@ public class BetsService {
         return userBets.stream()
                 .sorted(Comparator.comparing( (UserBets userBet) -> userBet.getConcluded()== UserBets.Conclusion.IN_PROGRESS)
                                     .thenComparing(userBet -> userBet.getTime()).reversed())
-                        .map(UserBetsResponse::getInstance)
+                        .map(userBet -> UserBetsResponse.getInstance(userBet, betsServiceHelper))
                         .collect(Collectors.toList());
     }
 }

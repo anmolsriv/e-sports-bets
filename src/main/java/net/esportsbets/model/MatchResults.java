@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 import net.esportsbets.dao.MatchScores;
 import net.esportsbets.dao.Matches;
+import net.esportsbets.service.helper.BetsServiceHelper;
 
 import java.sql.Timestamp;
 
@@ -18,16 +19,19 @@ class TeamDetails {
     private Integer score;
     private Integer team;
     private Double spread;
+    private String spreadResult;
 
-    public static TeamDetails mapMatchResults(Matches match, int index) {
+    public static TeamDetails mapMatchResults(Matches match, int index, BetsServiceHelper betsServiceHelper) {
 
-        MatchScores matchScore = (MatchScores) match.getMatchScores().toArray()[index];
+        MatchScores[] matchScores = match.getMatchScores().toArray(new MatchScores[0]);
+        MatchScores matchScore = matchScores[index];
         TeamDetails mappedTeam = new TeamDetails();
         mappedTeam.setTeamName( matchScore.getTeamName() );
         mappedTeam.setScore( matchScore.getScore() );
         mappedTeam.setResult( match.getWinner().equals(matchScore.getTeamId())?"Win":"Loss" );
         mappedTeam.setTeam( matchScore.getTeamId() );
         mappedTeam.setSpread( matchScore.getSpread() );
+        mappedTeam.setSpreadResult( betsServiceHelper.processSpreadBet( matchScores, matchScore.getTeamId(), matchScore.getSpread() ).toString() );
         return mappedTeam;
     }
 }
@@ -44,14 +48,14 @@ public class MatchResults {
     private TeamDetails team2;
     private String gameVariant;
 
-    public static MatchResults mapMatchResults(Matches match) {
+    public static MatchResults mapMatchResults(Matches match, BetsServiceHelper betsServiceHelper) {
 
         MatchResults mappedMatch = new MatchResults();
         mappedMatch.setTime( match.getTime() );
         mappedMatch.setMap( match.getMap() );
         mappedMatch.setGameVariant( match.getGameVariant() );
-        mappedMatch.setTeam1( TeamDetails.mapMatchResults(match, 0)  );
-        mappedMatch.setTeam2( TeamDetails.mapMatchResults(match, 1)  );
+        mappedMatch.setTeam1( TeamDetails.mapMatchResults(match, 0, betsServiceHelper)  );
+        mappedMatch.setTeam2( TeamDetails.mapMatchResults(match, 1, betsServiceHelper)  );
 
         return mappedMatch;
     }
