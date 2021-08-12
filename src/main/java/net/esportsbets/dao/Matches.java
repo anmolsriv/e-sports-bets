@@ -16,6 +16,7 @@ import java.util.Set;
 @AllArgsConstructor
 @EqualsAndHashCode(exclude = "matchScores")
 @Table(name = "matches_demo")
+//@Table(name = "matches")
 public class Matches {
     @Id
     @Column(name = "match_id")

@@ -9,6 +9,16 @@ function passwordMatchVerification() {
     }
 }
 
+function ageVerification() {
+    let dob = $("#dob").val();
+    console.log("DOB: " + dob)
+
+}
+
+$("#user").submit(function () {
+    ageVerification();
+})
+
 $(document).ready(function() {
 
     $("#confirm_password").keyup( passwordMatchVerification );

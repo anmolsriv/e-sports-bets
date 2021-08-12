@@ -77,6 +77,14 @@ public class BetsService {
             return ResponseEntity.badRequest().body( "Insufficient balance for this bet" );
         }
 
+        Set<String> betHashSet = new HashSet<>();
+
+        for (BetsRequestModel beht: betRequest.getBets()) {
+            if( !betHashSet.add(beht.toString())){
+                return ResponseEntity.badRequest().body( "Duplicate bets are not permitted" );
+            }
+        }
+
         List<String> matchIds = betRequest.getBets()
                 .stream()
                 .map(BetsRequestModel::getMatchId)

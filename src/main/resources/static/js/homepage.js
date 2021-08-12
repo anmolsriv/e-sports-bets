@@ -6,6 +6,7 @@ $("resultsDisplay1").ready(function () {
     $.get( "/bets/user_credits").done(
         function ( data ) {
             userCredits = JSON.parse(data);
+            adjustCredits();
         }
     )
 
@@ -112,6 +113,35 @@ function populateRow(match) {
 
 // Bryan did these :)
 
+$("#bamount").on("input", function(){
+
+    updatePotentialWinnings();
+
+//     payoutRatio = betUponMatches.reduce((accumulator, currentValue) => {
+//         return accumulator*currentValue.bet.odds
+//     }, 1)
+// //    TODO double check that odds are from correct kind of bet from front end
+//
+//     document.getElementById("potentialWinning").innerHTML = payoutRatio*document.getElementById("bamount").value;
+
+})
+
+updatePotentialWinnings = function(){
+    payoutRatio = betUponMatches.reduce((accumulator, currentValue) => {
+        return accumulator*currentValue.bet.odds
+    }, 1)
+//    TODO double check that odds are from correct kind of bet from front end
+
+    document.getElementById("potentialWinning").innerHTML = payoutRatio*document.getElementById("bamount").value;
+}
+
+
+
+adjustCredits = function(){
+    document.getElementById('userFunds').innerHTML = userCredits;
+};
+
+
 function toggleBetUponMenu() {
     var menu = document.getElementById("betsMenu");
     var results = document.getElementById("resultsDisplay");
@@ -153,7 +183,7 @@ function populateBet(Match,betUponIndex) {
     match = Match.match;
     bet = Match.bet;
     // TODO make dynamic/enumerated
-    chance = bet.type=="MONEYLINE"?bet.odds:1.91;
+    chance = bet.odds;
 
     divText=''
     divText+='<div class="card-body" style="background-color:#ECFAEE!important">\n'
@@ -175,6 +205,7 @@ function populateBet(Match,betUponIndex) {
 function unselectBet(betUponIndex) {
     // console.log("removed at index", betUponIndex, ":",heheText(betUponMatches[betUponIndex]))
     betUponMatches.splice(betUponIndex,1)
+    updatePotentialWinnings();
     populateBetMenu(betUponMatches);
     if (betUponMatches.length === 0){
         toggleBetUponMenu();
@@ -187,12 +218,30 @@ function clearBets() {
     toggleBetUponMenu();
 }
 
+function checkIfBetIsAlreadyAdded(matchId, type, team) {
+
+    for (const betUponMatch of betUponMatches) {
+        if ( betUponMatch.match.matchId == matchId && betUponMatch.bet.type == type &&
+                betUponMatch.bet.team == team ) {
+            alert ("Bet already selected previously.");
+            return true;
+        }
+    }
+    return false;
+}
+
 function selectBet(matchId, type='INCOMPLETE', team=-1) {
     if (betUponMatches.length === 0) {
+        // updatePotentialWinnings();
         toggleBetUponMenu();
     }
+
+    if ( checkIfBetIsAlreadyAdded(matchId, type, team) )
+        return;
+
     match = bettableMatches.get(matchId);
     id_match = match.id_match;
+
     if ( team == 0 ) {
         odds = match.team0WinOdds;
         teamName = match.team_0;
@@ -203,9 +252,15 @@ function selectBet(matchId, type='INCOMPLETE', team=-1) {
         spread = match.team1Spread;
     }
 
+    if (type == 'SPREAD') {
+        odds = 1.91;
+    }
+
+
     let bUM = {match:match, bet:{type:type, team:team, teamName:teamName, odds:odds, spread:spread} };
     let betUponIndex = betUponMatches.push(bUM);
     // betUponMatches.push("Looking to make a "+type+" bet on "+id_match+" team " + team + " with odds " + odds + " and spread " + spread);
+    updatePotentialWinnings();
     populateBetMenu(betUponMatches, betUponIndex);
     // window.alert("Looking to make a "+type+" bet on "+id_match+" team " + team + " with odds " + odds + " and spread " + spread)
 }
