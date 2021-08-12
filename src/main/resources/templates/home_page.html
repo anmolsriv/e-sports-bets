@@ -91,9 +91,20 @@
             </div>
             <div class="card p-3">
                 <form method="POST" action="#" class="p-3" id="submitBet">
+                    <div class="card">
+                        <div class="card-body">
+                            User Credits: <span id="userFunds" class="badge bg-secondary bg-success"></span>
+                        </div>
+                    </div>
+                    <br>
                     <label for="bamount">Bet Amount:</label>
                     <input type="number" id="bamount" name="BetAmount">
                     <br>
+                    <div class="card">
+                        <div class="card-body">
+                            Potential Winnings: <span id="potentialWinning" class="badge bg-secondary bg-success"></span>
+                        </div>
+                    </div>
                     <br>
                     <div class="text-center">
                         <button type="submit" class="btn-lg">Submit Bet(s)</button>
