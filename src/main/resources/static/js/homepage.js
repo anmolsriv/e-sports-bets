@@ -216,9 +216,11 @@ $("#submitBet").submit(function( event ){
     var amount = $("#bamount").val();
     if ( amount==null || amount=="" || amount==undefined ) {
         alert("Enter bet amount")
+        return;
     }
     if (amount > userCredits) {
         alert("Insufficient credits for bet. Current credits: " + userCredits)
+        return;
     }
 
     var bets = "[";
