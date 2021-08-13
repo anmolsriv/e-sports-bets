@@ -39,7 +39,7 @@ public class MatchHibernateRepository {
     }
 
     @Transactional(readOnly = true)
-    public List<Matches> customMatchSearchQuery(@NonNull Timestamp timeStart, @NonNull Timestamp timeEnd, Pageable page) {
+    public Set<Matches> customMatchSearchQuery(@NonNull Timestamp timeStart, @NonNull Timestamp timeEnd, Pageable page) {
 
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Matches> matchesSearchQuery = criteriaBuilder.createQuery(Matches.class);
@@ -53,7 +53,7 @@ public class MatchHibernateRepository {
         TypedQuery<Matches> query = entityManager.createQuery(matchesSearchQuery);
         query.setFirstResult((int)page.getOffset());
         query.setMaxResults(page.getPageSize());
-        return query.getResultList();
+        return new HashSet<>(query.getResultList());
 
     }
 

@@ -48,23 +48,24 @@ public class MatchInfoService {
     public List<MatchResults> getPastMatches( int pageNumber ) {
 
         Pageable page = PageRequest.of(pageNumber, 10);
-        List<Matches> matches = matchHibernateRepository.customMatchSearchQuery(
-                new Timestamp( new java.util.Date().getTime() - 12*60*60*1000 ),
-                new Timestamp( new java.util.Date().getTime() ),
-                page);
+        Set<Matches> matches = matchHibernateRepository.customMatchSearchQuery(
+                                            new Timestamp( new java.util.Date().getTime() - 12*60*60*1000 ),
+                                            new Timestamp( new java.util.Date().getTime() ),
+                                            page);
 
-        updateSpreadForMatches( matches );
+        updateSpreadForMatches( new ArrayList<>(matches) );
 
         return matches.stream()
                         .map(match -> MatchResults.mapMatchResults(match, betsServiceHelper))
+                        .sorted(Comparator.comparing(MatchResults::getTime))
                         .collect(Collectors.toList());
     }
 
     public int getPastMatchesPageCount() {
 
         int matches = matchRepository.countByTimeIsBetween(
-                new Timestamp(new java.util.Date().getTime() - 12 * 60 * 60 * 1000),
-                new Timestamp(new java.util.Date().getTime()));
+                new Timestamp( new java.util.Date().getTime() - 12 * 60 * 60 * 1000 ),
+                new Timestamp( new java.util.Date().getTime() ) );
         return matches / 10;
     }
 

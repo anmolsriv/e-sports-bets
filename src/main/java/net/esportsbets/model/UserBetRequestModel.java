@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -16,5 +17,5 @@ public class UserBetRequestModel {
     private String betType;
     private Double amount;
     private Double odds;
-    private List<BetsRequestModel> bets;
+    private Set<BetsRequestModel> bets;
 }

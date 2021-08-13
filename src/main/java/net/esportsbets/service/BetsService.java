@@ -77,63 +77,63 @@ public class BetsService {
             return ResponseEntity.badRequest().body( "Insufficient balance for this bet" );
         }
 
-        Set<String> betHashSet = new HashSet<>();
+        userCredits = betsServiceHelper.debitUser( user, betRequest.getAmount(), null, "holding bet amount" );
 
-        for (BetsRequestModel beht: betRequest.getBets()) {
-            if( !betHashSet.add(beht.toString())){
-                return ResponseEntity.badRequest().body( "Duplicate bets are not permitted" );
+        try {
+            List<String> matchIds = betRequest.getBets()
+                                                .stream()
+                                                .map(BetsRequestModel::getMatchId)
+                                                .collect(Collectors.toList());
+
+            Set<Matches> matches  = matchRepository.getMatchesAfterTime( matchIds,
+                                                        new Timestamp( new java.util.Date().getTime() ) );
+
+            Set<String> uniqueMatchIds = new HashSet<>(matchIds);
+
+            if ( uniqueMatchIds.size() != matches.size() ) {
+                return ResponseEntity.badRequest().body( "Some of the matches in the bet have already started" );
             }
-        }
 
-        List<String> matchIds = betRequest.getBets()
-                .stream()
-                .map(BetsRequestModel::getMatchId)
-                .collect(Collectors.toList());
-
-        Set<Matches> matches  = matchRepository.getMatchesAfterTime( matchIds,
-                                                                new Timestamp( new java.util.Date().getTime() ) );
-
-        Set<String> uniqueMatchIds = new HashSet<>(matchIds);
-
-        if ( uniqueMatchIds.size() != matches.size() ) {
-            return ResponseEntity.badRequest().body( "Some of the matches in the bet have already started" );
-        }
-
-        List<UserBetsDetailsLock> userBetsDetailsList = userBetsDetailsLockRepository.findByUserIdEqualsAndMatchIdIn(
+            List<UserBetsDetailsLock> userBetsDetailsList = userBetsDetailsLockRepository.findByUserIdEqualsAndMatchIdIn(
                                                                                                 user.getId(), matchIds );
 
-        UserBets userBet = new UserBets();
-        userBet.setBetsComposition( UserBets.UserBetsComposition.valueOf( betRequest.getBetType() ) );
-        userBet.setUserId( user.getId() );
-        userBet.setAmount( betRequest.getAmount() );
-        userBet.setConcluded( UserBets.Conclusion.IN_PROGRESS );
-        userBet.setUserBets( new HashSet<>());
-        userBet.setOdds( 1.0 );
-        betRequest.getBets().forEach( singleBet -> {
-            Bets bet = new Bets();
-            UserBetsDetailsLock userBetsDetailsLock =  userBetsDetailsList.stream()
-                                                                        .filter(betDetail ->
-                                                                                betDetail.getMatchId().equals(singleBet.getMatchId()))
-                                                                        .findFirst()
-                                                                        .get();
-            bet.setMatchId( singleBet.getMatchId() );
-            bet.setBetType( Bets.BetType.valueOf( singleBet.getBetType() ) );
-            bet.setTeamId( singleBet.getTeamId() );
-            bet.setConcluded( Bets.Conclusion.IN_PROGRESS );
-            bet.setSpread( singleBet.getTeamId().equals(0) ? userBetsDetailsLock.getTeam0Spread() : userBetsDetailsLock.getTeam1Spread() );
-            if ( bet.getBetType() == Bets.BetType.MONEYLINE ) {
-                userBet.setOdds( userBet.getOdds() *
-                        ( singleBet.getTeamId().equals(0) ? userBetsDetailsLock.getTeam0MoneylineOdds() : userBetsDetailsLock.getTeam1MoneylineOdds() ) );
-            } else if ( bet.getBetType() == Bets.BetType.SPREAD ) {
-                userBet.setOdds( userBet.getOdds() *
-                        ( singleBet.getTeamId().equals(0) ? userBetsDetailsLock.getTeam0SpreadOdds() : userBetsDetailsLock.getTeam1SpreadOdds() ) );
-            }
-            userBet.getUserBets().add(bet);
-        } );
+            UserBets userBet = new UserBets();
+            userBet.setBetsComposition( UserBets.UserBetsComposition.valueOf( betRequest.getBetType() ) );
+            userBet.setUserId( user.getId() );
+            userBet.setAmount( betRequest.getAmount() );
+            userBet.setConcluded( UserBets.Conclusion.IN_PROGRESS );
+            userBet.setUserBets( new HashSet<>());
+            userBet.setOdds( 1.0 );
+            betRequest.getBets().forEach( singleBet -> {
+                Bets bet = new Bets();
+                UserBetsDetailsLock userBetsDetailsLock =  userBetsDetailsList.stream()
+                        .filter(betDetail ->
+                                betDetail.getMatchId().equals(singleBet.getMatchId()))
+                        .findFirst()
+                        .get();
+                bet.setMatchId( singleBet.getMatchId() );
+                bet.setBetType( Bets.BetType.valueOf( singleBet.getBetType() ) );
+                bet.setTeamId( singleBet.getTeamId() );
+                bet.setConcluded( Bets.Conclusion.IN_PROGRESS );
+                bet.setSpread( singleBet.getTeamId().equals(0) ? userBetsDetailsLock.getTeam0Spread() : userBetsDetailsLock.getTeam1Spread() );
+                if ( bet.getBetType() == Bets.BetType.MONEYLINE ) {
+                    userBet.setOdds( userBet.getOdds() *
+                            ( singleBet.getTeamId().equals(0) ? userBetsDetailsLock.getTeam0MoneylineOdds() : userBetsDetailsLock.getTeam1MoneylineOdds() ) );
+                } else if ( bet.getBetType() == Bets.BetType.SPREAD ) {
+                    userBet.setOdds( userBet.getOdds() *
+                            ( singleBet.getTeamId().equals(0) ? userBetsDetailsLock.getTeam0SpreadOdds() : userBetsDetailsLock.getTeam1SpreadOdds() ) );
+                }
+                userBet.getUserBets().add(bet);
+            } );
 
-        UserBets savedUserBet = userBetsRepository.save( userBet );
+            UserBets savedUserBet = userBetsRepository.save( userBet );
 
-        userCredits = betsServiceHelper.debitUser( user, betRequest.getAmount(), savedUserBet.getId(), "placing bet" );
+            userCredits = betsServiceHelper.creditUser( user, betRequest.getAmount(), null, "releasing the bet hold" );
+            userCredits = betsServiceHelper.debitUser( user, betRequest.getAmount(), savedUserBet.getId(), "placing bet" );
+
+        } catch ( Exception ex ) {
+            userCredits = betsServiceHelper.creditUser( user, betRequest.getAmount(), null, "releasing the bet hold" );
+        }
         return ResponseEntity.accepted().body( userCredits.getCredits().toString() );
     }
 

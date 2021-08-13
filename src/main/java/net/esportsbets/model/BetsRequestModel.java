@@ -9,6 +9,7 @@ import lombok.*;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(exclude = "spread")
 public class BetsRequestModel {
 
     private String matchId;
