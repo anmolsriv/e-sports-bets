@@ -310,13 +310,14 @@ $("#submitBet").submit(function( event ){
         success: function (data) {
           clearBets();
           userCredits = JSON.parse(data);
-          alert("Bet successfully placed.")
+          $("#userFunds").html(userCredits);
+          alert("Bet successfully placed.");
         },
         error: function (request) {
           if (request.status == 400) {
-            alert(request.responseText)
+            alert(request.responseText);
           } else {
-            alert("Error occurred while placing the bet.")
+            alert("Error occurred while placing the bet.");
           }
         }
       })

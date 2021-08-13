@@ -27,7 +27,7 @@ public class BetsServiceHelper {
         UserTransactionHistory log = new UserTransactionHistory();
         log.setAmount( amount );
         log.setBetId( betId );
-        log.setTransactionType( UserTransactionHistory.TransactionType.DEBIT );
+        log.setTransactionType( UserTransactionHistory.TransactionType.CREDIT );
         log.setUserCreditId( userCredits.getUserId() );
         log.setComment( comment );
         userTransactionHistoryRepository.save(log);
@@ -41,7 +41,7 @@ public class BetsServiceHelper {
         UserTransactionHistory log = new UserTransactionHistory();
         log.setAmount( amount );
         log.setBetId( betId );
-        log.setTransactionType( UserTransactionHistory.TransactionType.CREDIT );
+        log.setTransactionType( UserTransactionHistory.TransactionType.DEBIT );
         log.setUserCreditId( userCredits.getUserId() );
         log.setComment( comment );
         userTransactionHistoryRepository.save(log);
