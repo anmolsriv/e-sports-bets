@@ -17,7 +17,6 @@ function ageVerification() {
     if (Math.abs(ageDate.getUTCFullYear() - 1970) < 18) {
       dobElement.setCustomValidity("You must be 18 years or older to signup");
       dobElement.reportValidity();
-      console.log("too young")
     } else {
       dobElement.setCustomValidity("");
     };
