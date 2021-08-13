@@ -40,14 +40,20 @@ public class AppController {
 	}
 	
 	@PostMapping("/process_register")
-	public String processRegister(User user) {
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		String encodedPassword = passwordEncoder.encode(user.getPassword());
-		user.setPassword(encodedPassword);
-		
-		betsService.createUserCredit(userRepo.save(user), 2000.0, null, "new user bonus credit");
-		
-		return "register_success";
+	public String processRegister(Model model, User user) throws Exception {
+
+		User prevUser = userRepo.findByEmail( user.getEmail() );
+		if ( null == user ) {
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+			String encodedPassword = passwordEncoder.encode(user.getPassword());
+			user.setPassword(encodedPassword);
+
+			betsService.createUserCredit(userRepo.save(user), 2000.0, null, "new user bonus credit");
+			return "register_success";
+		} else {
+			model.addAttribute( "errorMsg", "Use email already registered!" );
+			return "signup_form";
+		}
 	}
 	
 	@GetMapping("/users")
