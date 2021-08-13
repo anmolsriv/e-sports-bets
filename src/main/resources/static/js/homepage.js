@@ -154,7 +154,7 @@ updatePotentialWinnings = function(){
 
 
 adjustCredits = function(){
-    document.getElementById('userFunds').innerHTML = userCredits;
+    document.getElementById('userFunds').innerHTML = (Math.round(userCredits * 100) / 100).toFixed(2);
 };
 
 
