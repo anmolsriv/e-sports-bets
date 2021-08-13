@@ -24,7 +24,12 @@ class TeamDetails {
     public static TeamDetails mapMatchResults(Matches match, int index, BetsServiceHelper betsServiceHelper) {
 
         MatchScores[] matchScores = match.getMatchScores().toArray(new MatchScores[0]);
-        MatchScores matchScore = matchScores[index];
+
+        MatchScores matchScore = match.getMatchScores().stream()
+                                            .filter(matchScoreTemp -> matchScoreTemp.getTeamId().equals(index) )
+                                            .findFirst()
+                                            .get();
+
         TeamDetails mappedTeam = new TeamDetails();
         mappedTeam.setTeamName( matchScore.getTeamName() );
         mappedTeam.setScore( matchScore.getScore() );
