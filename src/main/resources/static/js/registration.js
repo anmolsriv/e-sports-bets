@@ -10,13 +10,21 @@ function passwordMatchVerification() {
 }
 
 function ageVerification() {
-    let dob = $("#dob").val();
-    console.log("DOB: " + dob)
-
+    let dobElement = document.getElementById('dob');
+    let dob = new Date($("#dob").val());
+    let ageDifMs = Date.now() - dob.getTime();
+    let ageDate = new Date(ageDifMs); // miliseconds from epoch
+    if (Math.abs(ageDate.getUTCFullYear() - 1970) < 18) {
+      dobElement.setCustomValidity("You must be 18 years or older to signup");
+      dobElement.reportValidity();
+      console.log("too young")
+    } else {
+      dobElement.setCustomValidity("");
+    };
 }
 
-$("#user").submit(function () {
-    ageVerification();
+$("#user").submit(function (event) {
+    event.preventDefault();
 })
 
 $(document).ready(function() {
