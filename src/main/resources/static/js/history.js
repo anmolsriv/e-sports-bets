@@ -55,7 +55,7 @@ function populateHistoryRow(bet) {
       divText+='                <div class="row">\n'
       divText+='                    <div class="col-sm-12">\n'
       divText+='                        Winnings:\n'
-      divText+='                        <span id="winnings">' + winnings + '</span>\n'
+      divText+='                        <span id="winnings">' + (Math.round(winnings * 100) / 100).toFixed(2) + '</span>\n'
       divText+='                    </div>\n'
       divText+='                </div>\n'
       divText+='                <div class="row">\n'

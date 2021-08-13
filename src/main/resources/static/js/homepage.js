@@ -147,7 +147,8 @@ updatePotentialWinnings = function(){
     }, 1)
 //    TODO double check that odds are from correct kind of bet from front end
 
-    document.getElementById("potentialWinning").innerHTML = payoutRatio*document.getElementById("bamount").value;
+    document.getElementById("potentialWinning").innerHTML = (
+      Math.round(payoutRatio*document.getElementById("bamount").value * 100) / 100).toFixed(2);
 }
 
 
