@@ -7,6 +7,7 @@ $("resultsDisplay1").ready(function () {
         function ( data ) {
             userCredits = JSON.parse(data);
             adjustCredits();
+            $("#userCredits").html("Credits: " + (Math.round(userCredits * 100) / 100).toFixed(2));
         }
     )
 
@@ -311,6 +312,7 @@ $("#submitBet").submit(function( event ){
           clearBets();
           userCredits = JSON.parse(data);
           $("#userFunds").html( (Math.round(userCredits * 100) / 100).toFixed(2) );
+          $("#userCredits").html("Credits: " + (Math.round(userCredits * 100) / 100).toFixed(2));
           alert("Bet successfully placed.");
         },
         error: function (request) {
