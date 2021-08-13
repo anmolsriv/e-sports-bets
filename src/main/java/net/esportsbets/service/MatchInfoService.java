@@ -103,7 +103,10 @@ public class MatchInfoService {
 
         if ( updatableMatches.size() > 0 ) {
             Map<String, String> matchInfo = updatableMatches.stream()
-                    .collect(Collectors.toMap(Matches::getMatchId, Matches::getGameVariant));
+                    .collect(Collectors.toMap(Matches::getMatchId,
+                            Matches::getGameVariant,
+                            (gameVariant1, gameVariant2) -> {
+                        return gameVariant1; }));
             Map<String, Pair<Double, Double>> resPredictions  = mlService.getPredictions(matchInfo);
 
             updatableMatches.forEach( match -> {

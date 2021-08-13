@@ -56,21 +56,12 @@ public class BetsServiceHelper {
             scoresDiff *= -1;
         }
 
-        if ( spread < 0 ) {
-            // -ve spread
-            if ( -1*spread == scoresDiff ) {
-                return Bets.Conclusion.PUSH;
-            } else if ( -1*spread > scoresDiff ) {
-                return Bets.Conclusion.WIN;
-            }
-        } else if ( spread > 0 ) {
-            // +ve spread
-            if ( spread == scoresDiff ) {
-                return Bets.Conclusion.PUSH;
-            } else if ( scoresDiff > -1*spread ) {
-                return Bets.Conclusion.WIN;
-            }
+        if ( -1*spread == scoresDiff ) {
+            return Bets.Conclusion.PUSH;
+        } else if ( scoresDiff > -1*spread ) {
+            return Bets.Conclusion.WIN;
         }
+
         return Bets.Conclusion.LOSS;
     }
 }
