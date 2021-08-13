@@ -17,7 +17,6 @@ function populateHistory(bets) {
 }
 
 function populateHistoryRow(bet) {
-
   let winnings;
   if (bet.concluded == "WIN") {
     winnings = bet.odds * bet.amount;

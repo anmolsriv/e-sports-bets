@@ -120,6 +120,7 @@ function populateRow(match) {
 $("#bamount").on("input", function(){
 
     updatePotentialWinnings();
+    checkBetAmountValidity();
 
 //     payoutRatio = betUponMatches.reduce((accumulator, currentValue) => {
 //         return accumulator*currentValue.bet.odds
@@ -129,6 +130,16 @@ $("#bamount").on("input", function(){
 //     document.getElementById("potentialWinning").innerHTML = payoutRatio*document.getElementById("bamount").value;
 
 })
+
+function checkBetAmountValidity() {
+  let bamount = document.getElementById('bamount');
+  if ($("#bamount").val() > userCredits) {
+    bamount.setCustomValidity("Insufficient credits for bet. Current credits: " + userCredits);
+    bamount.reportValidity();
+  } else {
+    bamount.setCustomValidity("");
+  }
+}
 
 updatePotentialWinnings = function(){
     payoutRatio = betUponMatches.reduce((accumulator, currentValue) => {
@@ -269,18 +280,10 @@ function selectBet(matchId, type='INCOMPLETE', team=-1) {
     // window.alert("Looking to make a "+type+" bet on "+id_match+" team " + team + " with odds " + odds + " and spread " + spread)
 }
 
-
 $("#submitBet").submit(function( event ){
     event.preventDefault();
-    var amount = $("#bamount").val();
-    if ( amount==null || amount=="" || amount==undefined ) {
-        alert("Enter bet amount")
-        return;
-    }
-    if (amount > userCredits) {
-        alert("Insufficient credits for bet. Current credits: " + userCredits)
-        return;
-    }
+    let bamount = document.getElementById('bamount');
+    let amount = $("#bamount").val();
 
     var bets = "[";
     for (var matchBet in betUponMatches) {
@@ -297,24 +300,25 @@ $("#submitBet").submit(function( event ){
     betRequest += "\"amount\": " + amount + ",";
     betRequest += "\"bets\": " + bets;
     betRequest += "}" ;
-
-    $.ajax({
+    if (bamount.checkValidity() == true) {
+      $.ajax({
         url: "/bets/place_bet",
         method: "POST",
         contentType: "application/json",
         data: betRequest,
-        success: function(data) {
-            clearBets();
-            userCredits = JSON.parse(data);
-            alert("Bet successfully placed.")
+        success: function (data) {
+          clearBets();
+          userCredits = JSON.parse(data);
+          alert("Bet successfully placed.")
         },
-        error: function( request ) {
-            if (request.status==400) {
-                alert(request.responseText)
-            } else {
-                alert("Error occurred while placing the bet.")
-            }
+        error: function (request) {
+          if (request.status == 400) {
+            alert(request.responseText)
+          } else {
+            alert("Error occurred while placing the bet.")
+          }
         }
-    })
+      })
+    }
 })
 
