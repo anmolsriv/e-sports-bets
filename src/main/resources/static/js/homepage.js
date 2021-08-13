@@ -134,7 +134,7 @@ $("#bamount").on("input", function(){
 function checkBetAmountValidity() {
   let bamount = document.getElementById('bamount');
   if ($("#bamount").val() > userCredits) {
-    bamount.setCustomValidity("Insufficient credits for bet. Current credits: " + userCredits);
+    bamount.setCustomValidity("Insufficient credits for bet. Current credits: " + (Math.round(userCredits * 100) / 100).toFixed(2));
     bamount.reportValidity();
   } else {
     bamount.setCustomValidity("");
@@ -310,7 +310,7 @@ $("#submitBet").submit(function( event ){
         success: function (data) {
           clearBets();
           userCredits = JSON.parse(data);
-          $("#userFunds").html(userCredits);
+          $("#userFunds").html( (Math.round(userCredits * 100) / 100).toFixed(2) );
           alert("Bet successfully placed.");
         },
         error: function (request) {
