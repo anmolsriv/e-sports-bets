@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.esportsbets.dao.User;
 import net.esportsbets.repository.UserRepository;
+import net.esportsbets.service.BetsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -16,10 +17,19 @@ public class AppController {
 
 	@Autowired
 	private UserRepository userRepo;
+
+	@Autowired
+	private BetsService betsService;
 	
 	@GetMapping("")
 	public String viewHomePage() {
 		return "index";
+	}
+
+	@GetMapping("/login")
+	public String viewLoginPage() {
+
+		return "login";
 	}
 	
 	@GetMapping("/register")
@@ -30,14 +40,20 @@ public class AppController {
 	}
 	
 	@PostMapping("/process_register")
-	public String processRegister(User user) {
+	public String processRegister(Model model, User user) {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String encodedPassword = passwordEncoder.encode(user.getPassword());
 		user.setPassword(encodedPassword);
-		
-		userRepo.save(user);
-		
-		return "register_success";
+
+		try {
+			betsService.createUserCredit(userRepo.save(user), 2000.0, null, "new user bonus credit");
+			return "register_success";
+		} catch (Exception e) {
+				model.addAttribute("errorMsg", "User already exists!");
+				return  "signup_form";
+		}
+
+
 	}
 	
 	@GetMapping("/users")
@@ -47,4 +63,17 @@ public class AppController {
 		
 		return "users";
 	}
+
+	@GetMapping("/home")
+	public String testHome() { return "home_page"; }
+
+	@GetMapping("/players")
+    public String viewPlayerStatisticsPage() { return "players"; }
+
+	@GetMapping("/results")
+	public String viewResultsPage() { return "results"; }
+
+    @GetMapping("/history")
+    public String viewHistoryPage() { return "history"; }
+
 }
