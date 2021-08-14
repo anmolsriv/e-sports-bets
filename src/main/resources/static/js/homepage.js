@@ -116,20 +116,9 @@ function populateRow(match) {
     return divText;
 }
 
-// Bryan did these :)
-
 $("#bamount").on("input", function(){
-
     updatePotentialWinnings();
     checkBetAmountValidity();
-
-//     payoutRatio = betUponMatches.reduce((accumulator, currentValue) => {
-//         return accumulator*currentValue.bet.odds
-//     }, 1)
-// //    TODO double check that odds are from correct kind of bet from front end
-//
-//     document.getElementById("potentialWinning").innerHTML = payoutRatio*document.getElementById("bamount").value;
-
 })
 
 function checkBetAmountValidity() {
@@ -146,7 +135,6 @@ updatePotentialWinnings = function(){
     payoutRatio = betUponMatches.reduce((accumulator, currentValue) => {
         return accumulator*currentValue.bet.odds
     }, 1)
-//    TODO double check that odds are from correct kind of bet from front end
 
     document.getElementById("potentialWinning").innerHTML = (
       Math.round(payoutRatio*document.getElementById("bamount").value * 100) / 100).toFixed(2);
@@ -171,11 +159,6 @@ function toggleBetUponMenu() {
     return null;
 };
 
-// document.getElementById("betsMenuToggle").onclick = function () {
-//     toggleBetUponMenu();
-//     // console.log("Aint it");
-// };
-
 function populateBetMenu(matches) {
     var rows = "";
     var idx = 0;
@@ -185,14 +168,6 @@ function populateBetMenu(matches) {
         idx += 1;
     });
     $("#betUponDisplay").html(rows);
-//for each bet, sticky card of details?
-}
-
-function heheText(match) {
-    // console.log(match.attributes);
-    // console.log(match);
-    // console.log(JSON.stringify(match));
-    return "Looking to make a " + match.type + " bet on " + match.id_match + " team " + match.team + " with odds " + match.odds + " and spread " + match.spread
 }
 
 function populateBet(Match,betUponIndex) {
@@ -204,7 +179,6 @@ function populateBet(Match,betUponIndex) {
 
     divText=''
     divText+='<div class="card-body" style="background-color:#ECFAEE!important">\n'
-    // divText+='' + heheText(match) +  '\n'
     divText+='<p>' + match.team_0 + ' vs. ' + match.team_1 + ' </p>\n'
     divText+='<p>' + match.time + ' </p>\n'
     divText+='<br>\n'
@@ -220,7 +194,6 @@ function populateBet(Match,betUponIndex) {
 
 
 function unselectBet(betUponIndex) {
-    // console.log("removed at index", betUponIndex, ":",heheText(betUponMatches[betUponIndex]))
     betUponMatches.splice(betUponIndex,1)
     updatePotentialWinnings();
     populateBetMenu(betUponMatches);
@@ -249,7 +222,6 @@ function checkIfBetIsAlreadyAdded(matchId, type, team) {
 
 function selectBet(matchId, type='INCOMPLETE', team=-1) {
     if (betUponMatches.length === 0) {
-        // updatePotentialWinnings();
         toggleBetUponMenu();
     }
 
@@ -276,10 +248,8 @@ function selectBet(matchId, type='INCOMPLETE', team=-1) {
 
     let bUM = {match:match, bet:{type:type, team:team, teamName:teamName, odds:odds, spread:spread} };
     let betUponIndex = betUponMatches.push(bUM);
-    // betUponMatches.push("Looking to make a "+type+" bet on "+id_match+" team " + team + " with odds " + odds + " and spread " + spread);
     updatePotentialWinnings();
     populateBetMenu(betUponMatches, betUponIndex);
-    // window.alert("Looking to make a "+type+" bet on "+id_match+" team " + team + " with odds " + odds + " and spread " + spread)
 }
 
 $("#submitBet").submit(function( event ){

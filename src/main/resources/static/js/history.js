@@ -11,7 +11,7 @@ function populateHistory(bets) {
   bets.forEach(bet=>{
     rows += populateHistoryRow(bet);
 
-    $("#historyDisplay").html(rows)//.attr('id', match.matchId);
+    $("#historyDisplay").html(rows)
   });
   $("#historyDisplay").html(rows);
 }
