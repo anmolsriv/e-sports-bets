@@ -91,6 +91,7 @@ public class BetsService {
             Set<String> uniqueMatchIds = new HashSet<>(matchIds);
 
             if ( uniqueMatchIds.size() != matches.size() ) {
+                userCredits = betsServiceHelper.creditUser( user, betRequest.getAmount(), null, "releasing the bet hold" );
                 return ResponseEntity.badRequest().body( "Some of the matches in the bet have already started" );
             }
 
@@ -105,12 +106,12 @@ public class BetsService {
             userBet.setUserBets( new HashSet<>());
             userBet.setOdds( 1.0 );
             betRequest.getBets().forEach( singleBet -> {
-                Bets bet = new Bets();
-                UserBetsDetailsLock userBetsDetailsLock =  userBetsDetailsList.stream()
-                        .filter(betDetail ->
-                                betDetail.getMatchId().equals(singleBet.getMatchId()))
-                        .findFirst()
-                        .get();
+                                                        Bets bet = new Bets();
+                                                        UserBetsDetailsLock userBetsDetailsLock =  userBetsDetailsList.stream()
+                                                                .filter(betDetail ->
+                                                                        betDetail.getMatchId().equals(singleBet.getMatchId()))
+                                                                .findFirst()
+                                                                .get();
                 bet.setMatchId( singleBet.getMatchId() );
                 bet.setBetType( Bets.BetType.valueOf( singleBet.getBetType() ) );
                 bet.setTeamId( singleBet.getTeamId() );

@@ -211,9 +211,12 @@ function clearBets() {
 function checkIfBetIsAlreadyAdded(matchId, type, team) {
 
     for (const betUponMatch of betUponMatches) {
-        if ( betUponMatch.match.matchId == matchId && betUponMatch.bet.type == type &&
-                betUponMatch.bet.team == team ) {
-            alert ("Bet already selected previously.");
+        if ( betUponMatch.match.matchId == matchId && betUponMatch.bet.team == team ) {
+            if ( betUponMatch.bet.type == type ) {
+                alert ("Bet already selected previously.");
+            } else {
+                alert ("Match already selected previously. Remove the previous one for updating.");
+            }
             return true;
         }
     }
