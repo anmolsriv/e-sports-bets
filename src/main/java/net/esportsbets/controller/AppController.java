@@ -46,14 +46,17 @@ public class AppController {
 		user.setPassword(encodedPassword);
 
 		try {
+			User prevUser = userRepo.findByEmail( user.getEmail() );
+			if ( prevUser != null ) {
+				model.addAttribute("errorMsg", "User already exists!");
+				return  "signup_form";
+			}
 			betsService.createUserCredit(userRepo.save(user), 2000.0, null, "new user bonus credit");
 			return "register_success";
 		} catch (Exception e) {
-				model.addAttribute("errorMsg", "User already exists!");
+				model.addAttribute("errorMsg", "Error while creating user! Contact support.");
 				return  "signup_form";
 		}
-
-
 	}
 	
 	@GetMapping("/users")
